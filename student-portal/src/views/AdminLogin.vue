@@ -1,9 +1,9 @@
 <template>
-  <div class="login">
+  <div class="admin-login">
     <div class="login-wrapper">
       <div class="login-banner">Student Portal Mobile App</div>
       <div class="login-form">
-        <div><h2>Login</h2></div>
+        <div><h2>Admin Login</h2></div>
         <el-form :label-position="labelPosition" label-width="100px" :model="formLabelAlign">
           <el-form-item label="Username">
             <el-input v-model="ruleForm.user" type="text"></el-input>
@@ -22,7 +22,7 @@
 // @ is an alias to /src
 
 export default {
-  name: "Home",
+  name: "AdminLogin",
   components: {},
   data() {
     return {
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     login() {
-      this.$router.push({name: 'AdminHome'})
+      this.$router.push({name: 'AdminLogin'})
     },
   }
 };
