@@ -27,7 +27,6 @@ import Header from "@/components/admin/home/Header.vue";
 import Aside from "@/components/admin/home/Aside.vue";
 import Main from "@/components/admin/home/Main.vue";
 
-
 export default {
   name: "Home",
   components: {

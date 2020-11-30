@@ -7,7 +7,8 @@
       @close="handleClose"
       background-color="#545c64"
       text-color="#fff"
-      active-text-color="#ffd04b">
+      active-text-color="#ffd04b"
+    >
       <el-menu-item index="1">
         <i class="el-icon-menu"></i>
         <span>Dashboard</span>
@@ -25,7 +26,6 @@
 </template>
 
 <script>
-
 export default {
   name: "Aside",
   components: {},

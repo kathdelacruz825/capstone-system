@@ -1,0 +1,22 @@
+.user-login {
+  height: 100vh;
+
+  .login-banner {
+    padding: 2rem 0rem;
+  }
+
+  .login-form {
+
+    .user-select {
+      margin-bottom: 2.5rem;
+      .van-grid-item.active .van-grid-item__content{
+        border: 1px solid red;
+      }
+    }
+
+    .van-form {
+      padding: 0rem 1rem;
+    }
+    
+  }
+}

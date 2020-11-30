@@ -2,16 +2,23 @@
   <div class="user-login">
     <div class="login-wrapper">
       <div class="login-banner">
-        <h2>Student Portal Mobile App</h2>
+        <h2>STUDENT PORTAL</h2>
+        <h3>MOBILE APP</h3>
       </div>
       <div class="login-form">
         <div class="user-select">
-          <van-grid :column-num="2" :gutter="10">
-            <van-grid-item icon="photo-o" text="Student" />
-            <van-grid-item icon="photo-o" text="Parent" />
+          <van-grid :column-num="2" :gutter="30">
+            <van-grid-item
+              v-for="(item, key) in userType"
+              :key="key"
+              icon="photo-o"
+              @click="selectUser(key)"
+              :class="activeUser == key ? 'active' : null"
+              :text="item"
+            />
           </van-grid>
         </div>
-        <van-form @submit="onSubmit">
+        <van-form @submit="login()">
           <van-field
             v-model="username"
             name="Username"
@@ -46,14 +53,20 @@ export default {
   components: {},
   data() {
     return {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
+      activeUser: 0,
+      userType: ["Student", "Parent"]
     };
   },
   methods: {
-    onSubmit(values) {
-      console.log('submit', values);
+    selectUser(index) {
+      this.activeUser = index;
+      this.$store.dispatch("setUserType", this.userType[this.activeUser]);
     },
-  },
+    login() {
+      this.$router.push({ name: "UserHome" });
+    }
+  }
 };
 </script>

@@ -7,18 +7,23 @@ const routes = [
   {
     path: "/",
     name: "UserLogin",
-    component: () => import('../views/UserLogin.vue'),
+    component: () => import("../views/UserLogin.vue")
   },
   {
     path: "/admin/login",
     name: "AdminLogin",
-    component: () => import('../views/AdminLogin.vue'),
+    component: () => import("../views/AdminLogin.vue")
   },
   {
     path: "/admin",
     name: "AdminHome",
-    component: () => import('../views/admin/home/AdminHome.vue'),
+    component: () => import("../views/admin/home/AdminHome.vue")
   },
+  {
+    path: "/user",
+    name: "UserHome",
+    component: () => import("../views/user/home/UserHome.vue")
+  }
   // {
   //   path: "/about",
   //   name: "About",
