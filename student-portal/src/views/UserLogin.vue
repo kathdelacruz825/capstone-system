@@ -20,14 +20,14 @@
         </div>
         <van-form @submit="login()">
           <van-field
-            v-model="username"
+            v-model="userDetails.username"
             name="Username"
             label="Username"
             placeholder="Username"
             :rules="[{ required: true, message: 'Username is required' }]"
           />
           <van-field
-            v-model="password"
+            v-model="userDetails.password"
             type="password"
             name="Password"
             label="Password"
@@ -56,7 +56,12 @@ export default {
       username: "",
       password: "",
       activeUser: 0,
-      userType: ["Student", "Parent"]
+      userType: ["Student", "Parent"],
+      userDetails: {
+        username: "",
+        userID: "",
+        password: ""
+      }
     };
   },
   methods: {
@@ -65,6 +70,7 @@ export default {
       this.$store.dispatch("setUserType", this.userType[this.activeUser]);
     },
     login() {
+      this.$store.dispatch("setUserDetails", this.userDetails);
       this.$router.push({ name: "UserHome" });
     }
   },

@@ -23,16 +23,16 @@ export default {
   props: {
     title: {
       type: String,
-      default: '',
+      default: ""
     },
     isLeftArrow: {
       type: Boolean,
-      default: false,
+      default: false
     },
     isRightText: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   methods: {
     onClickLeft() {
@@ -41,7 +41,7 @@ export default {
     logout() {
       this.$router.push({ name: "UserLogin" });
       // Toast('Button');
-    },
+    }
   }
 };
 </script>

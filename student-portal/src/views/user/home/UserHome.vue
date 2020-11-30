@@ -1,10 +1,10 @@
 <template>
   <div class="user-home">
-    <Nav :title="pageTitle" :isLeftArrow="false" :isRightText="true"/>
+    <Nav :title="pageTitle" :isLeftArrow="false" :isRightText="true" />
     <div class="content">
-    content
+      content
     </div>
-    <Footer :activeItem="0"/>
+    <Footer :activeItem="0" />
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return {
-      pageTitle: 'Home',
+      pageTitle: "Home"
     };
   }
 };

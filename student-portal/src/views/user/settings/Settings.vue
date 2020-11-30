@@ -1,30 +1,38 @@
 <template>
   <div class="settings">
-    <Nav :title="pageTitle" :isLeftArrow="true" :isRightText="false"/>
+    <Nav :title="pageTitle" :isLeftArrow="true" :isRightText="false" />
     <div class="content">
       <div class="user-info">
         <div class="user-icon">
-          <van-image width="100" height="100" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+          <van-image
+            width="100"
+            height="100"
+            src="https://img.yzcdn.cn/vant/cat.jpeg"
+          />
         </div>
         <div class="user-details">
-          <span>ID number: {{ '12345' }}</span>
-          <span>Name: {{ 'testuser' }}</span>
-          <span>Year: {{ '1st year' }}</span>
+          <span>ID number: {{ currentUser.userID }}</span>
+          <span>Name: {{ currentUser.username }}</span>
+          <span>Year: {{ "1st year" }}</span>
+          <span>User Type: {{ currentUserType }}</span>
         </div>
       </div>
       <div class="links">
         <van-cell-group>
-        <van-cell icon="location-o" title="View Information" is-link />
-          <van-cell icon="location-o" title="Edit Information" is-link />
-          <van-cell icon="location-o" title="View Parent Information" is-link />
-          <van-cell icon="location-o" title="Change Password" is-link />
+          <van-cell icon="todo-list-o" title="View Records" is-link />
+          <van-cell icon="edit" title="Edit Information" is-link />
+          <van-cell icon="manager-o" title="View Parent Information" is-link />
+          <van-cell icon="service-o" title="Student Service" is-link />
+          <van-cell icon="records" title="Change Password" is-link />
         </van-cell-group>
       </div>
       <div class="logout-btn">
-      <van-button type="primary" round size="normal">Logout</van-button>
+        <van-button type="primary" round size="normal" @click="logout()"
+          >Logout</van-button
+        >
       </div>
     </div>
-    <Footer :activeItem="3"/>
+    <Footer :activeItem="3" />
   </div>
 </template>
 
@@ -41,8 +49,21 @@ export default {
   },
   data() {
     return {
-      pageTitle: 'Settings',
+      pageTitle: "Settings"
     };
+  },
+  methods: {
+    logout() {
+      this.$router.push({ name: "UserLogin" });
+    }
+  },
+  computed: {
+    currentUserType() {
+      return this.$store.state.userType;
+    },
+    currentUser() {
+      return this.$store.state.userDetails;
+    }
   }
 };
 </script>
