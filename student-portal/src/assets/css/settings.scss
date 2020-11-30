@@ -1,0 +1,39 @@
+.settings {
+  .content {
+    padding: 10px 10px;
+
+    .user-info {
+      display: flex;
+      flex-direction: row;
+      height: 100px;
+      margin-bottom: 20px;
+
+      .user-details {
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        width: 100%;
+      }
+    }
+
+    .links {
+      margin-bottom: 50px;
+      .van-cell-group::after {
+        // display: none;
+      }
+      .van-cell {
+        padding: 10px 0px;
+        .van-cell__title {
+          text-align: left;
+        }
+      }
+    }
+
+    .logout-btn {
+      .van-button {
+        width: 90%;
+      }
+    }
+  }
+}

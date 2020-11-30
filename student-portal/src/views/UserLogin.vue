@@ -13,7 +13,7 @@
               :key="key"
               icon="photo-o"
               @click="selectUser(key)"
-              :class="activeUser == key ? 'active' : null"
+              :class="item == currentUserType ? 'active' : null"
               :text="item"
             />
           </van-grid>
@@ -66,6 +66,11 @@ export default {
     },
     login() {
       this.$router.push({ name: "UserHome" });
+    }
+  },
+  computed: {
+    currentUserType() {
+      return this.$store.state.userType;
     }
   }
 };
