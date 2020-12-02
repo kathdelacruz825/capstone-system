@@ -28,6 +28,16 @@ const routes = [
     path: "/settings",
     name: "Settings",
     component: () => import("../views/user/settings/Settings.vue")
+  },
+  {
+    path: "/messagelist",
+    name: "MessageList",
+    component: () => import("../views/user/message/MessageList.vue")
+  },
+  {
+    path: "/message",
+    name: "Message",
+    component: () => import("../views/user/message/Message.vue")
   }
   // {
   //   path: "/about",

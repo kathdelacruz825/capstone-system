@@ -36,7 +36,7 @@ export default {
         {
           name: "Message",
           icon: "comment-o",
-          link: ""
+          link: "MessageList"
         },
         {
           name: "Settings",
