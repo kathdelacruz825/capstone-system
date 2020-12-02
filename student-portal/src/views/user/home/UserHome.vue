@@ -2,7 +2,7 @@
   <div class="user-home">
     <Nav :title="pageTitle" :isLeftArrow="false" :isRightText="true" />
     <div class="content">
-      content
+      <button type="" @click="test()">get data</button>
     </div>
     <Footer :activeItem="0" />
   </div>
@@ -23,6 +23,25 @@ export default {
     return {
       pageTitle: "Home"
     };
+  },
+  methods: {
+    test() {
+      var params = {
+        request: 1
+        // data: {
+        //   username: 'keanu',
+        //   password: 'keanu',
+        // }
+      };
+      this.http
+        .post(this.api.MessageService, params)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 };
 </script>
