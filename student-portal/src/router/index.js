@@ -38,16 +38,12 @@ const routes = [
     path: "/message",
     name: "Message",
     component: () => import("../views/user/message/Message.vue")
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: () => import("../views/user/register/Register.vue")
   }
-  // {
-  //   path: "/about",
-  //   name: "About",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/About.vue")
-  // }
 ];
 
 const router = new VueRouter({

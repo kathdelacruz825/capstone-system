@@ -6,21 +6,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     userType: "Student",
-    userDetails: {
-      username: "",
-      userID: "12345",
-      password: ""
-    }
+    userDetails: {}
   },
   mutations: {
     setUserType(state, status) {
       state.userType = status;
     },
     setUserDetails(state, status) {
-      console.log(status);
-      state.userDetails.username = status.username;
-      // state.userDetails.userID = status.username;
-      state.userDetails.password = status.password;
+      state.userDetails = status;
     }
   },
   actions: {

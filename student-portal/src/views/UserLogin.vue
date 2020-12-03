@@ -20,9 +20,9 @@
         </div>
         <van-form @submit="login()">
           <van-field
-            v-model="userDetails.username"
+            v-model="userDetails.userID"
             name="Username"
-            label="Username"
+            label="Account ID"
             placeholder="Username"
             :rules="[{ required: true, message: 'Username is required' }]"
           />
@@ -40,6 +40,10 @@
             </van-button>
           </div>
         </van-form>
+        <div class="other-options">
+          <div @click="goPage('ForgotPassword')">Forgot Password?</div>
+          <div @click="goPage('Register')">Register</div>
+        </div>
       </div>
     </div>
   </div>
@@ -47,7 +51,7 @@
 
 <script>
 // @ is an alias to /src
-
+import { Toast } from 'vant';
 export default {
   name: "UserLogin",
   components: {},
@@ -70,8 +74,34 @@ export default {
       this.$store.dispatch("setUserType", this.userType[this.activeUser]);
     },
     login() {
-      this.$store.dispatch("setUserDetails", this.userDetails);
-      this.$router.push({ name: "UserHome" });
+      var params = {
+        request: 2,
+        data: {
+          AccountID: this.userDetails.userID,
+          AccountPassword: this.userDetails.password,
+        }
+      };
+      if (this.activeUser == 0) {
+        this.http
+          .post(this.api.StudentService, params)
+          .then(response => {
+            if (response.data.length > 0) {
+              this.$store.dispatch("setUserDetails", response.data[0]);
+              this.goPage("UserHome");
+            } else {
+              Toast("Invalid Account");
+            }
+          })
+          .catch(error => {
+            Toast("Connection Error");
+            console.log(error);
+          });
+      } else {
+        Toast(this.userType[this.activeUser]);
+      }
+    },
+    goPage(url) {
+      this.$router.push({ name: url });
     }
   },
   computed: {

@@ -1,3 +1,4 @@
 export const api = {
-  MessageService: "/services/Message.php"
+  MessageService: "/services/MessageService.php",
+  StudentService: "/services/StudentService.php"
 };

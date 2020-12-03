@@ -8,7 +8,7 @@ if ($params) {
   switch($params['request']) {
     case 1:
       $data = new MessageData($conn);
-      echo json_encode($data->getAllUserInfo());
+      echo json_encode($data->getAllMessage());
       break;
     default:
       echo "Invalid Request";

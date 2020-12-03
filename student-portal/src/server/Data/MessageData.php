@@ -16,7 +16,7 @@ class MessageData {
     $this->link = $link;
   }
   
-  function getAllUserInfo() {
+  function getAllMessage() {
     $query = "Select * from `tbl_message`";
 
     $result = $this->link->query($query);
