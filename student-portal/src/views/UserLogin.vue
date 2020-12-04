@@ -23,7 +23,7 @@
             v-model="userDetails.userID"
             name="Username"
             label="Account ID"
-            placeholder="Username"
+            placeholder="Enter Account ID"
             :rules="[{ required: true, message: 'Username is required' }]"
           />
           <van-field
@@ -31,7 +31,7 @@
             type="password"
             name="Password"
             label="Password"
-            placeholder="Password"
+            placeholder="Enter password"
             :rules="[{ required: true, message: 'Password is required' }]"
           />
           <div style="margin: 16px;">

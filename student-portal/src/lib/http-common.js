@@ -2,6 +2,7 @@ import axios from "axios";
 
 var instance = axios.create({
   baseURL: "https://kathdelacruz.com/server",
+  // baseURL: "http://localhost/studentportal-server",
   timeout: 6000
 });
 
