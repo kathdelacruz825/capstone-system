@@ -4,6 +4,6 @@ module.exports = {
   // process.env.NODE_ENV === "production" ? "/studentportal/" : "/", // localhost
 
   devServer: {
-    // proxy: "http://localhost/studentportal-server"
+    proxy: "http://localhost/studentportal-server"
   }
 };
