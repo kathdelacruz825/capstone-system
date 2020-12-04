@@ -51,7 +51,7 @@
 
 <script>
 // @ is an alias to /src
-import { Toast } from 'vant';
+import { Toast } from "vant";
 export default {
   name: "UserLogin",
   components: {},
@@ -78,7 +78,7 @@ export default {
         request: 2,
         data: {
           AccountID: this.userDetails.userID,
-          AccountPassword: this.userDetails.password,
+          AccountPassword: this.userDetails.password
         }
       };
       if (this.activeUser == 0) {
@@ -87,8 +87,7 @@ export default {
           .then(response => {
             if (response.data.length > 0) {
               this.$store.dispatch("setUserDetails", response.data[0]);
-              localStorage.setItem('accountID', response.data[0].AccountID);
-              this.$store.dispatch('setLogin', true);
+              this.$store.dispatch("setLogin", true);
               this.goPage("UserHome");
             } else {
               Toast("Invalid Account");

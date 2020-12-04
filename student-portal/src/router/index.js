@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "./../store";
 
 Vue.use(VueRouter);
 
@@ -59,18 +60,18 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  routes: routes
-  // routes
+  // mode: "history",
+  // routes: routes
+  routes
 });
 
 router.beforeEach((to, from, next) => {
-  let accountID = localStorage.getItem("accountID");
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
-  if (requiresAuth && accountID == null) {
-    next("/");
+  let isLogin = store.state.isLogin;
+  if (requiresAuth && isLogin == false) {
+    return next("/");
   } else {
-    if (to.name == "UserLogin" && accountID) {
+    if (to.name == "UserLogin" && isLogin) {
       return next(false);
     }
     return next();

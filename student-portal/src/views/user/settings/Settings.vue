@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.removeItem("accountID");
+      this.$store.dispatch("setLogin", false);
       this.$router.push({ name: "UserLogin" });
     }
   },

@@ -14,7 +14,7 @@ import Nav from "@/components/user/common/Nav.vue";
 export default {
   name: "Register",
   components: {
-    Nav,
+    Nav
   },
   data() {
     return {
@@ -26,8 +26,8 @@ export default {
       var params = {
         request: 2,
         data: {
-          AccountID: '12345',
-          AccountPassword: '1',
+          AccountID: "12345",
+          AccountPassword: "1"
         }
       };
       this.http
