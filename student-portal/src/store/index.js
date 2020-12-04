@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     userType: "Student",
-    userDetails: {}
+    userDetails: {},
+    isLogin: false,
   },
   mutations: {
     setUserType(state, status) {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     setUserDetails(state, status) {
       state.userDetails = status;
+    },
+    setLogin(state, status) {
+      state.isLogin = status;
     }
   },
   actions: {
@@ -22,7 +26,10 @@ export default new Vuex.Store({
     },
     setUserDetails({ commit }, payload) {
       commit("setUserDetails", payload);
-    }
+    },
+    setLogin({ commit }, payload) {
+      commit("setLogin", payload);
+    },
   },
   modules: {}
 });

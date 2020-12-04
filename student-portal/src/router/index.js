@@ -22,22 +22,34 @@ const routes = [
   {
     path: "/user",
     name: "UserHome",
-    component: () => import("../views/user/home/UserHome.vue")
+    component: () => import("../views/user/home/UserHome.vue"),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/settings",
     name: "Settings",
-    component: () => import("../views/user/settings/Settings.vue")
+    component: () => import("../views/user/settings/Settings.vue"),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/messagelist",
     name: "MessageList",
-    component: () => import("../views/user/message/MessageList.vue")
+    component: () => import("../views/user/message/MessageList.vue"),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/message",
     name: "Message",
-    component: () => import("../views/user/message/Message.vue")
+    component: () => import("../views/user/message/Message.vue"),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/register",
@@ -47,7 +59,21 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  routes
+  mode: "history",
+  routes: routes
+  // routes
 });
 
+router.beforeEach((to, from, next) => {
+  let accountID = localStorage.getItem("accountID");
+  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+  if (requiresAuth && accountID == null) {
+    next("/");
+  } else {
+    if (to.name == "UserLogin" && accountID) {
+      return next(false);
+    }
+    return next();
+  }
+});
 export default router;

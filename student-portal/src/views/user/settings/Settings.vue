@@ -1,6 +1,6 @@
 <template>
   <div class="settings">
-    <Nav :title="pageTitle" :isLeftArrow="true" :isRightText="false" />
+    <Nav :title="pageTitle" :isLeftArrow="false" :isRightText="false" />
     <div class="content">
       <div class="user-info">
         <div class="user-icon">
@@ -54,6 +54,7 @@ export default {
   },
   methods: {
     logout() {
+      localStorage.removeItem("accountID");
       this.$router.push({ name: "UserLogin" });
     }
   },

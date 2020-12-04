@@ -87,6 +87,8 @@ export default {
           .then(response => {
             if (response.data.length > 0) {
               this.$store.dispatch("setUserDetails", response.data[0]);
+              localStorage.setItem('accountID', response.data[0].AccountID);
+              this.$store.dispatch('setLogin', true);
               this.goPage("UserHome");
             } else {
               Toast("Invalid Account");

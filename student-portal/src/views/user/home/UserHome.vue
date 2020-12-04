@@ -1,6 +1,6 @@
 <template>
   <div class="user-home">
-    <Nav :title="pageTitle" :isLeftArrow="false" :isRightText="true" />
+    <Nav :title="pageTitle" :isLeftArrow="false" :isRightText="false" />
     <div class="content">
       <button type="" @click="test()">get data</button>
     </div>
