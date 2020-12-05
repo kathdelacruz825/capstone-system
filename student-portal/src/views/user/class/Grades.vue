@@ -11,7 +11,8 @@
           <van-collapse-item
             v-for="(gradeItem, gradeKey) in gradeData"
             :key="gradeKey"
-            :name="gradeKey">
+            :name="gradeKey"
+          >
             <template #title>
               <div class="left">{{ gradeItem.subjectName }}</div>
               <div class="right">{{ gradeItem.grade }}</div>
@@ -21,7 +22,7 @@
               <div>other details</div>
               <div>other details</div>
             </template>
-            </van-collapse-item>
+          </van-collapse-item>
         </van-collapse>
       </div>
     </div>
@@ -45,31 +46,31 @@ export default {
       activeNames: [],
       gradeData: [
         {
-          subjectName: 'Science',
-          grade: '80.50',
-          teacher: 'Pepito Manalastas',
+          subjectName: "Science",
+          grade: "80.50",
+          teacher: "Pepito Manalastas"
         },
         {
-          subjectName: 'English',
-          grade: '81.75',
-          teacher: 'Bayani ni Juan',
+          subjectName: "English",
+          grade: "81.75",
+          teacher: "Bayani ni Juan"
         },
         {
-          subjectName: 'Filipino',
-          grade: '81.75',
-          teacher: 'Notpa Aquino',
+          subjectName: "Filipino",
+          grade: "81.75",
+          teacher: "Notpa Aquino"
         },
         {
-          subjectName: 'Mathematics',
-          grade: '81.75',
-          teacher: 'Me Tabbil',
+          subjectName: "Mathematics",
+          grade: "81.75",
+          teacher: "Me Tabbil"
         },
         {
-          subjectName: 'Mapeh',
-          grade: '81.75',
-          teacher: 'I am Kung Fu',
-        },
-      ],
+          subjectName: "Mapeh",
+          grade: "81.75",
+          teacher: "I am Kung Fu"
+        }
+      ]
     };
   },
   methods: {}

@@ -6,8 +6,11 @@
         <van-cell-group>
           <van-cell
             class="quiz-item"
-            v-for="(quizItem, quizKey) in quizItems" :key="quizKey"
-            :title="quizItem" is-link >
+            v-for="(quizItem, quizKey) in quizItems"
+            :key="quizKey"
+            :title="quizItem"
+            is-link
+          >
             <template #title>
               <van-tag class="tag" color="#7232dd" type="danger"></van-tag>
               <span class="custom-title">{{ quizItem }}</span>
@@ -33,13 +36,7 @@ export default {
   data() {
     return {
       pageTitle: "Quizzes",
-      quizItems: [
-        'Science',
-        'English',
-        'Filipino',
-        'Mathematics',
-        'Mapeh',
-      ]
+      quizItems: ["Science", "English", "Filipino", "Mathematics", "Mapeh"]
     };
   },
   methods: {}
@@ -53,7 +50,7 @@ export default {
     // padding: 50px 10px 10px;
     padding: 10px;
     overflow-y: auto;
-    
+
     // .quiz-list {
     //   border: 1px solid #ccc;
     //   padding: 10px;
@@ -71,7 +68,7 @@ export default {
       text-align: left;
       display: flex;
       align-items: center;
-      
+
       .van-cell__title {
         display: flex;
         align-items: center;
@@ -86,8 +83,6 @@ export default {
     .quiz-item:not(:last-child) {
       margin-bottom: 10px;
     }
-
-
   }
 }
 </style>

@@ -3,7 +3,12 @@
     <Nav :title="pageTitle" :isLeftArrow="false" :isRightText="false" />
     <div class="class-content">
       <div class="class-content-wrapper">
-        <div class="class-item" v-for="(item, key) in itemClass" :key="key" @click="goPage(item.link)">
+        <div
+          class="class-item"
+          v-for="(item, key) in itemClass"
+          :key="key"
+          @click="goPage(item.link)"
+        >
           {{ item.name }}
         </div>
       </div>
@@ -27,31 +32,31 @@ export default {
       pageTitle: "Class",
       itemClass: [
         {
-          name: 'Grades',
-          link: 'Grades'
+          name: "Grades",
+          link: "Grades"
         },
         {
-          name: 'Quizzes',
-          link: 'Quizzes'
+          name: "Quizzes",
+          link: "Quizzes"
         },
         {
-          name: 'Examinations',
-          link: 'Examinations'
+          name: "Examinations",
+          link: "Examinations"
         },
         {
-          name: 'Attendance',
-          link: 'Attendance'
+          name: "Attendance",
+          link: "Attendance"
         },
         {
-          name: 'Schedule',
-          link: 'Schedule'
-        },
-      ],
+          name: "Schedule",
+          link: "Schedule"
+        }
+      ]
     };
   },
   methods: {
     goPage(url) {
-      this.$router.push({name: url});
+      this.$router.push({ name: url });
     }
   }
 };

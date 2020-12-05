@@ -6,10 +6,12 @@
         <van-cell-group>
           <van-cell
             class="examinations-item"
-            v-for="(examItem, examKey) in examinationsItem" :key="examKey"
+            v-for="(examItem, examKey) in examinationsItem"
+            :key="examKey"
             :title="examItem"
             is-link
-            @click="goPage(examItem)">
+            @click="goPage(examItem)"
+          >
             <template #title>
               <van-tag class="tag" color="#7232dd" type="danger"></van-tag>
               <span class="custom-title">{{ examItem }}</span>
@@ -36,16 +38,16 @@ export default {
     return {
       pageTitle: "Examinations",
       examinationsItem: [
-        'First Grading Period',
-        'Second Grading Period',
-        'Third Grading Period',
-        'Fourth Grading Period',
+        "First Grading Period",
+        "Second Grading Period",
+        "Third Grading Period",
+        "Fourth Grading Period"
       ]
     };
   },
   methods: {
     goPage(pageTitle) {
-      this.$router.push({name: 'ExamView', params: { pageTitle: pageTitle } })
+      this.$router.push({ name: "ExamView", params: { pageTitle: pageTitle } });
     }
   }
 };
@@ -58,7 +60,7 @@ export default {
     // padding: 50px 10px 10px;
     padding: 10px;
     overflow-y: auto;
-    
+
     // .quiz-list {
     //   border: 1px solid #ccc;
     //   padding: 10px;
@@ -76,7 +78,7 @@ export default {
       text-align: left;
       display: flex;
       align-items: center;
-      
+
       .van-cell__title {
         display: flex;
         align-items: center;
@@ -91,8 +93,6 @@ export default {
     .examinations-item:not(:last-child) {
       margin-bottom: 10px;
     }
-
-
   }
 }
 </style>

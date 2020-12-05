@@ -93,6 +93,22 @@ const routes = [
     }
   },
   {
+    path: "/class/schedule",
+    name: "Schedule",
+    component: () => import("../views/user/schedule/Schedule.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/class/attendance",
+    name: "Attendance",
+    component: () => import("../views/user/attendance/Attendance.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/register",
     name: "Register",
     component: () => import("../views/user/register/Register.vue")
