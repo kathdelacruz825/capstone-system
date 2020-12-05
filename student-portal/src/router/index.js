@@ -69,6 +69,14 @@ const routes = [
     }
   },
   {
+    path: "/class/quizzes",
+    name: "Quizzes",
+    component: () => import("../views/user/class/Quizzes.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/register",
     name: "Register",
     component: () => import("../views/user/register/Register.vue")
