@@ -29,7 +29,7 @@ export default {
           link: "UserHome"
         },
         {
-          name: "Subjects",
+          name: "Classes",
           icon: "notes-o",
           link: ""
         },
@@ -62,3 +62,8 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.footer .van-tabbar {
+  box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.25);
+}
+</style>
