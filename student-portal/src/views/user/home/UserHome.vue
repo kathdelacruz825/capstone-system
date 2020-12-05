@@ -9,11 +9,17 @@
             :key="key"
             :title="tabItem"
           >
-            <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+            <van-pull-refresh
+              v-model="refreshing"
+              @refresh="onRefresh"
+              loosing-text="Loose to refresh..."
+              loading-text="Loading..."
+            >
               <van-list
                 v-model="loading"
                 :finished="finished"
                 finished-text="Finished"
+                loading-text="Loading..."
                 @load="onLoad"
               >
                 <Notification
@@ -34,7 +40,7 @@
 // @ is an alias to /src
 import Nav from "@/components/user/common/Nav.vue";
 import Footer from "@/components/user/common/Footer.vue";
-import Notification from "@/components/user/userHome/Notification";
+import Notification from "@/components/user/userHome/Notification.vue";
 
 export default {
   name: "UserHome",
@@ -100,6 +106,14 @@ export default {
     height: 100%;
     padding: 10px 10px 0px;
     overflow-y: auto;
+    .notification {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .notification:not(:last-child) {
+      margin-bottom: 10px;
+    }
   }
 }
 </style>
