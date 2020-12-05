@@ -77,6 +77,22 @@ const routes = [
     }
   },
   {
+    path: "/class/examinations",
+    name: "Examinations",
+    component: () => import("../views/user/class/Examinations.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/class/examinations/examview",
+    name: "ExamView",
+    component: () => import("../views/user/class/examinations/ExamView.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/register",
     name: "Register",
     component: () => import("../views/user/register/Register.vue")
