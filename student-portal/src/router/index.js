@@ -53,6 +53,14 @@ const routes = [
     }
   },
   {
+    path: "/class",
+    name: "Class",
+    component: () => import("../views/user/class/Class.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/register",
     name: "Register",
     component: () => import("../views/user/register/Register.vue")

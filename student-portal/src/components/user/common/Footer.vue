@@ -29,9 +29,9 @@ export default {
           link: "UserHome"
         },
         {
-          name: "Classes",
+          name: "Class",
           icon: "notes-o",
-          link: ""
+          link: "Class"
         },
         {
           name: "Message",
