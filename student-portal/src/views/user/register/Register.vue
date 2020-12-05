@@ -181,7 +181,7 @@
 <script>
 // @ is an alias to /src
 import Nav from "@/components/user/common/Nav.vue";
-// import { Toast } from 'vant';
+import { Toast } from 'vant';
 export default {
   name: "Register",
   components: {
@@ -203,8 +203,10 @@ export default {
         ExtName: '',
         PhoneNumber: '',
         Email: '',
+        Icon: '',
         YearLevel: 'First Year',
         Course: '',
+        ParentID: '',
       },
       parentDetails: {
         AccountType: '',
@@ -240,10 +242,63 @@ export default {
     },
     register() {
       if (this.accountType == 'Student') {
-        console.log(this.studentDetails);
+        if (this.studentDetails.AccountPassword == this.studentConfirmPassword) {
+          let params = {
+            request: 3,
+            data: {
+              AccountType: this.studentDetails.AccountType == 'Student' ? 0 : 1,
+              AccountStatus: 1,
+              AccountPending: 0,
+              AccountOnlineState: 0,
+              AccountID: this.studentDetails.accountID,
+              AccountPassword: this.studentDetails.AccountPassword,
+              LastName: this.studentDetails.LastName,
+              FirstName: this.studentDetails.FirstName,
+              MiddleName: this.studentDetails.MiddleName,
+              ExtName: this.studentDetails.ExtName,
+              PhoneNumber: this.studentDetails.PhoneNumber,
+              Email: this.studentDetails.Email,
+              Icon: this.studentDetails.Icon,
+              YearLevel: this.studentDetails.YearLevel,
+              Course: this.studentDetails.Course,
+              ParentID: this.studentDetails.ParentID,
+            }
+          };
+          this.http
+            .post(this.api.StudentService, params)
+            .then(response => {
+              if (response.data[0].State == 1) {
+                this.resetFields();
+                Toast("Successfully registered!");
+              } else {
+                Toast("Register Error!");
+              }
+            })
+            .catch(error => {
+              Toast("Connection Error!");
+              console.log(error);
+            });
+        } else {
+          Toast("Password not matched");
+        }
       } else {
         console.log(this.parentDetails);
       }
+    },
+    resetFields() {
+      this.studentDetails.AccountType = '';
+      this.studentDetails.accountID = '';
+      this.studentDetails.AccountPassword = '';
+      this.studentDetails.LastName = '';
+      this.studentDetails.FirstName = '';
+      this.studentDetails.MiddleName = '';
+      this.studentDetails.ExtName = '';
+      this.studentDetails.PhoneNumber = '';
+      this.studentDetails.Email = '';
+      this.studentDetails.Icon = '';
+      this.studentDetails.YearLevel = '';
+      this.studentDetails.Course = '';
+      this.studentDetails.ParentID = '';
     }
   },
   mounted() {
