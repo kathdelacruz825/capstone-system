@@ -93,23 +93,29 @@
             :rules="[{ required: false }]"
           />
           <van-divider>School Details</van-divider>
-          <van-field
-            v-model="studentDetails.Course"
-            name="Course"
-            label="Course"
-            type="text"
-            placeholder="Enter course"
-            :rules="[{ required: true, message: 'Course is required' }]"
+          <van-cell
+            title="Course"
+            is-link
+            :value="currentCourse"
+            @click="showCourse = true"
           />
           <van-cell
             title="Year Level"
             is-link
-            :value="studentDetails.YearLevel"
+            :value="currentYearLevel"
             @click="show = true"
           />
           <van-action-sheet
+            v-model="showCourse"
+            :actions="courseActions"
+            cancel-text="Cancel"
+            description="Select Course"
+            @select="selectCourse"
+            close-on-click-action
+          />
+          <van-action-sheet
             v-model="show"
-            :actions="actions"
+            :actions="yearLevelActions"
             cancel-text="Cancel"
             description="Select Year Level"
             @select="selectYearLevel"
@@ -240,7 +246,7 @@ export default {
         PhoneNumber: "",
         Email: "",
         Icon: "",
-        YearLevel: "First Year",
+        YearLevel: "",
         Course: "",
         ParentID: ""
       },
@@ -257,12 +263,11 @@ export default {
         studentID: ""
       },
       show: false,
-      actions: [
-        { name: "First Year" },
-        { name: "Second Year" },
-        { name: "Third Year" },
-        { name: "Fourth Year" }
-      ]
+      showCourse: false,
+      yearLevelActions: [],
+      currentYearLevel: '',
+      courseActions: [],
+      currentCourse: '',
     };
   },
   methods: {
@@ -273,8 +278,13 @@ export default {
         this.parentDetails.AccountType = val;
       }
     },
-    selectYearLevel(val) {
-      this.studentDetails.YearLevel = val.name;
+    selectYearLevel(yearLevelVal) {
+      this.currentYearLevel = yearLevelVal.name;
+      this.studentDetails.YearLevel = yearLevelVal.id;
+    },
+    selectCourse(courseVal) {
+      this.currentCourse = courseVal.name;
+      this.studentDetails.Course = courseVal.id;
     },
     register() {
       if (this.accountType == "Student") {
@@ -323,6 +333,51 @@ export default {
         console.log(this.parentDetails);
       }
     },
+    getAllCourse() {
+      let params = {
+        request: 1,
+        data: {},
+      };
+      this.http
+        .post(this.api.CourseService, params)
+        .then(response => {
+          response.data.map((val) => {
+            let temp = {};
+            temp.id = val.ID;
+            temp.name = val.CourseID;
+            temp.nameDescription = val.CourseDescription;
+            temp.status = val.CourseStatus;
+            this.courseActions.push(temp)
+          });
+          this.studentDetails.Course = this.courseActions[0].name;
+          this.currentCourse = this.courseActions[0].name;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getAllYearLevel() {
+      let params = {
+        request: 1,
+        data: {},
+      };
+      this.http
+        .post(this.api.YearLevelService, params)
+        .then(response => {
+          response.data.map((val) => {
+            let temp = {};
+            temp.id = val.ID;
+            temp.name = val.YearLevel;
+            temp.status = val.YearLevelStatus;
+            this.yearLevelActions.push(temp)
+          });
+          this.studentDetails.YearLevel = this.yearLevelActions[0].name;
+          this.currentYearLevel = this.yearLevelActions[0].name;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     resetFields() {
       this.studentDetails.AccountType = "";
       this.studentDetails.accountID = "";
@@ -337,7 +392,15 @@ export default {
       this.studentDetails.YearLevel = "";
       this.studentDetails.Course = "";
       this.studentDetails.ParentID = "";
+      this.currentCourse = this.courseActions[0].name;
+      this.studentDetails.Course = this.courseActions[0].name;
+      this.studentDetails.YearLevel = this.yearLevelActions[0].name;
+      this.currentYearLevel = this.yearLevelActions[0].name;
     }
+  },
+  created() {
+    this.getAllCourse();
+    this.getAllYearLevel();
   },
   mounted() {
     if (this.accountType == "Student") {
@@ -354,6 +417,9 @@ export default {
     height: calc(100vh - 46px);
     overflow: hidden;
     overflow-y: auto;
+  }
+  .van-cell__title {
+    text-align: left;
   }
 }
 </style>

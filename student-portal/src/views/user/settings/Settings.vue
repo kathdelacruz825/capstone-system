@@ -11,9 +11,9 @@
           />
         </div>
         <div class="user-details">
-          <span>ID number: {{ currentUser.userID }}</span>
-          <span>Name: {{ currentUser.username }}</span>
-          <span>Year: {{ "1st year" }}</span>
+          <span>Account ID: {{ userDetails.AccountID }}</span>
+          <span>Name: {{ userDetails.FirstName + ' ' + userDetails.MiddleName + ' ' + userDetails.LastName }}</span>
+          <span>Year: {{ userDetails.FirstName }}</span>
           <span>User Type: {{ currentUserType }}</span>
         </div>
       </div>
@@ -49,7 +49,13 @@ export default {
   },
   data() {
     return {
-      pageTitle: "Settings"
+      pageTitle: "Settings",
+      yearLevel: [
+        { name: "First Year" },
+        { name: "Second Year" },
+        { name: "Third Year" },
+        { name: "Fourth Year" }
+      ]
     };
   },
   methods: {
@@ -62,9 +68,12 @@ export default {
     currentUserType() {
       return this.$store.state.userType;
     },
-    currentUser() {
+    userDetails() {
       return this.$store.state.userDetails;
     }
+  },
+  mounted() {
+    console.log(this.userDetails);
   }
 };
 </script>

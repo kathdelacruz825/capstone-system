@@ -83,6 +83,14 @@ export default {
       this.loading = true;
       this.onLoad();
     }
+  },
+  computed: {
+    userDetails() {
+      return this.$store.state.userDetails;
+    }
+  },
+  mounted() {
+    console.log(this.userDetails);
   }
 };
 </script>
