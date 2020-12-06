@@ -265,9 +265,9 @@ export default {
       show: false,
       showCourse: false,
       yearLevelActions: [],
-      currentYearLevel: '',
+      currentYearLevel: "",
       courseActions: [],
-      currentCourse: '',
+      currentCourse: ""
     };
   },
   methods: {
@@ -336,18 +336,18 @@ export default {
     getAllCourse() {
       let params = {
         request: 1,
-        data: {},
+        data: {}
       };
       this.http
         .post(this.api.CourseService, params)
         .then(response => {
-          response.data.map((val) => {
+          response.data.map(val => {
             let temp = {};
             temp.id = val.ID;
             temp.name = val.CourseID;
             temp.nameDescription = val.CourseDescription;
             temp.status = val.CourseStatus;
-            this.courseActions.push(temp)
+            this.courseActions.push(temp);
           });
           this.studentDetails.Course = this.courseActions[0].name;
           this.currentCourse = this.courseActions[0].name;
@@ -359,17 +359,17 @@ export default {
     getAllYearLevel() {
       let params = {
         request: 1,
-        data: {},
+        data: {}
       };
       this.http
         .post(this.api.YearLevelService, params)
         .then(response => {
-          response.data.map((val) => {
+          response.data.map(val => {
             let temp = {};
             temp.id = val.ID;
             temp.name = val.YearLevel;
             temp.status = val.YearLevelStatus;
-            this.yearLevelActions.push(temp)
+            this.yearLevelActions.push(temp);
           });
           this.studentDetails.YearLevel = this.yearLevelActions[0].name;
           this.currentYearLevel = this.yearLevelActions[0].name;
