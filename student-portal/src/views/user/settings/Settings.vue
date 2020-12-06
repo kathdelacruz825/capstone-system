@@ -53,12 +53,6 @@ export default {
   data() {
     return {
       pageTitle: "Settings",
-      yearLevel: [
-        { name: "First Year" },
-        { name: "Second Year" },
-        { name: "Third Year" },
-        { name: "Fourth Year" }
-      ]
     };
   },
   methods: {
