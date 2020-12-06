@@ -379,7 +379,6 @@ export default {
         });
     },
     resetFields() {
-      this.studentDetails.AccountType = "";
       this.studentDetails.accountID = "";
       this.studentDetails.AccountPassword = "";
       this.studentDetails.LastName = "";
@@ -396,6 +395,19 @@ export default {
       this.studentDetails.Course = this.courseActions[0].name;
       this.studentDetails.YearLevel = this.yearLevelActions[0].name;
       this.currentYearLevel = this.yearLevelActions[0].name;
+      this.studentConfirmPassword = "";
+
+      this.parentDetails.AccountType = "";
+      this.parentDetailsaccountID = "";
+      this.parentDetailsAccountPassword = "";
+      this.parentDetailsLastName = "";
+      this.parentDetailsFirstName = "";
+      this.parentDetailsMiddleName = "";
+      this.parentDetailsExtName = "";
+      this.parentDetailsPhoneNumber = "";
+      this.parentDetailsEmail = "";
+      this.parentDetailsstudentID = "";
+      this.parentConfirmPassword = "";
     }
   },
   created() {

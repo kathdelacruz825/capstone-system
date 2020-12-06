@@ -29,21 +29,18 @@ class YearLevelData {
     return $this->response;
   }
   
-  function getSampleBy($params) {
-    $id = $params['id'];
-    $name = $params['name'];
-    $age = $params['age'];
+  function getYearLevelBy($params) {
+    $id = $params['ID'];
 
-
-    $query = "Select * from `tbl_course` where `id`=$id";
+    $query = "Select * from `tbl_yearlevel` where `ID`=$id";
 
     $result = $this->link->query($query);
 
     while ($row = mysqli_fetch_row($result)) {
       if (count($row) > 0) {
-        $this->tempData["id"] = $row[0];
-        $this->tempData["name"] = $row[1];
-        $this->tempData["age"] = $row[2];
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["YearLevel"] = $row[1];
+        $this->tempData["YearLevelStatus"] = $row[2];
         $this->response[] = $this->tempData;
       }
     }

@@ -7,14 +7,19 @@
           <van-image
             width="100"
             height="100"
-            src="https://img.yzcdn.cn/vant/cat.jpeg"
+            :src="userDetails.Icon"
           />
         </div>
         <div class="user-details">
           <span>Account ID: {{ userDetails.AccountID }}</span>
-          <span>Name: {{ userDetails.FirstName + ' ' + userDetails.MiddleName + ' ' + userDetails.LastName }}</span>
-          <span>Year: {{ userDetails.FirstName }}</span>
-          <span>User Type: {{ currentUserType }}</span>
+          <span v-if="userDetails.ExtName != ''">Name: 
+            {{ userDetails.FirstName + ' ' + userDetails.MiddleName + ' ' + userDetails.LastName + ', ' + userDetails.ExtName}}
+          </span>
+          <span v-if="userDetails.ExtName == ''">Name: 
+            {{ userDetails.FirstName + ' ' + userDetails.MiddleName + ' ' + userDetails.LastName }}
+          </span>
+          <span>Year: {{ userDetails.YearLevel }}</span>
+          <span>Account Type: {{ userDetails.AccountType == 0 ? 'Student' : 'Parent' }}</span>
         </div>
       </div>
       <div class="links">
@@ -27,9 +32,7 @@
         </van-cell-group>
       </div>
       <div class="logout-btn">
-        <van-button type="primary" round size="normal" @click="logout()"
-          >Logout</van-button
-        >
+        <van-button type="primary" round size="normal" @click="logout()">Logout</van-button>
       </div>
     </div>
     <Footer :activeItem="3" />

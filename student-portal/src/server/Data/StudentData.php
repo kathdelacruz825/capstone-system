@@ -65,9 +65,18 @@ class StudentData {
     $AccountID = strval($params['AccountID']);
     $AccountPassword = strval($params['AccountPassword']);
 
-    $query = "Select * from `tbl_accounts_student`
-              where `AccountID`='$AccountID'
-              and `AccountPassword`='$AccountPassword'";
+    $query = "Select
+              tbl_accounts_student.ID, tbl_accounts_student.AccountType, tbl_accounts_student.AccountStatus,
+              tbl_accounts_student.AccountPending, tbl_accounts_student.AccountOnlineState,
+              tbl_accounts_student.AccountID, tbl_accounts_student.AccountPassword, tbl_accounts_student.LastName,
+              tbl_accounts_student.FirstName, tbl_accounts_student.MiddleName, tbl_accounts_student.ExtName,
+              tbl_accounts_student.PhoneNumber, tbl_accounts_student.Email, tbl_accounts_student.Icon,
+              tbl_yearlevel.YearLevel, 
+              tbl_accounts_student.Course, tbl_accounts_student.ParentID
+              From `tbl_accounts_student`
+              Inner Join tbl_yearlevel on tbl_accounts_student.YearLevel = tbl_yearlevel.ID
+              Where tbl_accounts_student.AccountID='$AccountID'
+              And tbl_accounts_student.AccountPassword='$AccountPassword'";
 
     $result = $this->link->query($query);
 
