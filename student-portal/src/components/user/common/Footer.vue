@@ -2,7 +2,7 @@
   <div class="footer">
     <van-tabbar v-model="active">
       <van-tabbar-item
-        v-for="(item, key) in footerItems"
+        v-for="(item, key) in footerItems[userDetails.AccountType]"
         :key="key"
         @click="goPage(item.link)"
         :icon="item.icon"
@@ -22,28 +22,47 @@ export default {
   data() {
     return {
       active: 0,
-      footerItems: [
-        {
-          name: "Home",
-          icon: "home-o",
-          link: "UserHome"
-        },
-        {
-          name: "Class",
-          icon: "notes-o",
-          link: "Class"
-        },
-        {
-          name: "Message",
-          icon: "comment-o",
-          link: "MessageList"
-        },
-        {
-          name: "Settings",
-          icon: "setting-o",
-          link: "Settings"
-        }
-      ]
+      footerItems: {
+        0: [
+          {
+            name: "Home",
+            icon: "home-o",
+            link: "UserHome"
+          },
+          {
+            name: "Class",
+            icon: "notes-o",
+            link: "Class"
+          },
+          {
+            name: "Settings",
+            icon: "setting-o",
+            link: "Settings"
+          }
+        ],
+        1: [
+          {
+            name: "Home",
+            icon: "home-o",
+            link: "UserHome"
+          },
+          {
+            name: "Class",
+            icon: "notes-o",
+            link: "Class"
+          },
+          {
+            name: "Message",
+            icon: "comment-o",
+            link: "MessageList"
+          },
+          {
+            name: "Settings",
+            icon: "setting-o",
+            link: "Settings"
+          }
+        ]
+      }
     };
   },
   props: {
@@ -55,6 +74,11 @@ export default {
   methods: {
     goPage(url) {
       this.$router.push({ name: url });
+    }
+  },
+  computed: {
+    userDetails() {
+      return this.$store.state.userDetails;
     }
   },
   mounted() {

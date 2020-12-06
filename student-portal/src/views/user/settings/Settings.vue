@@ -4,7 +4,7 @@
     <div class="content">
       <div class="user-info">
         <div class="user-icon">
-          <van-image width="100" height="100" :src="userDetails.Icon" />
+          <van-image width="100" height="100" fit="contain" :src="userDetails.Icon" @click="showUpload = true"/>
         </div>
         <div class="user-details">
           <span>Account ID: {{ userDetails.AccountID }}</span>
@@ -47,11 +47,30 @@
         </van-cell-group>
       </div>
       <div class="logout-btn">
-        <van-button type="primary" round size="normal" @click="logout()"
-          >Logout</van-button
-        >
+        <van-button type="primary" round size="normal" @click="logout()">
+          Logout
+        </van-button>
       </div>
     </div>
+        <van-action-sheet v-model="showUpload" @cancel="onCancel" cancel-text="Cancel">
+              <van-cell-group>
+                  <div class="upload-line">
+                    <van-uploader
+                      :after-read="uploadImage"
+                      :max-count="1">
+                      <van-cell title="Select from album"/>
+                    </van-uploader>
+                  </div>
+                  <div>
+                    <van-uploader
+                      capture="camera"
+                      :after-read="uploadImage"
+                      accept="image/png,image/jpeg">
+                      <van-cell title="Take Picture"/>
+                    </van-uploader>
+                  </div>
+              </van-cell-group>
+        </van-action-sheet>
     <Footer :activeItem="3" />
   </div>
 </template>
@@ -69,13 +88,21 @@ export default {
   },
   data() {
     return {
-      pageTitle: "Settings"
+      pageTitle: "Settings",
+      showUpload: false
     };
   },
   methods: {
     logout() {
       this.$store.dispatch("setLogin", false);
       this.$router.push({ name: "UserLogin" });
+    },
+    uploadImage(file) {
+      this.showUpload = false;
+      this.userDetails.Icon = file.content;
+    },
+    onCancel() {
+      this.showUpload = false;
     }
   },
   computed: {
