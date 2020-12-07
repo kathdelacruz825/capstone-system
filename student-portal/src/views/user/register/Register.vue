@@ -349,7 +349,7 @@ export default {
             temp.status = val.CourseStatus;
             this.courseActions.push(temp);
           });
-          this.studentDetails.Course = this.courseActions[0].name;
+          this.studentDetails.Course = this.courseActions[0].id;
           this.currentCourse = this.courseActions[0].name;
         })
         .catch(error => {
@@ -371,7 +371,7 @@ export default {
             temp.status = val.YearLevelStatus;
             this.yearLevelActions.push(temp);
           });
-          this.studentDetails.YearLevel = this.yearLevelActions[0].name;
+          this.studentDetails.YearLevel = this.yearLevelActions[0].id;
           this.currentYearLevel = this.yearLevelActions[0].name;
         })
         .catch(error => {
