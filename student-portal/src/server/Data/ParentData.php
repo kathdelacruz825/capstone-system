@@ -1,5 +1,5 @@
 <?php
-class StudentData {
+class ParentData {
   private $response = array();
   private $tempData = array(
     "ID" => "",
@@ -16,9 +16,7 @@ class StudentData {
     "PhoneNumber" => "",
     "Email" => "",
     "Icon" => "",
-    "YearLevel" => "",
-    "Course" => "",
-    "ParentID" => "",
+    "StudentID" => "",
     "CreateTime" => "",
     "UpdateTime" => "",
   );
@@ -33,8 +31,8 @@ class StudentData {
     $this->link = $link;
   }
   
-  function getAllStudentInfo() {
-    $query = "Select * from `tbl_accounts_student`";
+  function getAllParentInfo() {
+    $query = "Select * from `tbl_accounts_parent`";
 
     $result = $this->link->query($query);
 
@@ -54,52 +52,22 @@ class StudentData {
         $this->tempData["PhoneNumber"] = $row[11];
         $this->tempData["Email"] = $row[12];
         $this->tempData["Icon"] = $row[13];
-        $this->tempData["YearLevel"] = $row[14];
-        $this->tempData["Course"] = $row[15];
-        $this->tempData["ParentID"] = $row[16];
-        $this->tempData["CreateTime"] = $row[17];
-        $this->tempData["UpdateTime"] = $row[18];
+        $this->tempData["StudentID"] = $row[14];
+        $this->tempData["CreateTime"] = $row[15];
+        $this->tempData["UpdateTime"] = $row[16];
         $this->response[] = $this->tempData;
       }
     }
     return $this->response;
   }
 
-  function getStudentByAccountPAss($params) {
+  function getParentByID($params) {
     $AccountID = strval($params['AccountID']);
     $AccountPassword = strval($params['AccountPassword']);
 
-    $query = "Select
-              `tbl_accounts_student`.`ID`,
-              `tbl_accounts_student`.`AccountType`,
-              `tbl_accounts_student`.`AccountStatus`,
-              `tbl_accounts_student`.`AccountPending`,
-              `tbl_accounts_student`.`AccountOnlineState`,
-              `tbl_accounts_student`.`AccountID`,
-              `tbl_accounts_student`.`AccountPassword`,
-              `tbl_accounts_student`.`LastName`,
-              `tbl_accounts_student`.`FirstName`,
-              `tbl_accounts_student`.`MiddleName`,
-              `tbl_accounts_student`.`ExtName`,
-              `tbl_accounts_student`.`PhoneNumber`,
-              `tbl_accounts_student`.`Email`,
-              `tbl_accounts_student`.`Icon`,
-              `tbl_yearlevel`.`YearLevel`, 
-              `tbl_course`.`CourseID`,
-              `tbl_accounts_student`.`ParentID`,
-              `tbl_accounts_student`.`CreateTime`,
-              `tbl_accounts_student`.`UpdateTime`
-              From ((`tbl_accounts_student`
-              Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel` = `tbl_yearlevel`.`ID`)
-              Inner Join `tbl_course` on `tbl_accounts_student`.`Course` = `tbl_course`.`ID`)
-              Where `tbl_accounts_student`.`AccountID`='$AccountID'
-              And `tbl_accounts_student`.`AccountPassword`='$AccountPassword'
-              And `tbl_accounts_student`.`AccountPending`=1
-              And `tbl_accounts_student`.`AccountStatus`=1";
-
-    // $query = "Select * From `tbl_accounts_student`
-    //           Where `tbl_accounts_student`.`AccountID`='$AccountID'
-    //           And `tbl_accounts_student`.`AccountPassword`='$AccountPassword'";
+    $query = "Select * From `tbl_accounts_parent`
+              Where `tbl_accounts_parent`.`AccountID`='$AccountID'
+              And `tbl_accounts_parent`.`AccountPassword`='$AccountPassword'";
 
     $result = $this->link->query($query);
 
@@ -119,38 +87,16 @@ class StudentData {
         $this->tempData["PhoneNumber"] = $row[11];
         $this->tempData["Email"] = $row[12];
         $this->tempData["Icon"] = $row[13];
-        $this->tempData["YearLevel"] = $row[14];
-        $this->tempData["Course"] = $row[15];
-        $this->tempData["ParentID"] = $row[16];
-        $this->tempData["CreateTime"] = $row[17];
-        $this->tempData["UpdateTime"] = $row[18];
+        $this->tempData["StudentID"] = $row[14];
+        $this->tempData["CreateTime"] = $row[15];
+        $this->tempData["UpdateTime"] = $row[16];
         $this->response[] = $this->tempData;
       }
     }
     return $this->response;
   }
 
-  function getStudentByID($params) {
-    $AccountID = strval($params['AccountID']);
-
-    $query = "Select * From `tbl_accounts_student` Where `tbl_accounts_student`.`AccountID`='$AccountID'";
-
-    $result = $this->link->query($query);
-    $row = mysqli_fetch_row($result);
-    if ($row != null) {
-      $this->successTemp["State"] = 1;
-      $this->successTemp["Message"] = "Account ID exist!";
-      $this->response[] = $this->successTemp;
-      return $this->response;
-    } else {
-      $this->successTemp["State"] = 0;
-      $this->successTemp["Message"] = "Account ID not exist!";
-      $this->response[] = $this->successTemp;
-      return $this->response;
-    }
-  }
-
-  function setStudentData($params) {
+  function setParentData($params) {
     $AccountType = intval($params['AccountType']);
     $AccountStatus = intval($params['AccountStatus']);
     $AccountPending = intval($params['AccountPending']);
@@ -164,13 +110,11 @@ class StudentData {
     $PhoneNumber = $params['PhoneNumber'];
     $Email = $params['Email'];
     $Icon = $params['Icon'];
-    $YearLevel = intval($params['YearLevel']);
-    $Course = intval($params['Course']);
-    $ParentID = $params['ParentID'];
+    $StudentID = $params['StudentID'];
     $CreateTime = $params['CreateTime'];
     $UpdateTime = $params['UpdateTime'];
 
-    $query = "Select * From `tbl_accounts_student` Where `tbl_accounts_student`.`AccountID`='$AccountID'";
+    $query = "Select * From `tbl_accounts_parent` Where `tbl_accounts_parent`.`AccountID`='$AccountID'";
     $result = $this->link->query($query);
     $row = mysqli_fetch_row($result);
 
@@ -180,16 +124,14 @@ class StudentData {
       $this->response[] = $this->successTemp;
       return $this->response;
     } else {
-      $query = "Insert into `tbl_accounts_student`
+      $query = "Insert into `tbl_accounts_parent`
               (AccountType, AccountStatus, AccountPending, AccountOnlineState,
               AccountID, AccountPassword, LastName, FirstName, MiddleName,
-              ExtName, PhoneNumber, Email, Icon, YearLevel, Course, ParentID,
-              CreateTime, UpdateTime)
+              ExtName, PhoneNumber, Email, Icon, StudentID, CreateTime, UpdateTime)
               values
               ($AccountType, $AccountStatus, $AccountPending, $AccountOnlineState,
               '$AccountID', '$AccountPassword', '$LastName', '$FirstName', '$MiddleName',
-              '$ExtName', '$PhoneNumber', '$Email', '$Icon', $YearLevel, $Course, '$ParentID',
-              '$CreateTime', '$UpdateTime')";
+              '$ExtName', '$PhoneNumber', '$Email', '$Icon', '$StudentID', '$CreateTime', '$UpdateTime')";
 
       if ($this->link->query($query) === TRUE) {
         $this->successTemp["State"] = 1;

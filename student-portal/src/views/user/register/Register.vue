@@ -261,6 +261,7 @@ export default {
         ExtName: "",
         PhoneNumber: "",
         Email: "",
+        Icon: "",
         studentID: ""
       },
       show: false,
@@ -339,7 +340,69 @@ export default {
           Toast("Password not matched");
         }
       } else {
-        console.log(this.parentDetails);
+        if (this.parentDetails.AccountPassword == this.parentConfirmPassword) {
+          var paramsStudent = {
+            request: 6,
+            data: {
+              AccountID: this.parentDetails.studentID,
+            }
+          };
+          this.http
+            .post(this.api.StudentService, paramsStudent)
+            .then(response => {
+              if (response.data[0].State == 1) {
+                let params = {
+                  request: 3,
+                  data: {
+                    AccountType: 2,
+                    AccountStatus: 1,
+                    AccountPending: 2,
+                    AccountOnlineState: 2,
+                    AccountID: this.parentDetails.accountID,
+                    AccountPassword: this.parentDetails.AccountPassword,
+                    LastName: this.parentDetails.LastName,
+                    FirstName: this.parentDetails.FirstName,
+                    MiddleName: this.parentDetails.MiddleName,
+                    ExtName: this.parentDetails.ExtName,
+                    PhoneNumber: this.parentDetails.PhoneNumber,
+                    Email: this.parentDetails.Email,
+                    Icon: this.parentDetails.Icon,
+                    StudentID: this.parentDetails.studentID,
+                    CreateTime: this.createTime(),
+                    UpdateTime: this.createTime()
+                  }
+                };
+                this.http
+                  .post(this.api.ParentService, params)
+                  .then(response => {
+                    if (response.data[0].State == 1) {
+                      Dialog.alert({
+                        title: "Registration",
+                        message:
+                          "Registration is successful, please wait for your account to be approved by management",
+                        confirmButtonText: "Confirm"
+                      }).then(() => {
+                        this.resetFields();
+                      });
+                    } else {
+                      Toast("Account ID already exist!");
+                    }
+                  })
+                  .catch(error => {
+                    Toast("Connection Error!");
+                    console.log(error);
+                  });
+              } else {
+                Toast("Invalid Student ID");
+              }
+            })
+            .catch(error => {
+              Toast("Connection Error");
+              console.log(error);
+            });
+        } else {
+          Toast("Password not matched");
+        }
       }
     },
     getAllCourse() {
@@ -434,15 +497,16 @@ export default {
       this.studentConfirmPassword = "";
 
       this.parentDetails.AccountType = "";
-      this.parentDetailsaccountID = "";
-      this.parentDetailsAccountPassword = "";
-      this.parentDetailsLastName = "";
-      this.parentDetailsFirstName = "";
-      this.parentDetailsMiddleName = "";
-      this.parentDetailsExtName = "";
-      this.parentDetailsPhoneNumber = "";
-      this.parentDetailsEmail = "";
-      this.parentDetailsstudentID = "";
+      this.parentDetails.accountID = "";
+      this.parentDetails.AccountPassword = "";
+      this.parentDetails.LastName = "";
+      this.parentDetails.FirstName = "";
+      this.parentDetails.MiddleName = "";
+      this.parentDetails.ExtName = "";
+      this.parentDetails.PhoneNumber = "";
+      this.parentDetails.Email = "";
+      this.parentDetails.Icon = "";
+      this.parentDetails.studentID = "";
       this.parentConfirmPassword = "";
     }
   },

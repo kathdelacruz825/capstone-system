@@ -1,6 +1,6 @@
 <?php
 require_once("../config/index.php");
-require_once("../Data/StudentData.php");
+require_once("../Data/ParentData.php");
 
 $params = json_decode(file_get_contents("php://input"), true);
 
@@ -8,18 +8,18 @@ if ($params) {
   switch($params['request']) {
     case 1:
       // select all
-        $data = new StudentData($conn);
-        echo json_encode($data->getAllStudentInfo());
+        $data = new ParentData($conn);
+        echo json_encode($data->getAllParentInfo());
         break;
       case 2:
       // select by
-        $data = new StudentData($conn);
-        echo json_encode($data->getStudentByAccountPAss($params['data']));
+        $data = new ParentData($conn);
+        echo json_encode($data->getParentByID($params['data']));
         break;
       case 3:
       // inserta data
-        $data = new StudentData($conn);
-        echo json_encode($data->setStudentData($params['data']));
+        $data = new ParentData($conn);
+        echo json_encode($data->setParentData($params['data']));
         break;
       // case 4:
       // // update data
@@ -30,11 +30,6 @@ if ($params) {
       // // delete data
       //   $data = new SampleData($conn);
       //   echo json_encode($data->deleteSampleData($params['data']));
-      case 6:
-        // select data with parameter account id
-          $data = new StudentData($conn);
-          echo json_encode($data->getStudentByID($params['data']));
-          break;
         break;
     default:
       echo "Invalid Request";
