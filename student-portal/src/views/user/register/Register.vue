@@ -328,7 +328,7 @@ export default {
                   this.resetFields();
                 });
               } else {
-                Toast("Register Error!");
+                Toast("Account ID already exist!");
               }
             })
             .catch(error => {

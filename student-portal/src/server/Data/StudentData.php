@@ -149,7 +149,18 @@ class StudentData {
     $ParentID = $params['ParentID'];
     $CreateTime = $params['CreateTime'];
     $UpdateTime = $params['UpdateTime'];
-    $query = "Insert into `tbl_accounts_student`
+
+    $query = "Select * From `tbl_accounts_student` Where `tbl_accounts_student`.`AccountID`='$AccountID'";
+    $result = $this->link->query($query);
+    $row = mysqli_fetch_row($result);
+
+    if ($row != null) {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Account ID already exist!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    } else {
+      $query = "Insert into `tbl_accounts_student`
               (AccountType, AccountStatus, AccountPending, AccountOnlineState,
               AccountID, AccountPassword, LastName, FirstName, MiddleName,
               ExtName, PhoneNumber, Email, Icon, YearLevel, Course, ParentID,
@@ -159,18 +170,20 @@ class StudentData {
               '$AccountID', '$AccountPassword', '$LastName', '$FirstName', '$MiddleName',
               '$ExtName', '$PhoneNumber', '$Email', '$Icon', $YearLevel, $Course, '$ParentID',
               '$CreateTime', '$UpdateTime')";
-    
-    if ($this->link->query($query) === TRUE) {
-      $this->successTemp["State"] = 1;
-      $this->successTemp["Message"] = "New record successfully created!";
-      $this->response[] = $this->successTemp;
-      return $this->response;
-    } else {
-      $this->successTemp["State"] = 0;
-      $this->successTemp["Message"] = "Error creating record!";
-      $this->response[] = $this->successTemp;
-      return $this->response;
+
+      if ($this->link->query($query) === TRUE) {
+        $this->successTemp["State"] = 1;
+        $this->successTemp["Message"] = "New record successfully created!";
+        $this->response[] = $this->successTemp;
+        return $this->response;
+      } else {
+        $this->successTemp["State"] = 0;
+        $this->successTemp["Message"] = "Error creating record!";
+        $this->response[] = $this->successTemp;
+        return $this->response;
+      }
     }
   }
+
 }
 ?>
