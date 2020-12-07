@@ -33,7 +33,7 @@
           <span>Year: {{ userDetails.YearLevel }}</span>
           <span
             >Account Type:
-            {{ userDetails.AccountType == 0 ? "Student" : "Parent" }}</span
+            {{ userDetails.AccountType == 1 ? "Student" : "Parent" }}</span
           >
         </div>
       </div>

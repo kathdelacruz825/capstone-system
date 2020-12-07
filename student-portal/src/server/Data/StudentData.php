@@ -19,6 +19,8 @@ class StudentData {
     "YearLevel" => "",
     "Course" => "",
     "ParentID" => "",
+    "CreateTime" => "",
+    "UpdateTime" => "",
   );
   private $successTemp = array(
     "State" => null,
@@ -55,6 +57,8 @@ class StudentData {
         $this->tempData["YearLevel"] = $row[14];
         $this->tempData["Course"] = $row[15];
         $this->tempData["ParentID"] = $row[16];
+        $this->tempData["CreateTime"] = $row[17];
+        $this->tempData["UpdateTime"] = $row[18];
         $this->response[] = $this->tempData;
       }
     }
@@ -82,7 +86,9 @@ class StudentData {
               `tbl_accounts_student`.`Icon`,
               `tbl_yearlevel`.`YearLevel`, 
               `tbl_accounts_student`.`Course`,
-              `tbl_accounts_student`.`ParentID`
+              `tbl_accounts_student`.`ParentID`,
+              `tbl_accounts_student`.`CreateTime`,
+              `tbl_accounts_student`.`UpdateTime`
               From `tbl_accounts_student`
               Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel` = `tbl_yearlevel`.`ID`
               Where `tbl_accounts_student`.`AccountID`='$AccountID'
@@ -113,6 +119,8 @@ class StudentData {
         $this->tempData["YearLevel"] = $row[14];
         $this->tempData["Course"] = $row[15];
         $this->tempData["ParentID"] = $row[16];
+        $this->tempData["CreateTime"] = $row[17];
+        $this->tempData["UpdateTime"] = $row[18];
         $this->response[] = $this->tempData;
       }
     }
@@ -120,43 +128,46 @@ class StudentData {
   }
 
   function setStudentData($params) {
-    echo json_decode($params);
-    // $AccountType = $params['AccountType'];
-    // $AccountStatus = $params['AccountStatus'];
-    // $AccountPending = $params['AccountPending'];
-    // $AccountOnlineState = $params['AccountOnlineState'];
-    // $AccountID = $params['AccountID'];
-    // $AccountPassword = $params['AccountPassword'];
-    // $LastName = $params['LastName'];
-    // $FirstName = $params['FirstName'];
-    // $MiddleName = $params['MiddleName'];
-    // $ExtName = $params['ExtName'];
-    // $PhoneNumber = $params['PhoneNumber'];
-    // $Email = $params['Email'];
-    // $Icon = $params['Icon'];
-    // $YearLevel = $params['YearLevel'];
-    // $Course = $params['Course'];
-    // $ParentID = $params['ParentID'];
-    // $query = "Insert into `tbl_accounts_student`
-    //           (AccountType, AccountStatus, AccountPending, AccountOnlineState,
-    //           AccountID, AccountPassword, LastName, FirstName, MiddleName,
-    //           ExtName, PhoneNumber, Email, Icon, YearLevel, Course, ParentID)
-    //           values
-    //           ('$AccountType', '$AccountStatus', '$AccountPending', '$AccountOnlineState',
-    //           '$AccountID', '$AccountPassword', '$LastName', '$FirstName', '$MiddleName',
-    //           '$ExtName', '$PhoneNumber', '$Email', '$Icon', '$YearLevel', '$Course', '$ParentID')";
+    $AccountType = intval($params['AccountType']);
+    $AccountStatus = intval($params['AccountStatus']);
+    $AccountPending = intval($params['AccountPending']);
+    $AccountOnlineState = intval($params['AccountOnlineState']);
+    $AccountID = $params['AccountID'];
+    $AccountPassword = $params['AccountPassword'];
+    $LastName = $params['LastName'];
+    $FirstName = $params['FirstName'];
+    $MiddleName = $params['MiddleName'];
+    $ExtName = $params['ExtName'];
+    $PhoneNumber = $params['PhoneNumber'];
+    $Email = $params['Email'];
+    $Icon = $params['Icon'];
+    $YearLevel = intval($params['YearLevel']);
+    $Course = intval($params['Course']);
+    $ParentID = $params['ParentID'];
+    $CreateTime = $params['CreateTime'];
+    $UpdateTime = $params['UpdateTime'];
+    $query = "Insert into `tbl_accounts_student`
+              (AccountType, AccountStatus, AccountPending, AccountOnlineState,
+              AccountID, AccountPassword, LastName, FirstName, MiddleName,
+              ExtName, PhoneNumber, Email, Icon, YearLevel, Course, ParentID,
+              CreateTime, UpdateTime)
+              values
+              ($AccountType, $AccountStatus, $AccountPending, $AccountOnlineState,
+              '$AccountID', '$AccountPassword', '$LastName', '$FirstName', '$MiddleName',
+              '$ExtName', '$PhoneNumber', '$Email', '$Icon', $YearLevel, $Course, '$ParentID',
+              '$CreateTime', '$UpdateTime')";
     
-    // if ($this->link->query($query) === TRUE) {
-    //   $this->successTemp["State"] = 1;
-    //   $this->successTemp["Message"] = "New record successfully created!";
-    //   $this->response[] = $this->successTemp;
-    //   return $this->response;
-    // } else {
-    //   $this->successTemp["State"] = 0;
-    //   $this->successTemp["Message"] = "Error creating record!";
-    //   $this->response[] = $this->successTemp;
-    //   return $this->response;
-    // }
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "New record successfully created!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error creating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    }
   }
 }
 ?>

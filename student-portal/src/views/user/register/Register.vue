@@ -294,10 +294,10 @@ export default {
           let params = {
             request: 3,
             data: {
-              AccountType: this.studentDetails.AccountType == "Student" ? 0 : 1,
-              AccountStatus: 1,
-              AccountPending: 0,
-              AccountOnlineState: 0,
+              AccountType: 1,
+              AccountStatus: 2,
+              AccountPending: 2,
+              AccountOnlineState: 2,
               AccountID: this.studentDetails.accountID,
               AccountPassword: this.studentDetails.AccountPassword,
               LastName: this.studentDetails.LastName,
@@ -309,7 +309,9 @@ export default {
               Icon: this.studentDetails.Icon,
               YearLevel: this.studentDetails.YearLevel,
               Course: this.studentDetails.Course,
-              ParentID: this.studentDetails.ParentID
+              ParentID: this.studentDetails.ParentID,
+              CreateTime: this.createTime(),
+              UpdateTime: this.createTime()
             }
           };
           this.http
@@ -378,6 +380,16 @@ export default {
           console.log(error);
         });
     },
+    createTime() {
+      let today = new Date();
+      let currdate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate() < 10 ? '0'+today.getDate() : today.getDate());
+      let currHour = today.getHours() < 10 ? '0' + today.getHours() : today.getHours();
+      let currMinutes = today.getMinutes() < 10 ? '0' + today.getMinutes() : today.getMinutes();
+      let currSeconds = today.getSeconds() < 10 ? '0' + today.getSeconds() : today.getSeconds();
+      let timePeriod = today.getHours() < 13 ? 'AM' : 'PM';
+      let currtime = currdate + ' ' +currHour + ":" + currMinutes + ":" + currSeconds + ' ' + timePeriod;
+      return currtime;
+    },
     resetFields() {
       this.studentDetails.accountID = "";
       this.studentDetails.AccountPassword = "";
@@ -392,8 +404,8 @@ export default {
       this.studentDetails.Course = "";
       this.studentDetails.ParentID = "";
       this.currentCourse = this.courseActions[0].name;
-      this.studentDetails.Course = this.courseActions[0].name;
-      this.studentDetails.YearLevel = this.yearLevelActions[0].name;
+      this.studentDetails.Course = this.courseActions[0].id;
+      this.studentDetails.YearLevel = this.yearLevelActions[0].id;
       this.currentYearLevel = this.yearLevelActions[0].name;
       this.studentConfirmPassword = "";
 
@@ -415,6 +427,7 @@ export default {
     this.getAllYearLevel();
   },
   mounted() {
+    this.createTime();
     if (this.accountType == "Student") {
       this.studentDetails.AccountType = "Student";
     } else {

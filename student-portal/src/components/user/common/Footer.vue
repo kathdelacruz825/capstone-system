@@ -23,7 +23,8 @@ export default {
     return {
       active: 0,
       footerItems: {
-        0: [
+        0: [],
+        1: [
           {
             name: "Home",
             icon: "home-o",
@@ -40,7 +41,7 @@ export default {
             link: "Settings"
           }
         ],
-        1: [
+        2: [
           {
             name: "Home",
             icon: "home-o",
