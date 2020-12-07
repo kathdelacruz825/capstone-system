@@ -4,7 +4,13 @@
     <div class="content">
       <div class="user-info">
         <div class="user-icon">
-          <van-image width="100" height="100" fit="contain" :src="userDetails.Icon" @click="showUpload = true"/>
+          <van-image
+            width="100"
+            height="100"
+            fit="contain"
+            :src="userDetails.Icon"
+            @click="showUpload = true"
+          />
         </div>
         <div class="user-details">
           <span>Account ID: {{ userDetails.AccountID }}</span>
@@ -30,6 +36,7 @@
                 userDetails.LastName
             }}
           </span>
+          <span>Course: {{ userDetails.Course }}</span>
           <span>Year: {{ userDetails.YearLevel }}</span>
           <span
             >Account Type:
@@ -52,25 +59,28 @@
         </van-button>
       </div>
     </div>
-        <van-action-sheet v-model="showUpload" @cancel="onCancel" cancel-text="Cancel">
-              <van-cell-group>
-                  <div class="upload-line">
-                    <van-uploader
-                      :after-read="uploadImage"
-                      :max-count="1">
-                      <van-cell title="Select from album"/>
-                    </van-uploader>
-                  </div>
-                  <div>
-                    <van-uploader
-                      capture="camera"
-                      :after-read="uploadImage"
-                      accept="image/png,image/jpeg">
-                      <van-cell title="Take Picture"/>
-                    </van-uploader>
-                  </div>
-              </van-cell-group>
-        </van-action-sheet>
+    <van-action-sheet
+      v-model="showUpload"
+      @cancel="onCancel"
+      cancel-text="Cancel"
+    >
+      <van-cell-group>
+        <div class="upload-line">
+          <van-uploader :after-read="uploadImage" :max-count="1">
+            <van-cell title="Select from album" />
+          </van-uploader>
+        </div>
+        <div>
+          <van-uploader
+            capture="camera"
+            :after-read="uploadImage"
+            accept="image/png,image/jpeg"
+          >
+            <van-cell title="Take Picture" />
+          </van-uploader>
+        </div>
+      </van-cell-group>
+    </van-action-sheet>
     <Footer :activeItem="3" />
   </div>
 </template>

@@ -224,6 +224,7 @@
 // @ is an alias to /src
 import Nav from "@/components/user/common/Nav.vue";
 import { Toast } from "vant";
+import { Dialog } from "vant";
 export default {
   name: "Register",
   components: {
@@ -295,7 +296,7 @@ export default {
             request: 3,
             data: {
               AccountType: 1,
-              AccountStatus: 2,
+              AccountStatus: 1,
               AccountPending: 2,
               AccountOnlineState: 2,
               AccountID: this.studentDetails.accountID,
@@ -318,8 +319,14 @@ export default {
             .post(this.api.StudentService, params)
             .then(response => {
               if (response.data[0].State == 1) {
-                this.resetFields();
-                Toast("Successfully registered!");
+                Dialog.alert({
+                  title: "Registration",
+                  message:
+                    "Registration is successful, please wait for your account to be approved by management",
+                  confirmButtonText: "Confirm"
+                }).then(() => {
+                  this.resetFields();
+                });
               } else {
                 Toast("Register Error!");
               }
@@ -382,12 +389,29 @@ export default {
     },
     createTime() {
       let today = new Date();
-      let currdate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate() < 10 ? '0'+today.getDate() : today.getDate());
-      let currHour = today.getHours() < 10 ? '0' + today.getHours() : today.getHours();
-      let currMinutes = today.getMinutes() < 10 ? '0' + today.getMinutes() : today.getMinutes();
-      let currSeconds = today.getSeconds() < 10 ? '0' + today.getSeconds() : today.getSeconds();
-      let timePeriod = today.getHours() < 13 ? 'AM' : 'PM';
-      let currtime = currdate + ' ' +currHour + ":" + currMinutes + ":" + currSeconds + ' ' + timePeriod;
+      let currdate =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        (today.getDate() < 10 ? "0" + today.getDate() : today.getDate());
+      let currHour =
+        today.getHours() < 10 ? "0" + today.getHours() : today.getHours();
+      let currMinutes =
+        today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes();
+      let currSeconds =
+        today.getSeconds() < 10 ? "0" + today.getSeconds() : today.getSeconds();
+      let timePeriod = today.getHours() < 13 ? "AM" : "PM";
+      let currtime =
+        currdate +
+        " " +
+        currHour +
+        ":" +
+        currMinutes +
+        ":" +
+        currSeconds +
+        " " +
+        timePeriod;
       return currtime;
     },
     resetFields() {

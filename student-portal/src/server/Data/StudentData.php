@@ -85,14 +85,17 @@ class StudentData {
               `tbl_accounts_student`.`Email`,
               `tbl_accounts_student`.`Icon`,
               `tbl_yearlevel`.`YearLevel`, 
-              `tbl_accounts_student`.`Course`,
+              `tbl_course`.`CourseID`,
               `tbl_accounts_student`.`ParentID`,
               `tbl_accounts_student`.`CreateTime`,
               `tbl_accounts_student`.`UpdateTime`
-              From `tbl_accounts_student`
-              Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel` = `tbl_yearlevel`.`ID`
+              From ((`tbl_accounts_student`
+              Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel` = `tbl_yearlevel`.`ID`)
+              Inner Join `tbl_course` on `tbl_accounts_student`.`Course` = `tbl_course`.`ID`)
               Where `tbl_accounts_student`.`AccountID`='$AccountID'
-              And `tbl_accounts_student`.`AccountPassword`='$AccountPassword'";
+              And `tbl_accounts_student`.`AccountPassword`='$AccountPassword'
+              And `tbl_accounts_student`.`AccountPending`=1
+              And `tbl_accounts_student`.`AccountStatus`=1";
 
     // $query = "Select * From `tbl_accounts_student`
     //           Where `tbl_accounts_student`.`AccountID`='$AccountID'
