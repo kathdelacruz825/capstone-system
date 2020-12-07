@@ -344,7 +344,7 @@ export default {
           var paramsStudent = {
             request: 6,
             data: {
-              AccountID: this.parentDetails.studentID,
+              AccountID: this.parentDetails.studentID
             }
           };
           this.http

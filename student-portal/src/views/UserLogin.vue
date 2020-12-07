@@ -81,25 +81,26 @@ export default {
           AccountPassword: this.userDetails.password
         }
       };
-      if (this.activeUser == 0) {
-        this.http
-          .post(this.api.StudentService, params)
-          .then(response => {
-            if (response.data.length > 0) {
-              this.$store.dispatch("setUserDetails", response.data[0]);
-              this.$store.dispatch("setLogin", true);
-              this.goPage("UserHome");
-            } else {
-              Toast("Invalid Account");
-            }
-          })
-          .catch(error => {
-            Toast("Connection Error");
-            console.log(error);
-          });
-      } else {
-        Toast(this.userType[this.activeUser]);
-      }
+      this.http
+        .post(
+          this.activeUser == 0
+            ? this.api.StudentService
+            : this.api.ParentService,
+          params
+        )
+        .then(response => {
+          if (response.data.length > 0) {
+            this.$store.dispatch("setUserDetails", response.data[0]);
+            this.$store.dispatch("setLogin", true);
+            this.goPage("UserHome");
+          } else {
+            Toast("Invalid Account");
+          }
+        })
+        .catch(error => {
+          Toast("Connection Error");
+          console.log(error);
+        });
     },
     goPage(url) {
       this.$router.push({ name: url });

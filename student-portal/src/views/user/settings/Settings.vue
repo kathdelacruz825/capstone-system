@@ -36,8 +36,12 @@
                 userDetails.LastName
             }}
           </span>
-          <span>Course: {{ userDetails.Course }}</span>
-          <span>Year: {{ userDetails.YearLevel }}</span>
+          <span v-if="userDetails.AccountType == 1"
+            >Course: {{ userDetails.Course }}</span
+          >
+          <span v-if="userDetails.AccountType == 1"
+            >Year: {{ userDetails.YearLevel }}</span
+          >
           <span
             >Account Type:
             {{ userDetails.AccountType == 1 ? "Student" : "Parent" }}</span
@@ -45,11 +49,21 @@
         </div>
       </div>
       <div class="links">
-        <van-cell-group>
+        <van-cell-group v-if="userDetails.AccountType == 1">
           <van-cell icon="todo-list-o" title="View Records" is-link />
-          <van-cell icon="edit" title="Edit Information" is-link />
           <van-cell icon="manager-o" title="View Parent Information" is-link />
           <van-cell icon="service-o" title="Student Service" is-link />
+          <van-cell icon="edit" title="Edit Information" is-link />
+          <van-cell icon="records" title="Change Password" is-link />
+        </van-cell-group>
+        <van-cell-group v-if="userDetails.AccountType == 2">
+          <van-cell
+            icon="manager-o"
+            title="View Child School Information"
+            is-link
+          />
+          <van-cell icon="service-o" title="Parent Service" is-link />
+          <van-cell icon="edit" title="Edit Information" is-link />
           <van-cell icon="records" title="Change Password" is-link />
         </van-cell-group>
       </div>
