@@ -1,32 +1,44 @@
 <template>
   <div class="main">
-  {{ tabContent }}
-    <!-- <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="User" name="first">User</el-tab-pane>
-      <el-tab-pane label="Config" name="second">Config</el-tab-pane>
-      <el-tab-pane label="Role" name="third">Role</el-tab-pane>
-      <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>
-    </el-tabs> -->
+    <component :is="tabContent"></component>
   </div>
 </template>
 
 <script>
 export default {
+  components: {
+    Dashboard: resolve => {
+      require(["@/components/admin/content/Dashboard.vue"], resolve);
+    },
+    Students: resolve => {
+      require(["@/components/admin/content/Students.vue"], resolve);
+    },
+    Parents: resolve => {
+      require(["@/components/admin/content/Parents.vue"], resolve);
+    },
+    Schedule: resolve => {
+      require(["@/components/admin/content/Schedule.vue"], resolve);
+    },
+    Grades: resolve => {
+      require(["@/components/admin/content/Grades.vue"], resolve);
+    },
+    Messages: resolve => {
+      require(["@/components/admin/content/Messages.vue"], resolve);
+    },
+    Settings: resolve => {
+      require(["@/components/admin/content/Settings.vue"], resolve);
+    },
+  },
   data() {
-    return {
-      activeName: "first"
-    };
+    return {};
   },
-  methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    }
-  },
+  methods: {},
   props: {
     tabContent: {
       type: String,
       default: 'Dashboard',
     }
-  }
+  },
+  created() {},
 };
 </script>
