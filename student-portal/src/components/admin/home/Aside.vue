@@ -74,3 +74,11 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.el-col {
+  height: 100%;
+  .el-menu {
+    height: 100%;
+  }
+}
+</style>

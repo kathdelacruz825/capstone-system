@@ -58,5 +58,12 @@ export default {
       height: 100%;
     }
   }
+
+  .el-header {
+    height: 50px !important;
+  }
+  .el-main {
+    padding: 0px
+  }
 }
 </style>

@@ -42,3 +42,11 @@ export default {
   created() {}
 };
 </script>
+
+<style lang="scss">
+.main {
+  padding: 10px;
+  background: #fff;
+  height: 100%;
+}
+</style>
