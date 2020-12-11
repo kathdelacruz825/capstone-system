@@ -7,11 +7,11 @@
         </el-header>
         <el-container>
           <el-aside width="200px">
-            <Aside @selectTabContent="selectTabContent"/>
+            <Aside @selectTabContent="selectTabContent" />
           </el-aside>
           <el-container>
             <el-main>
-              <Main :tabContent="currTabContent"/>
+              <Main :tabContent="currTabContent" />
             </el-main>
             <!--
             <el-footer>Footer</el-footer>

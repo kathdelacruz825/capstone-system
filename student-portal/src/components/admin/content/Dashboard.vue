@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-dashboard
+    dashboard
   </div>
 </template>
 
@@ -12,6 +12,6 @@ export default {
   },
   methods: {},
   props: {},
-  created() {},
+  created() {}
 };
 </script>

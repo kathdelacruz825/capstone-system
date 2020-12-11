@@ -27,7 +27,7 @@ export default {
     },
     Settings: resolve => {
       require(["@/components/admin/content/Settings.vue"], resolve);
-    },
+    }
   },
   data() {
     return {};
@@ -36,9 +36,9 @@ export default {
   props: {
     tabContent: {
       type: String,
-      default: 'Dashboard',
+      default: "Dashboard"
     }
   },
-  created() {},
+  created() {}
 };
 </script>

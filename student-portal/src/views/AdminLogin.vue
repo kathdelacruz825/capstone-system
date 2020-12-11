@@ -8,14 +8,17 @@
           <el-form
             :label-position="labelPosition"
             label-width="100px"
-            :model="formLabelAlign">
+            :model="formLabelAlign"
+          >
             <el-form-item label="Username">
               <el-input v-model="ruleForm.user" type="text"></el-input>
             </el-form-item>
             <el-form-item label="Password">
               <el-input v-model="ruleForm.pass" type="password"></el-input>
             </el-form-item>
-            <el-button size="medium" type="success" @click="login()">Login</el-button>
+            <el-button size="medium" type="success" @click="login()"
+              >Login</el-button
+            >
           </el-form>
         </div>
       </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="settings">
-settings
+    settings
   </div>
 </template>
 
@@ -12,6 +12,6 @@ export default {
   },
   methods: {},
   props: {},
-  created() {},
+  created() {}
 };
 </script>

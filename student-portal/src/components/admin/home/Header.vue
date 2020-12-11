@@ -14,7 +14,7 @@ export default {
 .header {
   display: flex;
   flex-direction: row;
-  &>div {
+  & > div {
     flex: 1;
   }
 
