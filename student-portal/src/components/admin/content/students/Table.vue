@@ -22,6 +22,8 @@
         :prop="propItem.propName"
         :label="propItem.propLabel"
         :width="propItem.width"
+        align="center"
+        class-name="text-style"
       >
       </el-table-column>
       <el-table-column
@@ -37,20 +39,36 @@
             :key="operationKey"
             :type="operationItem.btnType"
             size="small"
+            @click="operationAction(operationItem.name)"
           >
             {{ operationItem.name }}
           </el-button>
         </template>
       </el-table-column>
     </el-table>
+    <UpdateStudent :showUpdateStudent="showUpdateStudent" @closeUpdateStudent="closeUpdateStudent($event)"/>
+    <ViewInfoStudent :showViewInfoStudent="showViewInfoStudent" @closeViewInfoStudent="closeViewInfoStudent($event)" />
+    <DeleteStudent :showDeleteStudent="showDeleteStudent" @closeDeleteStudent="closeDeleteStudent($event)" />
   </div>
 </template>
 
 <script>
+
+import UpdateStudent from "@/components/admin/content/dialog/student/UpdateStudent.vue"
+import ViewInfoStudent from "@/components/admin/content/dialog/student/ViewInfoStudent.vue"
+import DeleteStudent from "@/components/admin/content/dialog/student/DeleteStudent.vue"
+
 export default {
-  components: {},
+  components: {
+    UpdateStudent,
+    ViewInfoStudent,
+    DeleteStudent
+  },
   data() {
     return {
+      showUpdateStudent: false,
+      showViewInfoStudent: false,
+      showDeleteStudent: false,
       search: "",
       operationButtons: {
         0: [
@@ -96,7 +114,7 @@ export default {
         {
           propName: "ID",
           propLabel: "ID",
-          width: "120"
+          width: "50",
         },
         {
           propName: "AccountType",
@@ -201,7 +219,25 @@ export default {
     },
     changeVal(val) {
       console.log(val);
-    }
+    },
+    operationAction(name) {
+      if (name == 'View Info') {
+        this.showViewInfoStudent = true;
+      } else if (name == 'Edit') {
+        this.showUpdateStudent = true;
+      } else if (name == 'Delete') {
+        this.showDeleteStudent = true;
+      }
+    },
+    closeUpdateStudent(val) {
+      this.showUpdateStudent = val;
+    },
+    closeViewInfoStudent(val) {
+      this.showViewInfoStudent = val;
+    },
+    closeDeleteStudent(val) {
+      this.showDeleteStudent = val;
+    },
   },
   props: {
     requestNumber: {
@@ -224,3 +260,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.table {
+  .text-style div {
+    word-break: keep-all;
+  }
+}
+</style>
