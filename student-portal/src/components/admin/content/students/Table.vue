@@ -65,7 +65,7 @@
 import UpdateStudent from "@/components/admin/content/dialog/student/UpdateStudent.vue";
 import ViewInfoStudent from "@/components/admin/content/dialog/student/ViewInfoStudent.vue";
 import DeleteStudent from "@/components/admin/content/dialog/student/DeleteStudent.vue";
-import { tableProps } from "./tablesettings";
+import { tableProps } from "@/components/admin/content/students/tablesettings";
 
 export default {
   components: {

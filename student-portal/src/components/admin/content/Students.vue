@@ -15,7 +15,6 @@
         :key="panelKey"
         :label="panelItem"
       >
-        <!-- <Table :requestNumber="activeTab" /> -->
         <component
           :is="panelItems[activeTab]"
           :requestNumber="activeTab"
@@ -31,12 +30,10 @@
 </template>
 
 <script>
-// import Table from "@/components/admin/content/students/Table.vue";
 import AddStudent from "@/components/admin/content/dialog/student/AddStudent.vue";
 
 export default {
   components: {
-    // Table,
     AddStudent,
     Active: resolve => {
       require(["@/components/admin/content/students/Table.vue"], resolve);
@@ -46,20 +43,30 @@ export default {
     },
     Pending: resolve => {
       require(["@/components/admin/content/students/Table.vue"], resolve);
+    },
+    Rejected: resolve => {
+      require(["@/components/admin/content/students/Table.vue"], resolve);
     }
   },
   data() {
     return {
       activeTab: 0,
-      panelItems: ["Active", "Inactive", "Pending"],
+      panelItems: ["Active", "Inactive", "Pending", "Rejected"],
       showAddStudent: false,
       tableData: [],
     };
   },
   methods: {
     selectTab(val) {
-      console.log(val);
-      this.getStudentData();
+      if (val == 0) {
+        this.getStudentData();
+      } else if (val == 1) {
+        this.getStudentInactiveData();
+      } else if (val == 2) {
+        this.getStudentPendingData();
+      } else {
+        this.getStudentRejectedData();
+      }
     },
     closeAddStudent(val) {
       this.showAddStudent = val;
@@ -70,8 +77,54 @@ export default {
         data: {}
       };
       this.http
-        .post(this.api.StudentService, params)
+        .post(this.api.AdminService, params)
         .then(response => {
+          this.tableData = [];
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getStudentInactiveData() {
+      var params = {
+        request: 2,
+        data: {}
+      };
+      this.http
+        .post(this.api.AdminService, params)
+        .then(response => {
+          this.tableData = [];
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getStudentPendingData() {
+      var params = {
+        request: 3,
+        data: {}
+      };
+      this.http
+        .post(this.api.AdminService, params)
+        .then(response => {
+          this.tableData = [];
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getStudentRejectedData() {
+      var params = {
+        request: 4,
+        data: {}
+      };
+      this.http
+        .post(this.api.AdminService, params)
+        .then(response => {
+          this.tableData = [];
           this.tableData = response.data;
         })
         .catch(error => {
@@ -81,7 +134,9 @@ export default {
   },
   props: {},
   created() {
-    this.getStudentData();
+    if (this.activeTab == 0) {
+      this.getStudentData();
+    }
   }
 };
 </script>

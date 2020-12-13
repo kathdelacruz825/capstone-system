@@ -4,5 +4,7 @@ export const api = {
   ParentService: "/services/ParentService.php",
   CourseService: "/services/CourseService.php",
   YearLevelService: "/services/YearLevelService.php",
-  SampleService: "/services/SampleService.php"
+  SampleService: "/services/SampleService.php",
+
+  AdminService: "/services/AdminService.php",
 };
