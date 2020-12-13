@@ -1,15 +1,16 @@
 <template>
-<el-dialog
-  title="Delete Student"
-  :visible.sync="showDeleteStudent"
-  width="20%"
-  :before-close="closeDialog">
-  <span>Are you sure you want to delete?</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="closeDialog">Cancel</el-button>
-    <el-button type="primary" @click="deleteStudent">Delete</el-button>
-  </span>
-</el-dialog>
+  <el-dialog
+    title="Delete Student"
+    :visible.sync="showDeleteStudent"
+    width="20%"
+    :before-close="closeDialog"
+  >
+    <span>Are you sure you want to delete?</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="closeDialog">Cancel</el-button>
+      <el-button type="primary" @click="deleteStudent">Delete</el-button>
+    </span>
+  </el-dialog>
 </template>
 
 <script>
@@ -20,7 +21,7 @@ export default {
   },
   methods: {
     closeDialog() {
-      this.$emit('closeDeleteStudent', false);
+      this.$emit("closeDeleteStudent", false);
     },
     deleteStudent() {
       console.log("deleted");
@@ -29,8 +30,8 @@ export default {
   props: {
     showDeleteStudent: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   created() {}
 };

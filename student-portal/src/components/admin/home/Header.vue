@@ -1,13 +1,15 @@
 <template>
   <div class="header">
     <div class="header-left">
-      <h3>Student Portal Administrator</h3> 
+      <h3>Student Portal Administrator</h3>
     </div>
     <div class="header-right">
       <el-dropdown>
         <span class="el-dropdown-link">
           <el-avatar :size="40" src="https://empty" @error="errorHandler">
-            <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"/>
+            <img
+              src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
+            />
           </el-avatar>
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
@@ -24,9 +26,9 @@
 export default {
   name: "Header",
   components: {},
-    methods: {
+  methods: {
     errorHandler() {
-      return true
+      return true;
     }
   }
 };
@@ -51,7 +53,7 @@ export default {
     align-items: center;
     justify-content: flex-end;
   }
-  
+
   .el-dropdown-link {
     display: flex;
     align-items: center;

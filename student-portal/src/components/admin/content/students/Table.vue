@@ -46,18 +46,26 @@
         </template>
       </el-table-column>
     </el-table>
-    <UpdateStudent :showUpdateStudent="showUpdateStudent" @closeUpdateStudent="closeUpdateStudent($event)"/>
-    <ViewInfoStudent :showViewInfoStudent="showViewInfoStudent" @closeViewInfoStudent="closeViewInfoStudent($event)" />
-    <DeleteStudent :showDeleteStudent="showDeleteStudent" @closeDeleteStudent="closeDeleteStudent($event)" />
+    <UpdateStudent
+      :showUpdateStudent="showUpdateStudent"
+      @closeUpdateStudent="closeUpdateStudent($event)"
+    />
+    <ViewInfoStudent
+      :showViewInfoStudent="showViewInfoStudent"
+      @closeViewInfoStudent="closeViewInfoStudent($event)"
+    />
+    <DeleteStudent
+      :showDeleteStudent="showDeleteStudent"
+      @closeDeleteStudent="closeDeleteStudent($event)"
+    />
   </div>
 </template>
 
 <script>
-
-import UpdateStudent from "@/components/admin/content/dialog/student/UpdateStudent.vue"
-import ViewInfoStudent from "@/components/admin/content/dialog/student/ViewInfoStudent.vue"
-import DeleteStudent from "@/components/admin/content/dialog/student/DeleteStudent.vue"
-import { tableProps } from "./TableSettings"
+import UpdateStudent from "@/components/admin/content/dialog/student/UpdateStudent.vue";
+import ViewInfoStudent from "@/components/admin/content/dialog/student/ViewInfoStudent.vue";
+import DeleteStudent from "@/components/admin/content/dialog/student/DeleteStudent.vue";
+import { tableProps } from "./tablesettings";
 
 export default {
   components: {
@@ -112,7 +120,6 @@ export default {
         ]
       },
       tableProps: tableProps,
-      tableData: []
     };
   },
   methods: {
@@ -126,11 +133,11 @@ export default {
       console.log(val);
     },
     operationAction(name) {
-      if (name == 'View Info') {
+      if (name == "View Info") {
         this.showViewInfoStudent = true;
-      } else if (name == 'Edit') {
+      } else if (name == "Edit") {
         this.showUpdateStudent = true;
-      } else if (name == 'Delete') {
+      } else if (name == "Delete") {
         this.showDeleteStudent = true;
       }
     },
@@ -142,27 +149,20 @@ export default {
     },
     closeDeleteStudent(val) {
       this.showDeleteStudent = val;
-    },
+    }
   },
   props: {
     requestNumber: {
       type: [String, Number]
-    }
+    },
+    tableData: {
+      type: Array,
+      default: () => {
+        return [];
+      }
+    },
   },
-  created() {
-    var params = {
-      request: 1,
-      data: {}
-    };
-    this.http
-      .post(this.api.StudentService, params)
-      .then(response => {
-        this.tableData = response.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  },
+  created() {}
 };
 </script>
 

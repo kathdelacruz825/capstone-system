@@ -32,7 +32,6 @@ export default {
 
 <style lang="scss">
 .dashboard {
-
   .top-panel .top-panel-wrapper {
     display: flex;
     flex-direction: row;
@@ -43,9 +42,6 @@ export default {
       width: calc(33.3333% - 20px);
       height: 120px;
     }
-    
   }
-
-} 
-
+}
 </style>

@@ -2,7 +2,7 @@ const tableProps = [
   {
     propName: "ID",
     propLabel: "ID",
-    width: "50",
+    width: "50"
   },
   {
     propName: "AccountType",
@@ -96,4 +96,4 @@ const tableProps = [
   }
 ];
 
-export  { tableProps }
+export { tableProps };

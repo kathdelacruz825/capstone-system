@@ -63,7 +63,7 @@ export default {
     height: 50px !important;
   }
   .el-main {
-    padding: 0px
+    padding: 0px;
   }
 }
 </style>

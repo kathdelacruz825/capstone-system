@@ -1,6 +1,9 @@
 <template>
-  <el-dialog title="Update Student" :visible.sync="showUpdateStudent" @close="closeDialog">
-
+  <el-dialog
+    title="Update Student"
+    :visible.sync="showUpdateStudent"
+    @close="closeDialog"
+  >
   </el-dialog>
 </template>
 
@@ -12,14 +15,14 @@ export default {
   },
   methods: {
     closeDialog() {
-      this.$emit('closeUpdateStudent', false);
+      this.$emit("closeUpdateStudent", false);
     }
   },
   props: {
     showUpdateStudent: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   created() {}
 };
