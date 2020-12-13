@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <el-table :data="tableData" style="width: 100%" max-height="350px">
+    <el-table :data="tableData" style="width: 100%" max-height="370">
       <el-table-column
         v-for="(propItem, propKey) in tableProps"
         :key="propKey"
@@ -57,6 +57,7 @@
 import UpdateStudent from "@/components/admin/content/dialog/student/UpdateStudent.vue"
 import ViewInfoStudent from "@/components/admin/content/dialog/student/ViewInfoStudent.vue"
 import DeleteStudent from "@/components/admin/content/dialog/student/DeleteStudent.vue"
+import { tableProps } from "./TableSettings"
 
 export default {
   components: {
@@ -110,103 +111,7 @@ export default {
           }
         ]
       },
-      tableProps: [
-        {
-          propName: "ID",
-          propLabel: "ID",
-          width: "50",
-        },
-        {
-          propName: "AccountType",
-          propLabel: "Account Type",
-          width: "120"
-        },
-        {
-          propName: "AccountStatus",
-          propLabel: "Account Status",
-          width: "120"
-        },
-        {
-          propName: "AccountPending",
-          propLabel: "Account Pending",
-          width: "120"
-        },
-        {
-          propName: "AccountOnlineState",
-          propLabel: "Account Online State",
-          width: "120"
-        },
-        {
-          propName: "AccountID",
-          propLabel: "Account ID",
-          width: "120"
-        },
-        {
-          propName: "AccountPassword",
-          propLabel: "Account Password",
-          width: "120"
-        },
-        {
-          propName: "LastName",
-          propLabel: "Last Name",
-          width: "120"
-        },
-        {
-          propName: "FirstName",
-          propLabel: "First Name",
-          width: "120"
-        },
-        {
-          propName: "MiddleName",
-          propLabel: "Middle Name",
-          width: "120"
-        },
-        {
-          propName: "ExtName",
-          propLabel: "Extension Name",
-          width: "120"
-        },
-        {
-          propName: "PhoneNumber",
-          propLabel: "Phone Number",
-          width: "120"
-        },
-        {
-          propName: "Email",
-          propLabel: "Email",
-          width: "120"
-        },
-        {
-          propName: "Icon",
-          propLabel: "Icon",
-          width: "120"
-        },
-        {
-          propName: "YearLevel",
-          propLabel: "Year Level",
-          width: "120"
-        },
-        {
-          propName: "Course",
-          propLabel: "Course",
-          width: "120"
-        },
-        {
-          propName: "Parent ID",
-          propLabel: "Parent ID",
-          width: "120"
-        },
-        {
-          propName: "CreateTime",
-          propLabel: "Create Time",
-          width: "120"
-        },
-        {
-          propName: "UpdateTime",
-          propLabel: "Update Time",
-          width: "120"
-        }
-      ],
+      tableProps: tableProps,
       tableData: []
     };
   },
@@ -257,7 +162,7 @@ export default {
       .catch(error => {
         console.log(error);
       });
-  }
+  },
 };
 </script>
 

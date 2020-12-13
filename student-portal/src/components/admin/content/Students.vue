@@ -15,7 +15,8 @@
         :key="panelKey"
         :label="panelItem"
       >
-        <Table :requestNumber="activeTab" />
+        <!-- <Table :requestNumber="activeTab" /> -->
+        <component :is="panelItems[activeTab]" :requestNumber="activeTab"></component>
       </el-tab-pane>
     </el-tabs>
     <AddStudent :showAddStudent="showAddStudent" @closeAddStudent="closeAddStudent($event)"/>
@@ -28,8 +29,17 @@ import AddStudent from "@/components/admin/content/dialog/student/AddStudent.vue
 
 export default {
   components: {
-    Table,
+    // Table,
     AddStudent,
+    Active: resolve => {
+      require(["@/components/admin/content/students/Table.vue"], resolve);
+    },
+    Inactive: resolve => {
+      require(["@/components/admin/content/students/Table.vue"], resolve);
+    },
+    Pending: resolve => {
+      require(["@/components/admin/content/students/Table.vue"], resolve);
+    },
   },
   data() {
     return {
