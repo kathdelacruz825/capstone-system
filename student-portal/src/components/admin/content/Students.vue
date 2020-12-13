@@ -53,7 +53,7 @@ export default {
       activeTab: 0,
       panelItems: ["Active", "Inactive", "Pending", "Rejected"],
       showAddStudent: false,
-      tableData: [],
+      tableData: []
     };
   },
   methods: {

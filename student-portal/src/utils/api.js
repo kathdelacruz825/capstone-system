@@ -6,5 +6,5 @@ export const api = {
   YearLevelService: "/services/YearLevelService.php",
   SampleService: "/services/SampleService.php",
 
-  AdminService: "/services/AdminService.php",
+  AdminService: "/services/AdminService.php"
 };

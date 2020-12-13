@@ -119,7 +119,7 @@ export default {
           }
         ]
       },
-      tableProps: tableProps,
+      tableProps: tableProps
     };
   },
   methods: {
@@ -160,7 +160,7 @@ export default {
       default: () => {
         return [];
       }
-    },
+    }
   },
   created() {}
 };

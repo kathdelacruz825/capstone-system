@@ -3,6 +3,7 @@
     title="Update Student"
     :visible.sync="showUpdateStudent"
     @close="closeDialog"
+    top="50px"
   >
   </el-dialog>
 </template>

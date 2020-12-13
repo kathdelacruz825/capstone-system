@@ -4,6 +4,7 @@
     :visible.sync="showDeleteStudent"
     width="20%"
     :before-close="closeDialog"
+    top="50px"
   >
     <span>Are you sure you want to delete?</span>
     <span slot="footer" class="dialog-footer">
