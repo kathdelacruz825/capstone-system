@@ -7,7 +7,7 @@
     :close-on-press-escape="false"
     :close-on-click-modal="false"
     top="50px"
-    width="500px"
+    width="600px"
   >
     <div class="add-student-content">
       <el-form
@@ -19,27 +19,51 @@
         ref="ruleForm"
         :rules="rules"
       >
-        <el-form-item label="Account Type">
-          <el-radio-group v-model="AccountType" size="medium">
-            <el-radio label="Student" border>Student</el-radio>
-            <el-radio label="Parent" border disabled>Parent</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="Account Status">
-          <el-radio-group v-model="AccountStatus" size="medium">
-            <el-radio label="Active" border>Active</el-radio>
-            <el-radio label="Inactive" border>Inactive</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="Account ID" prop="AccountID">
-          <el-input v-model="ruleForm.AccountID" type="text"></el-input>
-        </el-form-item>
-        <el-form-item label="Password" prop="AccountPassword">
-          <el-input
-            v-model="ruleForm.AccountPassword"
-            type="password"
-          ></el-input>
-        </el-form-item>
+      <el-divider content-position="left">Account Details</el-divider>
+      <div class="form-item-account-details">
+        <div class="detail-row1">
+          <div class="icon">
+            <el-upload
+              class="avatar-uploader"
+              action="#"
+              :auto-upload="false"
+              :show-file-list="false"
+              list-type="picture-card"
+              :on-change="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="ruleForm.Icon" width="148" height="148" :src="ruleForm.Icon" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </div>
+          <div class="radio">
+            <el-form-item label="Account Type">
+              <el-radio-group v-model="AccountType" size="mini">
+                <el-radio label="Student" border>Student</el-radio>
+                <el-radio label="Parent" border disabled>Parent</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="Account Status">
+              <el-radio-group v-model="AccountStatus" size="mini">
+                <el-radio label="Active" border>Active</el-radio>
+                <el-radio label="Inactive" border>Inactive</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </div>
+        </div>
+        <div class="detail-row2">
+          <el-form-item label="Account ID" prop="AccountID">
+            <el-input v-model="ruleForm.AccountID" type="text"></el-input>
+          </el-form-item>
+          <el-form-item label="Password" prop="AccountPassword">
+            <el-input
+              v-model="ruleForm.AccountPassword"
+              type="password"
+            ></el-input>
+          </el-form-item>
+        </div>
+      </div>
+      <el-divider content-position="left">Personal Details</el-divider>
+      <div class="form-item-account-details">
         <el-form-item label="Last Name:" prop="LastName">
           <el-input v-model="ruleForm.LastName" type="text"></el-input>
         </el-form-item>
@@ -58,23 +82,9 @@
         <el-form-item label="Email:">
           <el-input v-model="ruleForm.Email" type="email"></el-input>
         </el-form-item>
-        <el-form-item label="Icon:">
-          <el-upload
-            class="upload-demo"
-            action="#"
-            :auto-upload="false"
-            :on-change="handleAvatarSuccess"
-            :on-remove="handleRemove"
-            :before-upload="beforeAvatarUpload"
-            :limit="1"
-            :file-list="fileList"
-          >
-            <el-button size="small" type="primary">Click to upload</el-button>
-            <div slot="tip" class="el-upload__tip">
-              jpg/png files with a size less than 500kb
-            </div>
-          </el-upload>
-        </el-form-item>
+      </div>
+      <el-divider content-position="left">School Details</el-divider>
+      <div class="form-item-school-details">
         <el-form-item label="Course:">
           <el-dropdown trigger="click" @command="selectCourse">
             <el-button type="primary">
@@ -109,6 +119,7 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-form-item>
+      </div>
       </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -325,12 +336,43 @@ export default {
 }
 
 .el-dialog__body {
-  padding: 15px;
+  padding: 0px 15px 15px;
+
+  .el-form {
+
+
+    .form-item-account-details .detail-row1{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 15px;
+
+      .icon {
+        margin-right: 25px;
+      }
+
+      .radio .el-form-item {
+        margin-bottom: 15px;
+      }
+
+      .radio .el-form-item__label {
+        line-height: 28px;
+      }
+    }
+
+    .form-item-account-details .detail-row2 {
+      margin-bottom: 40px;
+    }
+
+  }
 
   .el-form-item {
     .el-form-item__content {
       display: flex;
       justify-content: flex-start;
+      .el-radio {
+        width: 100px;
+      }
     }
 
     .upload-demo {
@@ -344,5 +386,9 @@ export default {
       }
     }
   }
+}
+
+.el-dialog__footer {
+  text-align: center;
 }
 </style>

@@ -29,7 +29,7 @@
       <el-table-column
         fixed="right"
         label="Operations"
-        :width="requestNumber == 0 ? '250' : requestNumber == 1 ? '200' : '270'"
+        :width="requestNumber == 0 ? '260' : requestNumber == 1 ? '200' : requestNumber == 2 ? '270' : '210'"
       >
         <template>
           <el-button
@@ -86,7 +86,7 @@ export default {
             btnType: "info"
           },
           {
-            name: "Edit",
+            name: "Update",
             btnType: "warning"
           },
           {
@@ -117,6 +117,16 @@ export default {
             name: "Reject",
             btnType: "danger"
           }
+        ],
+        3: [
+          {
+            name: "View Info",
+            btnType: "info"
+          },
+          {
+            name: "Re-approve",
+            btnType: "warning"
+          },
         ]
       },
       tableProps: tableProps
@@ -135,7 +145,7 @@ export default {
     operationAction(name) {
       if (name == "View Info") {
         this.showViewInfoStudent = true;
-      } else if (name == "Edit") {
+      } else if (name == "Update") {
         this.showUpdateStudent = true;
       } else if (name == "Delete") {
         this.showDeleteStudent = true;

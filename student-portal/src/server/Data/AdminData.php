@@ -145,7 +145,7 @@ class AdminData {
   function getStudentByPending() {
     $query = "Select * from `tbl_accounts_student`
               Where
-              `tbl_accounts_student`.`AccountStatus`=2
+              `tbl_accounts_student`.`AccountStatus`=1
               And
               `tbl_accounts_student`.`AccountPending`=2";
 

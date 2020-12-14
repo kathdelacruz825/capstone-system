@@ -19,11 +19,11 @@ const tableProps = [
     propLabel: "Account Pending",
     width: "120"
   },
-  {
-    propName: "AccountOnlineState",
-    propLabel: "Account Online State",
-    width: "120"
-  },
+  // {
+  //   propName: "AccountOnlineState",
+  //   propLabel: "Account Online State",
+  //   width: "120"
+  // },
   {
     propName: "AccountID",
     propLabel: "Account ID",
@@ -79,11 +79,11 @@ const tableProps = [
     propLabel: "Course",
     width: "120"
   },
-  {
-    propName: "Parent ID",
-    propLabel: "Parent ID",
-    width: "120"
-  },
+  // {
+  //   propName: "Parent ID",
+  //   propLabel: "Parent ID",
+  //   width: "120"
+  // },
   {
     propName: "CreateTime",
     propLabel: "Create Time",
