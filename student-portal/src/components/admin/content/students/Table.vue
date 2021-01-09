@@ -39,7 +39,7 @@
             : '210'
         "
       >
-        <template>
+        <template slot-scope="scope">
           <el-button
             v-for="(operationItem, operationKey) in operationButtons[
               requestNumber
@@ -47,7 +47,9 @@
             :key="operationKey"
             :type="operationItem.btnType"
             size="small"
-            @click="operationAction(operationItem.name)"
+            @click.native.prevent="
+              operationAction(operationItem.name, tableData[scope.$index])
+            "
           >
             {{ operationItem.name }}
           </el-button>
@@ -57,14 +59,36 @@
     <UpdateStudent
       :showUpdateStudent="showUpdateStudent"
       @closeUpdateStudent="closeUpdateStudent($event)"
+      :studentData="studentData"
     />
     <ViewInfoStudent
       :showViewInfoStudent="showViewInfoStudent"
       @closeViewInfoStudent="closeViewInfoStudent($event)"
+      :studentData="studentData"
     />
     <DeleteStudent
       :showDeleteStudent="showDeleteStudent"
       @closeDeleteStudent="closeDeleteStudent($event)"
+      @updateData="updateData()"
+      :studentData="studentData"
+    />
+
+    <StatusStudent
+      :showInActiveStudent="showInActiveStudent"
+      :statusTitle="statusTitle"
+      :request="request"
+      @closeInActiveStudent="closeInActiveStudent($event)"
+      @updateData="updateData()"
+      :studentData="studentData"
+    />
+
+    <PendingStudent
+      :showPendingStudent="showPendingStudent"
+      :pendingTitle="pendingTitle"
+      :request="request"
+      @closePendingStudent="closePendingStudent($event)"
+      @updateData="updateData()"
+      :studentData="studentData"
     />
   </div>
 </template>
@@ -73,19 +97,29 @@
 import UpdateStudent from "@/components/admin/content/dialog/student/UpdateStudent.vue";
 import ViewInfoStudent from "@/components/admin/content/dialog/student/ViewInfoStudent.vue";
 import DeleteStudent from "@/components/admin/content/dialog/student/DeleteStudent.vue";
+import StatusStudent from "@/components/admin/content/dialog/student/StatusStudent.vue";
+import PendingStudent from "@/components/admin/content/dialog/student/PendingStudent.vue";
+
 import { tableProps } from "@/components/admin/content/students/tablesettings";
 
 export default {
   components: {
     UpdateStudent,
     ViewInfoStudent,
-    DeleteStudent
+    DeleteStudent,
+    StatusStudent,
+    PendingStudent
   },
   data() {
     return {
       showUpdateStudent: false,
       showViewInfoStudent: false,
       showDeleteStudent: false,
+      showInActiveStudent: false,
+      showPendingStudent: false,
+      statusTitle: "",
+      pendingTitle: "",
+      request: null,
       search: "",
       operationButtons: {
         0: [
@@ -99,6 +133,10 @@ export default {
           },
           {
             name: "Delete",
+            btnType: "danger"
+          },
+          {
+            name: "Set Inactive",
             btnType: "danger"
           }
         ],
@@ -137,7 +175,8 @@ export default {
           }
         ]
       },
-      tableProps: tableProps
+      tableProps: tableProps,
+      studentData: {}
     };
   },
   methods: {
@@ -150,31 +189,45 @@ export default {
     changeVal(val) {
       console.log(val);
     },
-    operationAction(name) {
-      switch(name) {
-        case 'View Info':
+    operationAction(name, itemData) {
+      this.studentData = itemData;
+      switch (name) {
+        case "View Info":
           this.showViewInfoStudent = true;
           break;
-        case 'Update':
+        case "Update":
           this.showUpdateStudent = true;
           break;
-        case 'Delete':
+        case "Delete":
           this.showDeleteStudent = true;
           break;
-        case 'Set Active':
-          console.log('Set Active');
+        case "Set Active":
+          this.request = 9;
+          this.statusTitle = "Active";
+          this.showInActiveStudent = true;
           break;
-        case 'Approve':
-          console.log('Approve');
+        case "Set Inactive":
+          this.request = 8;
+          this.statusTitle = "Inactive";
+          this.showInActiveStudent = true;
           break;
-        case 'Reject':
-          console.log('Reject');
+        case "Approve":
+          this.request = 10;
+          this.showPendingStudent = true;
+          this.pendingTitle = "Approve";
           break;
-        case 'Re-approve':
-          console.log('Re-approve');
+        case "Reject":
+          this.request = 11;
+          this.showPendingStudent = true;
+          this.pendingTitle = "Reject";
           break;
-        default: 
-          console.log("Invalid Option")
+        case "Re-approve":
+          this.request = 10;
+          this.showPendingStudent = true;
+          this.pendingTitle = "Re-approve";
+          break;
+        default:
+          console.log("Invalid Option");
       }
     },
     closeUpdateStudent(val) {
@@ -185,6 +238,15 @@ export default {
     },
     closeDeleteStudent(val) {
       this.showDeleteStudent = val;
+    },
+    closeInActiveStudent(val) {
+      this.showInActiveStudent = val;
+    },
+    closePendingStudent(val) {
+      this.showPendingStudent = val;
+    },
+    updateData() {
+      this.$emit("updateData");
     }
   },
   props: {

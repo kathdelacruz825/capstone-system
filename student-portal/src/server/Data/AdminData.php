@@ -183,8 +183,6 @@ class AdminData {
               Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel`=`tbl_yearlevel`.`ID`)
               Inner Join `tbl_course` on `tbl_accounts_student`.`Course`=`tbl_course`.`ID`)
               Where
-              `tbl_accounts_student`.`AccountStatus`=2
-              And
               `tbl_accounts_student`.`AccountPending`=3";
 
     $result = $this->link->query($query);
@@ -245,8 +243,6 @@ class AdminData {
               Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel`=`tbl_yearlevel`.`ID`)
               Inner Join `tbl_course` on `tbl_accounts_student`.`Course`=`tbl_course`.`ID`)
               Where
-              `tbl_accounts_student`.`AccountStatus`=1
-              And
               `tbl_accounts_student`.`AccountPending`=2";
 
     $result = $this->link->query($query);
@@ -330,6 +326,91 @@ class AdminData {
         $this->response[] = $this->successTemp;
         return $this->response;
       }
+    }
+  }
+
+  function deleteStudentData($params) {
+    $id = $params['ID'];
+    
+    $query = "Delete from `tbl_accounts_student` where id=$id";
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully deleted!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error deleting record!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    }
+  }
+
+  function setInActiveStudentData($params) {
+    $id = $params['ID'];
+
+    $query = "Update `tbl_accounts_student` SET AccountStatus=2 where id=$id";
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    }
+  }
+
+  function setActiveStudentData($params) {
+    $id = $params['ID'];
+
+    $query = "Update `tbl_accounts_student` SET AccountStatus=1 where id=$id";
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    }
+  }
+
+  function setApproveStudentData($params) {
+    $id = $params['ID'];
+
+    $query = "Update `tbl_accounts_student` SET AccountPending=1 where id=$id";
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    }
+  }
+
+  function setRejectStudentData($params) {
+    $id = $params['ID'];
+
+    $query = "Update `tbl_accounts_student` SET AccountPending=3 where id=$id";
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
     }
   }
 

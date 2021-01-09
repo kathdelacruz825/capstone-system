@@ -18,6 +18,7 @@
         <component
           :is="panelItems[activeTab]"
           :requestNumber="activeTab"
+          @updateData="updateData()"
           :tableData="tableData"
         ></component>
       </el-tab-pane>
@@ -70,6 +71,17 @@ export default {
     },
     closeAddStudent(val) {
       this.showAddStudent = val;
+    },
+    updateData() {
+      if (this.activeTab == 0) {
+        this.getStudentData();
+      } else if (this.activeTab == 1) {
+        this.getStudentInactiveData();
+      } else if (this.activeTab == 2) {
+        this.getStudentPendingData();
+      } else {
+        this.getStudentRejectedData();
+      }
     },
     getStudentData() {
       var params = {

@@ -23,8 +23,19 @@ export default {
     showUpdateStudent: {
       type: Boolean,
       default: false
+    },
+    studentData: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     }
   },
+  // watch: {
+  //   studentData: (newVal, oldVal) => {
+  //     console.log(newVal, oldVal);
+  //   }
+  // },
   created() {}
 };
 </script>

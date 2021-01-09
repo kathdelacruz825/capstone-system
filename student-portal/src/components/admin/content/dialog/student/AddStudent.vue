@@ -226,8 +226,8 @@ export default {
           let params = {
             request: 5,
             data: {
-              AccountType: this.ruleForm.AccountType,
-              AccountStatus: this.ruleForm.AccountStatus,
+              AccountType: this.AccountType == "Student" ? 1 : 2, //this.ruleForm.AccountType,
+              AccountStatus: this.AccountStatus == "Active" ? 1 : 2, //this.ruleForm.AccountStatus,
               AccountPending: this.ruleForm.AccountPending,
               AccountOnlineState: this.ruleForm.AccountOnlineState,
               AccountID: this.ruleForm.AccountID,

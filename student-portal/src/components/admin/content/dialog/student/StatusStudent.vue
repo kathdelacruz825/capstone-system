@@ -1,7 +1,7 @@
 <template>
   <el-dialog
-    title="Delete Student"
-    :visible.sync="showDeleteStudent"
+    title="Student Status"
+    :visible.sync="showInActiveStudent"
     width="20%"
     @close="closeDialog()"
     :show-close="false"
@@ -9,10 +9,12 @@
     :close-on-click-modal="false"
     top="50px"
   >
-    <span>Are you sure you want to delete?</span>
+    <span>Are you sure you want to set {{ statusTitle }}?</span>
     <span slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">Cancel</el-button>
-      <el-button type="primary" @click="deleteStudent">Delete</el-button>
+      <el-button type="primary" @click="deleteStudent"
+        >Set {{ statusTitle }}</el-button
+      >
     </span>
   </el-dialog>
 </template>
@@ -25,11 +27,11 @@ export default {
   },
   methods: {
     closeDialog() {
-      this.$emit("closeDeleteStudent", false);
+      this.$emit("closeInActiveStudent", false);
     },
     deleteStudent() {
       let params = {
-        request: 7,
+        request: this.request,
         data: this.studentData
       };
       this.http
@@ -50,9 +52,17 @@ export default {
     }
   },
   props: {
-    showDeleteStudent: {
+    showInActiveStudent: {
       type: Boolean,
       default: false
+    },
+    statusTitle: {
+      type: String,
+      default: ""
+    },
+    request: {
+      type: Number,
+      default: 8 // default value for set inactive
     },
     studentData: {
       type: Object,
