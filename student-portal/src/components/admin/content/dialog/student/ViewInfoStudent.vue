@@ -60,7 +60,11 @@
           </div>
           <div class="detail-row2">
             <el-form-item label="Account ID" prop="AccountID">
-              <el-input v-model="studentData.AccountID" type="text" :readonly="true"></el-input>
+              <el-input
+                v-model="studentData.AccountID"
+                type="text"
+                :readonly="true"
+              ></el-input>
             </el-form-item>
             <el-form-item label="Password" prop="AccountPassword">
               <el-input
@@ -74,22 +78,46 @@
         <el-divider content-position="left">Personal Details</el-divider>
         <div class="form-item-account-details">
           <el-form-item label="Last Name:" prop="LastName">
-            <el-input v-model="studentData.LastName" type="text" :readonly="true"></el-input>
+            <el-input
+              v-model="studentData.LastName"
+              type="text"
+              :readonly="true"
+            ></el-input>
           </el-form-item>
           <el-form-item label="First Name:" prop="FirstName">
-            <el-input v-model="studentData.FirstName" type="text" :readonly="true"></el-input>
+            <el-input
+              v-model="studentData.FirstName"
+              type="text"
+              :readonly="true"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Middle Name:" prop="MiddleName">
-            <el-input v-model="studentData.MiddleName" type="text" :readonly="true"></el-input>
+            <el-input
+              v-model="studentData.MiddleName"
+              type="text"
+              :readonly="true"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Extension Name:">
-            <el-input v-model="studentData.ExtName" type="text" :readonly="true"></el-input>
+            <el-input
+              v-model="studentData.ExtName"
+              type="text"
+              :readonly="true"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Phone Number:">
-            <el-input v-model="studentData.PhoneNumber" type="text" :readonly="true"></el-input>
+            <el-input
+              v-model="studentData.PhoneNumber"
+              type="text"
+              :readonly="true"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Email:">
-            <el-input v-model="studentData.Email" type="email" :readonly="true"></el-input>
+            <el-input
+              v-model="studentData.Email"
+              type="email"
+              :readonly="true"
+            ></el-input>
           </el-form-item>
         </div>
         <el-divider content-position="left">School Details</el-divider>
@@ -165,7 +193,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .el-dialog__body {
   padding: 0px 15px 15px;
 

@@ -42,13 +42,19 @@
             </div>
             <div class="radio">
               <el-form-item label="Account Type">
-                <el-radio-group v-model="newStudentData.AccountType" size="mini">
+                <el-radio-group
+                  v-model="newStudentData.AccountType"
+                  size="mini"
+                >
                   <el-radio label="Student" border>Student</el-radio>
                   <el-radio label="Parent" border disabled>Parent</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="Account Status">
-                <el-radio-group v-model="newStudentData.AccountStatus" size="mini">
+                <el-radio-group
+                  v-model="newStudentData.AccountStatus"
+                  size="mini"
+                >
                   <el-radio label="Active" border>Active</el-radio>
                   <el-radio label="Inactive" border>Inactive</el-radio>
                 </el-radio-group>
@@ -57,7 +63,10 @@
           </div>
           <div class="detail-row2">
             <el-form-item label="Account ID" prop="AccountID">
-              <el-input v-model="newStudentData.AccountID" type="text"></el-input>
+              <el-input
+                v-model="newStudentData.AccountID"
+                type="text"
+              ></el-input>
             </el-form-item>
             <el-form-item label="Password" prop="AccountPassword">
               <el-input
@@ -76,13 +85,19 @@
             <el-input v-model="newStudentData.FirstName" type="text"></el-input>
           </el-form-item>
           <el-form-item label="Middle Name:" prop="MiddleName">
-            <el-input v-model="newStudentData.MiddleName" type="text"></el-input>
+            <el-input
+              v-model="newStudentData.MiddleName"
+              type="text"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Extension Name:">
             <el-input v-model="newStudentData.ExtName" type="text"></el-input>
           </el-form-item>
           <el-form-item label="Phone Number:">
-            <el-input v-model="newStudentData.PhoneNumber" type="text"></el-input>
+            <el-input
+              v-model="newStudentData.PhoneNumber"
+              type="text"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Email:">
             <el-input v-model="newStudentData.Email" type="email"></el-input>
@@ -144,7 +159,7 @@ export default {
       currentYearLevel: "",
       yearLevelList: [],
       fileList: [],
-      newStudentData: {},
+      newStudentData: {}
     };
   },
   methods: {
@@ -155,9 +170,15 @@ export default {
       let params = {
         request: 12,
         data: {
+          ID: this.newStudentData.ID,
           AccountType: this.newStudentData.AccountType == "Student" ? 1 : 2,
           AccountStatus: this.newStudentData.AccountStatus == "Active" ? 1 : 2,
-          AccountPending: this.newStudentData.AccountPending,
+          AccountPending:
+            this.newStudentData.AccountPending == "Approved"
+              ? 1
+              : this.newStudentData.AccountPending == "Pending"
+              ? 2
+              : 3,
           AccountOnlineState: this.newStudentData.AccountOnlineState,
           AccountID: this.newStudentData.AccountID,
           AccountPassword: this.newStudentData.AccountPassword,
@@ -167,18 +188,31 @@ export default {
           ExtName: this.newStudentData.ExtName,
           PhoneNumber: this.newStudentData.PhoneNumber,
           Email: this.newStudentData.Email,
-          Icon: '',
-          YearLevel: this.newStudentData.YearLevel,
-          Course: this.newStudentData.Course,
+          Icon: "",
+          YearLevel: this.filterYearLevel(this.newStudentData.YearLevel)[0].ID,
+          Course: this.filterCourse(this.newStudentData.Course)[0].ID,
           ParentID: this.newStudentData.ParentID,
           CreateTime: this.newStudentData.CreateTime,
           UpdateTime: this.createTime()
         }
       };
-      console.log(params);
+      this.http
+        .post(this.api.AdminService, params)
+        .then(response => {
+          if (response.data[0].State == 1) {
+            this.closeDialog();
+            this.$message({
+              type: "success",
+              message: response.data[0].Message
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     selectCourse(item) {
-      this.newStudentData.Course = item.ID;
+      this.newStudentData.Course = item.CourseID;
       this.currentCourse = item.CourseID;
     },
     getAllCourse() {
@@ -195,6 +229,11 @@ export default {
           console.log(error);
         });
     },
+    filterCourse(course) {
+      return this.courseList.filter(val => {
+        return val.CourseID == course;
+      });
+    },
     getAllYearLevel() {
       let params = {
         request: 1,
@@ -209,8 +248,13 @@ export default {
           console.log(error);
         });
     },
+    filterYearLevel(yearLevel) {
+      return this.yearLevelList.filter(val => {
+        return val.YearLevel == yearLevel;
+      });
+    },
     selectYearLevel(item) {
-      this.newStudentData.YearLevel = item.ID;
+      this.newStudentData.YearLevel = item.YearLevel;
       this.currentYearLevel = item.YearLevel;
     },
     createTime() {
@@ -239,7 +283,7 @@ export default {
         " " +
         timePeriod;
       return currtime;
-    },
+    }
   },
   props: {
     showUpdateStudent: {

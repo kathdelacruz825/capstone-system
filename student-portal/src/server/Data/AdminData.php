@@ -330,6 +330,7 @@ class AdminData {
   }
 
   function UpdateStudentData($params) {
+    $id = $params['ID'];
     $AccountType = intval($params['AccountType']);
     $AccountStatus = intval($params['AccountStatus']);
     $AccountPending = intval($params['AccountPending']);
@@ -350,25 +351,20 @@ class AdminData {
     $UpdateTime = $params['UpdateTime'];
 
     $query = "Update `tbl_accounts_student` SET
-              AccountType
-              AccountStatus
-              AccountPending
-              AccountOnlineState
-              AccountID
-              AccountPassword
-              LastName
-              FirstName
-              MiddleName
-              ExtName
-              PhoneNumber
-              Email
-              Icon
-              YearLevel
-              Course
-              ParentID
-              CreateTime
-              UpdateTime
-              where id=AccountID";
+              `AccountStatus`=$AccountStatus,
+              `AccountID`='$AccountID',
+              `AccountPassword`='$AccountPassword',
+              `LastName`='$LastName',
+              `FirstName`='$FirstName',
+              `MiddleName`='$MiddleName',
+              `ExtName`='$ExtName',
+              `PhoneNumber`='$PhoneNumber',
+              `Email`='$Email',
+              `Icon`='$Icon',
+              `YearLevel`=$YearLevel,
+              `Course`=$Course,
+              `UpdateTime`='$UpdateTime'
+              where id=$id";
 
     if ($this->link->query($query) === TRUE) {
       $this->successTemp["State"] = 1;

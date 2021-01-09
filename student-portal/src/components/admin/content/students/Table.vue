@@ -15,10 +15,7 @@
         </div>
       </div>
     </div>
-    <el-table
-      :data="tableData"
-      style="width: 100%"
-      max-height="370">
+    <el-table :data="tableData" style="width: 100%" max-height="370">
       <el-table-column
         v-for="(propItem, propKey) in tableProps"
         :key="propKey"
@@ -34,7 +31,7 @@
         label="Operations"
         :width="
           requestNumber == 0
-            ? '260'
+            ? '290'
             : requestNumber == 1
             ? '200'
             : requestNumber == 2
@@ -44,6 +41,7 @@
       >
         <template slot-scope="scope">
           <el-button
+            class="operationItem-button"
             v-for="(operationItem, operationKey) in operationButtons[
               requestNumber
             ]"
@@ -274,6 +272,9 @@ export default {
 .table {
   .text-style div {
     word-break: keep-all;
+  }
+  .el-button.operationItem-button {
+    padding: 5px;
   }
 }
 </style>
