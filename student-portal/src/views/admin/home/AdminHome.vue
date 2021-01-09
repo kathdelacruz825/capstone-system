@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     selectTabContent(val) {
-      console.log(val);
       this.currTabContent = val;
     }
   }

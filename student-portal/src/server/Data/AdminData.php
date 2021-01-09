@@ -34,7 +34,32 @@ class AdminData {
   }
   
   function getStudentByActive() {
-    $query = "Select * from `tbl_accounts_student`
+    $query = "Select
+              `tbl_accounts_student`.`ID`,
+              `tbl_account_type`.`AccountType`,
+              `tbl_account_status`.`AccountStatus`,
+              `tbl_account_pending`.`AccountPending`,
+              `tbl_accounts_student`.`AccountOnlineState`,
+              `tbl_accounts_student`.`AccountID`,
+              `tbl_accounts_student`.`AccountPassword`,
+              `tbl_accounts_student`.`LastName`,
+              `tbl_accounts_student`.`FirstName`,
+              `tbl_accounts_student`.`MiddleName`,
+              `tbl_accounts_student`.`ExtName`,
+              `tbl_accounts_student`.`PhoneNumber`,
+              `tbl_accounts_student`.`Email`,
+              `tbl_accounts_student`.`Icon`,
+              `tbl_yearlevel`.`YearLevel`, 
+              `tbl_course`.`CourseID`,
+              `tbl_accounts_student`.`ParentID`,
+              `tbl_accounts_student`.`CreateTime`,
+              `tbl_accounts_student`.`UpdateTime`
+              from (((((`tbl_accounts_student`
+              Inner Join `tbl_account_type` on `tbl_accounts_student`.`AccountType`=`tbl_account_type`.`id`)
+              Inner Join `tbl_account_status` on `tbl_accounts_student`.`AccountStatus`=`tbl_account_status`.`ID`)
+              Inner Join `tbl_account_pending` on `tbl_accounts_student`.`AccountPending`=`tbl_account_pending`.`ID`)
+              Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel`=`tbl_yearlevel`.`ID`)
+              Inner Join `tbl_course` on `tbl_accounts_student`.`Course`=`tbl_course`.`ID`)
               Where
               `tbl_accounts_student`.`AccountStatus`=1
               And
@@ -70,7 +95,32 @@ class AdminData {
   }
 
   function getStudentByInactive() {
-    $query = "Select * from `tbl_accounts_student`
+    $query = "Select
+              `tbl_accounts_student`.`ID`,
+              `tbl_account_type`.`AccountType`,
+              `tbl_account_status`.`AccountStatus`,
+              `tbl_account_pending`.`AccountPending`,
+              `tbl_accounts_student`.`AccountOnlineState`,
+              `tbl_accounts_student`.`AccountID`,
+              `tbl_accounts_student`.`AccountPassword`,
+              `tbl_accounts_student`.`LastName`,
+              `tbl_accounts_student`.`FirstName`,
+              `tbl_accounts_student`.`MiddleName`,
+              `tbl_accounts_student`.`ExtName`,
+              `tbl_accounts_student`.`PhoneNumber`,
+              `tbl_accounts_student`.`Email`,
+              `tbl_accounts_student`.`Icon`,
+              `tbl_yearlevel`.`YearLevel`, 
+              `tbl_course`.`CourseID`,
+              `tbl_accounts_student`.`ParentID`,
+              `tbl_accounts_student`.`CreateTime`,
+              `tbl_accounts_student`.`UpdateTime`
+              from (((((`tbl_accounts_student`
+              Inner Join `tbl_account_type` on `tbl_accounts_student`.`AccountType`=`tbl_account_type`.`id`)
+              Inner Join `tbl_account_status` on `tbl_accounts_student`.`AccountStatus`=`tbl_account_status`.`ID`)
+              Inner Join `tbl_account_pending` on `tbl_accounts_student`.`AccountPending`=`tbl_account_pending`.`ID`)
+              Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel`=`tbl_yearlevel`.`ID`)
+              Inner Join `tbl_course` on `tbl_accounts_student`.`Course`=`tbl_course`.`ID`)
               Where
               `tbl_accounts_student`.`AccountStatus`=2
               And
@@ -106,7 +156,32 @@ class AdminData {
   }
 
   function getStudentByRejected() {
-    $query = "Select * from `tbl_accounts_student`
+    $query = "Select
+              `tbl_accounts_student`.`ID`,
+              `tbl_account_type`.`AccountType`,
+              `tbl_account_status`.`AccountStatus`,
+              `tbl_account_pending`.`AccountPending`,
+              `tbl_accounts_student`.`AccountOnlineState`,
+              `tbl_accounts_student`.`AccountID`,
+              `tbl_accounts_student`.`AccountPassword`,
+              `tbl_accounts_student`.`LastName`,
+              `tbl_accounts_student`.`FirstName`,
+              `tbl_accounts_student`.`MiddleName`,
+              `tbl_accounts_student`.`ExtName`,
+              `tbl_accounts_student`.`PhoneNumber`,
+              `tbl_accounts_student`.`Email`,
+              `tbl_accounts_student`.`Icon`,
+              `tbl_yearlevel`.`YearLevel`, 
+              `tbl_course`.`CourseID`,
+              `tbl_accounts_student`.`ParentID`,
+              `tbl_accounts_student`.`CreateTime`,
+              `tbl_accounts_student`.`UpdateTime`
+              from (((((`tbl_accounts_student`
+              Inner Join `tbl_account_type` on `tbl_accounts_student`.`AccountType`=`tbl_account_type`.`id`)
+              Inner Join `tbl_account_status` on `tbl_accounts_student`.`AccountStatus`=`tbl_account_status`.`ID`)
+              Inner Join `tbl_account_pending` on `tbl_accounts_student`.`AccountPending`=`tbl_account_pending`.`ID`)
+              Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel`=`tbl_yearlevel`.`ID`)
+              Inner Join `tbl_course` on `tbl_accounts_student`.`Course`=`tbl_course`.`ID`)
               Where
               `tbl_accounts_student`.`AccountStatus`=2
               And
@@ -143,7 +218,32 @@ class AdminData {
 
 
   function getStudentByPending() {
-    $query = "Select * from `tbl_accounts_student`
+    $query = "Select
+              `tbl_accounts_student`.`ID`,
+              `tbl_account_type`.`AccountType`,
+              `tbl_account_status`.`AccountStatus`,
+              `tbl_account_pending`.`AccountPending`,
+              `tbl_accounts_student`.`AccountOnlineState`,
+              `tbl_accounts_student`.`AccountID`,
+              `tbl_accounts_student`.`AccountPassword`,
+              `tbl_accounts_student`.`LastName`,
+              `tbl_accounts_student`.`FirstName`,
+              `tbl_accounts_student`.`MiddleName`,
+              `tbl_accounts_student`.`ExtName`,
+              `tbl_accounts_student`.`PhoneNumber`,
+              `tbl_accounts_student`.`Email`,
+              `tbl_accounts_student`.`Icon`,
+              `tbl_yearlevel`.`YearLevel`, 
+              `tbl_course`.`CourseID`,
+              `tbl_accounts_student`.`ParentID`,
+              `tbl_accounts_student`.`CreateTime`,
+              `tbl_accounts_student`.`UpdateTime`
+              from (((((`tbl_accounts_student`
+              Inner Join `tbl_account_type` on `tbl_accounts_student`.`AccountType`=`tbl_account_type`.`id`)
+              Inner Join `tbl_account_status` on `tbl_accounts_student`.`AccountStatus`=`tbl_account_status`.`ID`)
+              Inner Join `tbl_account_pending` on `tbl_accounts_student`.`AccountPending`=`tbl_account_pending`.`ID`)
+              Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel`=`tbl_yearlevel`.`ID`)
+              Inner Join `tbl_course` on `tbl_accounts_student`.`Course`=`tbl_course`.`ID`)
               Where
               `tbl_accounts_student`.`AccountStatus`=1
               And

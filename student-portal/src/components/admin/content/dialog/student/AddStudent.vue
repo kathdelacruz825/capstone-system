@@ -19,107 +19,114 @@
         ref="ruleForm"
         :rules="rules"
       >
-      <el-divider content-position="left">Account Details</el-divider>
-      <div class="form-item-account-details">
-        <div class="detail-row1">
-          <div class="icon">
-            <el-upload
-              class="avatar-uploader"
-              action="#"
-              :auto-upload="false"
-              :show-file-list="false"
-              list-type="picture-card"
-              :on-change="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload">
-              <img v-if="ruleForm.Icon" width="148" height="148" :src="ruleForm.Icon" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
+        <el-divider content-position="left">Account Details</el-divider>
+        <div class="form-item-account-details">
+          <div class="detail-row1">
+            <div class="icon">
+              <el-upload
+                class="avatar-uploader"
+                action="#"
+                :auto-upload="false"
+                :show-file-list="false"
+                list-type="picture-card"
+                :on-change="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload"
+              >
+                <img
+                  v-if="ruleForm.Icon"
+                  width="148"
+                  height="148"
+                  :src="ruleForm.Icon"
+                  class="avatar"
+                />
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </div>
+            <div class="radio">
+              <el-form-item label="Account Type">
+                <el-radio-group v-model="AccountType" size="mini">
+                  <el-radio label="Student" border>Student</el-radio>
+                  <el-radio label="Parent" border disabled>Parent</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="Account Status">
+                <el-radio-group v-model="AccountStatus" size="mini">
+                  <el-radio label="Active" border>Active</el-radio>
+                  <el-radio label="Inactive" border>Inactive</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </div>
           </div>
-          <div class="radio">
-            <el-form-item label="Account Type">
-              <el-radio-group v-model="AccountType" size="mini">
-                <el-radio label="Student" border>Student</el-radio>
-                <el-radio label="Parent" border disabled>Parent</el-radio>
-              </el-radio-group>
+          <div class="detail-row2">
+            <el-form-item label="Account ID" prop="AccountID">
+              <el-input v-model="ruleForm.AccountID" type="text"></el-input>
             </el-form-item>
-            <el-form-item label="Account Status">
-              <el-radio-group v-model="AccountStatus" size="mini">
-                <el-radio label="Active" border>Active</el-radio>
-                <el-radio label="Inactive" border>Inactive</el-radio>
-              </el-radio-group>
+            <el-form-item label="Password" prop="AccountPassword">
+              <el-input
+                v-model="ruleForm.AccountPassword"
+                type="password"
+              ></el-input>
             </el-form-item>
           </div>
         </div>
-        <div class="detail-row2">
-          <el-form-item label="Account ID" prop="AccountID">
-            <el-input v-model="ruleForm.AccountID" type="text"></el-input>
+        <el-divider content-position="left">Personal Details</el-divider>
+        <div class="form-item-account-details">
+          <el-form-item label="Last Name:" prop="LastName">
+            <el-input v-model="ruleForm.LastName" type="text"></el-input>
           </el-form-item>
-          <el-form-item label="Password" prop="AccountPassword">
-            <el-input
-              v-model="ruleForm.AccountPassword"
-              type="password"
-            ></el-input>
+          <el-form-item label="First Name:" prop="FirstName">
+            <el-input v-model="ruleForm.FirstName" type="text"></el-input>
+          </el-form-item>
+          <el-form-item label="Middle Name:" prop="MiddleName">
+            <el-input v-model="ruleForm.MiddleName" type="text"></el-input>
+          </el-form-item>
+          <el-form-item label="Extension Name:">
+            <el-input v-model="ruleForm.ExtName" type="text"></el-input>
+          </el-form-item>
+          <el-form-item label="Phone Number:">
+            <el-input v-model="ruleForm.PhoneNumber" type="text"></el-input>
+          </el-form-item>
+          <el-form-item label="Email:">
+            <el-input v-model="ruleForm.Email" type="email"></el-input>
           </el-form-item>
         </div>
-      </div>
-      <el-divider content-position="left">Personal Details</el-divider>
-      <div class="form-item-account-details">
-        <el-form-item label="Last Name:" prop="LastName">
-          <el-input v-model="ruleForm.LastName" type="text"></el-input>
-        </el-form-item>
-        <el-form-item label="First Name:" prop="FirstName">
-          <el-input v-model="ruleForm.FirstName" type="text"></el-input>
-        </el-form-item>
-        <el-form-item label="Middle Name:" prop="MiddleName">
-          <el-input v-model="ruleForm.MiddleName" type="text"></el-input>
-        </el-form-item>
-        <el-form-item label="Extension Name:">
-          <el-input v-model="ruleForm.ExtName" type="text"></el-input>
-        </el-form-item>
-        <el-form-item label="Phone Number:">
-          <el-input v-model="ruleForm.PhoneNumber" type="text"></el-input>
-        </el-form-item>
-        <el-form-item label="Email:">
-          <el-input v-model="ruleForm.Email" type="email"></el-input>
-        </el-form-item>
-      </div>
-      <el-divider content-position="left">School Details</el-divider>
-      <div class="form-item-school-details">
-        <el-form-item label="Course:">
-          <el-dropdown trigger="click" @command="selectCourse">
-            <el-button type="primary">
-              {{ currentCourse
-              }}<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                v-for="(courseItem, courseKey) in courseList"
-                :key="courseKey"
-                :command="courseItem"
-              >
-                {{ courseItem.CourseID }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-form-item>
-        <el-form-item label="Year Level:">
-          <el-dropdown trigger="click" @command="selectYearLevel">
-            <el-button type="primary">
-              {{ currentYearLevel
-              }}<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                v-for="(yearLevelItem, yearLevelKey) in yearLevelList"
-                :key="yearLevelKey"
-                :command="yearLevelItem"
-              >
-                {{ yearLevelItem.YearLevel }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-form-item>
-      </div>
+        <el-divider content-position="left">School Details</el-divider>
+        <div class="form-item-school-details">
+          <el-form-item label="Course:">
+            <el-dropdown trigger="click" @command="selectCourse">
+              <el-button type="primary">
+                {{ currentCourse
+                }}<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(courseItem, courseKey) in courseList"
+                  :key="courseKey"
+                  :command="courseItem"
+                >
+                  {{ courseItem.CourseID }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
+          <el-form-item label="Year Level:">
+            <el-dropdown trigger="click" @command="selectYearLevel">
+              <el-button type="primary">
+                {{ currentYearLevel
+                }}<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(yearLevelItem, yearLevelKey) in yearLevelList"
+                  :key="yearLevelKey"
+                  :command="yearLevelItem"
+                >
+                  {{ yearLevelItem.YearLevel }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
+        </div>
       </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -216,9 +223,49 @@ export default {
     save() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          alert("submit!");
-          console.log(this.fileList);
-          this.resetFields();
+          let params = {
+            request: 5,
+            data: {
+              AccountType: this.ruleForm.AccountType,
+              AccountStatus: this.ruleForm.AccountStatus,
+              AccountPending: this.ruleForm.AccountPending,
+              AccountOnlineState: this.ruleForm.AccountOnlineState,
+              AccountID: this.ruleForm.AccountID,
+              AccountPassword: this.ruleForm.AccountPassword,
+              LastName: this.ruleForm.LastName,
+              FirstName: this.ruleForm.MiddleName,
+              MiddleName: this.ruleForm.MiddleName,
+              ExtName: this.ruleForm.ExtName,
+              PhoneNumber: this.ruleForm.PhoneNumber,
+              Email: this.ruleForm.Email,
+              Icon: this.ruleForm.Icon,
+              YearLevel: this.ruleForm.YearLevel,
+              Course: this.ruleForm.Course,
+              ParentID: this.ruleForm.ParentID,
+              CreateTime: this.createTime(),
+              UpdateTime: this.createTime()
+            }
+          };
+          this.http
+            .post(this.api.AdminService, params)
+            .then(response => {
+              if (response.data[0].State == 1) {
+                // tuloy dito
+                this.$message({
+                  type: "success",
+                  message: "Student data saved!"
+                });
+                this.resetFields();
+              } else {
+                this.$message({
+                  type: "warning",
+                  message: "Student Account ID already exist!"
+                });
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
         } else {
           console.log("error submit!!");
           return false;
@@ -226,8 +273,8 @@ export default {
       });
     },
     handleAvatarSuccess(file) {
-      this.ruleForm.Icon = URL.createObjectURL(file.raw);
       console.log(file);
+      // this.ruleForm.Icon = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";
@@ -258,6 +305,7 @@ export default {
         .then(response => {
           this.courseList = response.data;
           this.currentCourse = response.data[0].CourseID;
+          this.ruleForm.Course = response.data[0].ID;
         })
         .catch(error => {
           console.log(error);
@@ -273,6 +321,7 @@ export default {
         .then(response => {
           this.yearLevelList = response.data;
           this.currentYearLevel = response.data[0].YearLevel;
+          this.ruleForm.YearLevel = response.data[0].ID;
         })
         .catch(error => {
           console.log(error);
@@ -289,6 +338,9 @@ export default {
     },
     resetFields() {
       this.$refs.ruleForm.resetFields();
+      this.ruleForm.ExtName = "";
+      this.ruleForm.PhoneNumber = "";
+      this.ruleForm.Email = "";
     },
     createTime() {
       let today = new Date();
@@ -339,9 +391,7 @@ export default {
   padding: 0px 15px 15px;
 
   .el-form {
-
-
-    .form-item-account-details .detail-row1{
+    .form-item-account-details .detail-row1 {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -363,7 +413,6 @@ export default {
     .form-item-account-details .detail-row2 {
       margin-bottom: 40px;
     }
-
   }
 
   .el-form-item {

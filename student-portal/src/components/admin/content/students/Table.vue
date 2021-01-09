@@ -29,7 +29,15 @@
       <el-table-column
         fixed="right"
         label="Operations"
-        :width="requestNumber == 0 ? '260' : requestNumber == 1 ? '200' : requestNumber == 2 ? '270' : '210'"
+        :width="
+          requestNumber == 0
+            ? '260'
+            : requestNumber == 1
+            ? '200'
+            : requestNumber == 2
+            ? '270'
+            : '210'
+        "
       >
         <template>
           <el-button
@@ -126,7 +134,7 @@ export default {
           {
             name: "Re-approve",
             btnType: "warning"
-          },
+          }
         ]
       },
       tableProps: tableProps
@@ -143,12 +151,30 @@ export default {
       console.log(val);
     },
     operationAction(name) {
-      if (name == "View Info") {
-        this.showViewInfoStudent = true;
-      } else if (name == "Update") {
-        this.showUpdateStudent = true;
-      } else if (name == "Delete") {
-        this.showDeleteStudent = true;
+      switch(name) {
+        case 'View Info':
+          this.showViewInfoStudent = true;
+          break;
+        case 'Update':
+          this.showUpdateStudent = true;
+          break;
+        case 'Delete':
+          this.showDeleteStudent = true;
+          break;
+        case 'Set Active':
+          console.log('Set Active');
+          break;
+        case 'Approve':
+          console.log('Approve');
+          break;
+        case 'Reject':
+          console.log('Reject');
+          break;
+        case 'Re-approve':
+          console.log('Re-approve');
+          break;
+        default: 
+          console.log("Invalid Option")
       }
     },
     closeUpdateStudent(val) {
