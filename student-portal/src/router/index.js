@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import store from "./../store";
 
 Vue.use(VueRouter);
 
@@ -123,14 +122,15 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
-  let isLogin = store.state.isLogin;
-  if (requiresAuth && isLogin == false) {
+  let isAuthenticated = localStorage.getItem('user') != null ? true : false;
+  if (requiresAuth && isAuthenticated == false) {
     return next("/");
   } else {
-    if (to.name == "UserLogin" && isLogin) {
+    if (to.name == "UserLogin" && isAuthenticated == true) {
       return next(false);
+    } else {
+      return next();
     }
-    return next();
   }
 });
 export default router;

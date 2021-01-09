@@ -91,6 +91,7 @@ export default {
         .then(response => {
           if (response.data.length > 0) {
             this.$store.dispatch("setUserDetails", response.data[0]);
+            localStorage.setItem("user", JSON.stringify(response.data[0]))
             this.$store.dispatch("setLogin", true);
             this.goPage("UserHome");
           } else {

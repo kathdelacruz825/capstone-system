@@ -13,7 +13,7 @@
           />
         </div>
         <div class="user-details">
-          <span>Account ID: {{ userDetails.AccountID }}</span>
+          <!-- <span>Account ID: {{ userDetails.AccountID }}</span> -->
           <span v-if="userDetails.ExtName != ''"
             >Name:
             {{
@@ -42,10 +42,10 @@
           <span v-if="userDetails.AccountType == 1"
             >Year: {{ userDetails.YearLevel }}</span
           >
-          <span
+          <!-- <span
             >Account Type:
             {{ userDetails.AccountType == 1 ? "Student" : "Parent" }}</span
-          >
+          > -->
         </div>
       </div>
       <div class="links">
@@ -68,7 +68,7 @@
         </van-cell-group>
       </div>
       <div class="logout-btn">
-        <van-button type="primary" round size="normal" @click="logout()">
+        <van-button type="danger" round size="normal" @click="logout()">
           Logout
         </van-button>
       </div>
@@ -103,6 +103,7 @@
 // @ is an alias to /src
 import Nav from "@/components/user/common/Nav.vue";
 import Footer from "@/components/user/common/Footer.vue";
+import { Toast } from "vant";
 
 export default {
   name: "Settings",
@@ -113,32 +114,44 @@ export default {
   data() {
     return {
       pageTitle: "Settings",
-      showUpload: false
+      showUpload: false,
+      userDetails: {},
     };
   },
   methods: {
     logout() {
       this.$store.dispatch("setLogin", false);
+      localStorage.removeItem('user');
       this.$router.push({ name: "UserLogin" });
     },
     uploadImage(file) {
-      this.showUpload = false;
-      this.userDetails.Icon = file.content;
+      let params = {
+        request: 7,
+        data: {
+          ID: this.userDetails.ID,
+          Icon: file.content,
+        }
+      };
+      this.http
+        .post(this.userDetails.AccountType == '1'? this.api.StudentService : this.api.ParentService, params)
+        .then(response => {
+          this.showUpload = false;
+          if (response.State == 1) {
+            Toast(response.Message);
+          }
+        })
+        .catch(error => {
+          Toast("Connection Error");
+          console.log(error);
+        });
     },
     onCancel() {
       this.showUpload = false;
     }
   },
-  computed: {
-    currentUserType() {
-      return this.$store.state.userType;
-    },
-    userDetails() {
-      return this.$store.state.userDetails;
-    }
-  },
+  computed: {},
   mounted() {
-    console.log(this.userDetails);
+    this.userDetails = JSON.parse(localStorage.getItem('user'));
   }
 };
 </script>

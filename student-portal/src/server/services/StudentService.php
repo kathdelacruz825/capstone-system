@@ -32,9 +32,13 @@ if ($params) {
       //   echo json_encode($data->deleteSampleData($params['data']));
       case 6:
         // select data with parameter account id
-          $data = new StudentData($conn);
-          echo json_encode($data->getStudentByID($params['data']));
-          break;
+        $data = new StudentData($conn);
+        echo json_encode($data->getStudentByID($params['data']));
+        break;
+      case 7:
+        // update user image
+        $data = new StudentData($conn);
+        echo json_encode($data->updateUserImage($params['data']));
         break;
     default:
       echo "Invalid Request";

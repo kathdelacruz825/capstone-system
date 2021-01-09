@@ -89,9 +89,7 @@ export default {
       return this.$store.state.userDetails;
     }
   },
-  mounted() {
-    console.log(this.userDetails);
-  }
+  mounted() {}
 };
 </script>
 

@@ -22,6 +22,7 @@ export default {
   data() {
     return {
       active: 0,
+      userDetails: {},
       footerItems: {
         0: [],
         1: [
@@ -78,11 +79,12 @@ export default {
     }
   },
   computed: {
-    userDetails() {
-      return this.$store.state.userDetails;
-    }
+    // userDetails() {
+    //   return this.$store.state.userDetails;
+    // }
   },
   mounted() {
+    this.userDetails = JSON.parse(localStorage.getItem('user'));
     this.active = this.activeItem;
   }
 };
