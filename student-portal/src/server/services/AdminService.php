@@ -61,6 +61,11 @@ if ($params) {
         $data = new AdminData($conn);
         echo json_encode($data->setRejectStudentData($params['data']));
         break;
+      case 12:
+        // update student
+        $data = new AdminData($conn);
+        echo json_encode($data->UpdateStudentData($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }

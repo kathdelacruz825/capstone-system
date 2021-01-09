@@ -329,6 +329,61 @@ class AdminData {
     }
   }
 
+  function UpdateStudentData($params) {
+    $AccountType = intval($params['AccountType']);
+    $AccountStatus = intval($params['AccountStatus']);
+    $AccountPending = intval($params['AccountPending']);
+    $AccountOnlineState = intval($params['AccountOnlineState']);
+    $AccountID = $params['AccountID'];
+    $AccountPassword = $params['AccountPassword'];
+    $LastName = $params['LastName'];
+    $FirstName = $params['FirstName'];
+    $MiddleName = $params['MiddleName'];
+    $ExtName = $params['ExtName'];
+    $PhoneNumber = $params['PhoneNumber'];
+    $Email = $params['Email'];
+    $Icon = $params['Icon'];
+    $YearLevel = intval($params['YearLevel']);
+    $Course = intval($params['Course']);
+    $ParentID = $params['ParentID'];
+    $CreateTime = $params['CreateTime'];
+    $UpdateTime = $params['UpdateTime'];
+
+    $query = "Update `tbl_accounts_student` SET
+              AccountType
+              AccountStatus
+              AccountPending
+              AccountOnlineState
+              AccountID
+              AccountPassword
+              LastName
+              FirstName
+              MiddleName
+              ExtName
+              PhoneNumber
+              Email
+              Icon
+              YearLevel
+              Course
+              ParentID
+              CreateTime
+              UpdateTime
+              where id=AccountID";
+
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    }
+  
+  }
+
   function deleteStudentData($params) {
     $id = $params['ID'];
     

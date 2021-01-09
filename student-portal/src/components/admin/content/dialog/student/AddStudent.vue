@@ -332,7 +332,6 @@ export default {
       this.currentCourse = item.CourseID;
     },
     selectYearLevel(item) {
-      console.log(item);
       this.ruleForm.YearLevel = item.ID;
       this.currentYearLevel = item.YearLevel;
     },

@@ -15,7 +15,10 @@
         </div>
       </div>
     </div>
-    <el-table :data="tableData" style="width: 100%" max-height="370">
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+      max-height="370">
       <el-table-column
         v-for="(propItem, propKey) in tableProps"
         :key="propKey"
@@ -57,6 +60,7 @@
       </el-table-column>
     </el-table>
     <UpdateStudent
+      v-if="showUpdateStudent"
       :showUpdateStudent="showUpdateStudent"
       @closeUpdateStudent="closeUpdateStudent($event)"
       :studentData="studentData"
@@ -231,6 +235,8 @@ export default {
       }
     },
     closeUpdateStudent(val) {
+      this.updateData();
+      this.studentData = {};
       this.showUpdateStudent = val;
     },
     closeViewInfoStudent(val) {
