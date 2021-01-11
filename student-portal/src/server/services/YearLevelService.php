@@ -19,7 +19,7 @@ if ($params) {
     case 3:
     // inserta data
       $data = new YearLevelData($conn);
-      echo json_encode($data->setSampleData($params['data']));
+      echo json_encode($data->setYearLevelData($params['data']));
       break;
     case 4:
     // update data

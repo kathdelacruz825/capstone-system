@@ -14,7 +14,12 @@ class YearLevelData {
   }
   
   function getAllYearLevel() {
-    $query = "Select * from `tbl_yearlevel`";
+    $query = "Select
+              `tbl_yearlevel`.`ID`,
+              `tbl_yearlevel`.`YearLevel`,
+              `tbl_year_level_status`.`Status`
+              from `tbl_yearlevel`
+              Inner Join `tbl_year_level_status` ON `tbl_yearlevel`.`YearLevelStatus`=`tbl_year_level_status`.`ID`";
 
     $result = $this->link->query($query);
 
@@ -47,6 +52,33 @@ class YearLevelData {
     return $this->response;
   }
   
+  function setYearLevelData($params) {
+    $YearLevel = $params['YearLevel'];
+    $YearLevelStatus = intval($params['YearLevelStatus']);
+    $query = "Insert into `tbl_yearlevel`
+            (
+              YearLevel,
+              YearLevelStatus
+            ) 
+            values 
+              (
+                '$YearLevel', 
+                $YearLevelStatus
+              )";
+    
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error creating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    }
+  }
+
   function setSampleData($params) {
     $name = $params['name'];
     $age = $params['age'];
