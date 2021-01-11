@@ -95,6 +95,39 @@
       @closeAddCourse="closeAddCourse($event)"
       @updateData="updateData()"
     />
+
+  <el-dialog
+    title="Course Status"
+    :visible.sync="showSetActive"
+    width="22%"
+    :show-close="false"
+    :close-on-press-escape="false"
+    :close-on-click-modal="false"
+    top="50px"
+  >
+    <span>Are you sure you want to set Active?</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="showSetActive = false">Cancel</el-button>
+      <el-button type="primary" @click="setActiveCourse(courseData.ID)">Set Active</el-button>
+    </span>
+  </el-dialog>
+
+  <el-dialog
+    title="Course Status"
+    :visible.sync="showSetInActive"
+    width="22%"
+    :show-close="false"
+    :close-on-press-escape="false"
+    :close-on-click-modal="false"
+    top="50px"
+  >
+    <span>Are you sure you want to set Inactive?</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="showSetInActive = false">Cancel</el-button>
+      <el-button type="danger" @click="setInActiveCourse(courseData.ID)">Set Inactive</el-button>
+    </span>
+  </el-dialog>
+
   </div>
 </template>
 
@@ -112,7 +145,9 @@ export default {
       search: "",
       tableProps: tableProps,
       tableData: [],
-      courseData: {}
+      courseData: {},
+      showSetActive: false,
+      showSetInActive: false,
       // operationButtons: [
       //   {
       //     name: "View Info",
@@ -151,8 +186,10 @@ export default {
         // case "Delete":
         //   break;
         case "Set Active":
+          this.showSetActive = true;
           break;
         case "Set Inactive":
+          this.showSetInActive = true;
           break;
         default:
           console.log("Invalid Option");
@@ -167,6 +204,48 @@ export default {
         .post(this.api.CourseService, params)
         .then(response => {
           this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    setActiveCourse(ID) {
+      let params = {
+        request: 6,
+        data: {
+          ID: ID,
+        }
+      };
+      this.http
+        .post(this.api.CourseService, params)
+        .then(response => {
+          this.showSetActive = false;
+          this.updateData();
+          this.$message({
+            type: response.data.State == 1 ? "success" : "danger",
+            message: response.data.Message
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    setInActiveCourse(ID) {
+      let params = {
+        request: 7,
+        data: {
+          ID: ID,
+        }
+      };
+      this.http
+        .post(this.api.CourseService, params)
+        .then(response => {
+          this.showSetInActive = false;
+          this.updateData();
+          this.$message({
+            type: response.data.State == 1 ? "success" : "danger",
+            message: response.data.Message
+          });
         })
         .catch(error => {
           console.log(error);

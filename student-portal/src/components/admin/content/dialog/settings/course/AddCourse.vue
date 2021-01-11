@@ -104,7 +104,7 @@ export default {
                 this.updateData();
               }
               this.$message({
-                type: "success",
+                type: response.data.State == 1 ? "success" : "danger",
                 message: response.data.Message
               });
             })

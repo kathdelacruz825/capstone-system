@@ -88,6 +88,40 @@ class CourseData {
     }
   }
  
+  function setActiveCourseData($params) {
+    $ID = $params['ID'];
+
+    $query = "Update `tbl_course` SET `CourseStatus`=1 where ID=$ID";
+
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    } else {
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    }
+  }
+
+  function setInActiveCourseData($params) {
+    $ID = $params['ID'];
+
+    $query = "Update `tbl_course` SET `CourseStatus`=2 where ID=$ID";
+
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    } else {
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    }
+  }
+
   function updateSampleData($params) {
     $id = $params['id'];
     $name = $params['name'];

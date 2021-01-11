@@ -31,6 +31,16 @@ if ($params) {
       $data = new CourseData($conn);
       echo json_encode($data->deleteSampleData($params['data']));
       break;
+    case 6:
+      // set active course
+      $data = new CourseData($conn);
+      echo json_encode($data->setActiveCourseData($params['data']));
+      break;
+    case 7:
+      // set inactive course
+      $data = new CourseData($conn);
+      echo json_encode($data->setInActiveCourseData($params['data']));
+      break;
     default:
       echo "Invalid Request";
   }
