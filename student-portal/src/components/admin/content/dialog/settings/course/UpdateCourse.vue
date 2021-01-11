@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :visible.sync="showAddCourse"
+    :visible.sync="showUpdateCourse"
     :show-close="false"
     :close-on-press-escape="false"
     :close-on-click-modal="false"
@@ -8,33 +8,33 @@
     width="600px"
   >
     <template #title>
-      Add Course
+      Update Course
     </template>
     <div class="add-course-content">
       <el-form
         :label-position="'left'"
-        :model="ruleForm"
+        :model="newCourseData"
         class="add-dialog-form"
         label-width="130px"
         status-icon
-        ref="ruleForm"
+        ref="newCourseData"
         :rules="rules"
       >
         <el-divider content-position="left">Course Details</el-divider>
         <div class="form-item-account-details">
           <el-form-item label="Code:" prop="CourseID">
-            <el-input v-model="ruleForm.CourseID" type="text"></el-input>
+            <el-input v-model="newCourseData.CourseID" type="text"></el-input>
           </el-form-item>
           <el-form-item label="Description:" prop="CourseDescription">
             <el-input
-              v-model="ruleForm.CourseDescription"
+              v-model="newCourseData.CourseDescription"
               type="text"
             ></el-input>
           </el-form-item>
           <el-form-item label="Status:">
-            <el-radio-group v-model="ruleForm.CourseStatus" size="mini">
-              <el-radio :label="1" border>Active</el-radio>
-              <el-radio :label="2" border>Inactive</el-radio>
+            <el-radio-group v-model="newCourseData.CourseStatus" size="mini">
+              <el-radio :label="'Active'" border>Active</el-radio>
+              <el-radio :label="'Inactive'" border>Inactive</el-radio>
             </el-radio-group>
           </el-form-item>
         </div>
@@ -42,7 +42,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">Cancel</el-button>
-      <el-button type="primary" @click="save()">Save</el-button>
+      <el-button type="primary" @click="update()">Save</el-button>
     </span>
   </el-dialog>
 </template>
@@ -72,35 +72,30 @@ export default {
           { validator: validateCourseDescription, trigger: "blur" }
         ]
       },
-      ruleForm: {
-        CourseID: "",
-        CourseDescription: "",
-        CourseStatus: 1 //number 1 - 2
-      }
+      newCourseData: {}
     };
   },
   methods: {
     closeDialog() {
-      this.$emit("closeAddCourse", false);
-      this.$refs.ruleForm.resetFields();
+      this.$emit("closeUpdateCourse", false);
+      this.updateData();
     },
-    save() {
-      this.$refs.ruleForm.validate(valid => {
+    update() {
+      this.$refs.newCourseData.validate(valid => {
         if (valid) {
           let params = {
-            request: 3,
+            request: 4,
             data: {
-              CourseID: this.ruleForm.CourseID,
-              CourseDescription: this.ruleForm.CourseDescription,
-              CourseStatus: this.ruleForm.CourseStatus
+              ID: this.newCourseData.ID,
+              CourseID: this.newCourseData.CourseID,
+              CourseDescription: this.newCourseData.CourseDescription,
+              CourseStatus: this.newCourseData.CourseStatus == "Active" ? 1 : 2
             }
           };
           this.http
             .post(this.api.CourseService, params)
             .then(response => {
               if (response.data.State == 1) {
-                this.ruleForm.CourseStatus = 1;
-                this.$refs.ruleForm.resetFields();
                 this.updateData();
               }
               this.$message({
@@ -125,12 +120,21 @@ export default {
     }
   },
   props: {
-    showAddCourse: {
+    showUpdateCourse: {
       type: Boolean,
       default: false
+    },
+    courseData: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     }
   },
-  created() {}
+  created() {},
+  mounted() {
+    this.newCourseData = this.courseData;
+  }
 };
 </script>
 

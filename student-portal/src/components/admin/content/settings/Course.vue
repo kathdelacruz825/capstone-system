@@ -53,7 +53,7 @@
           >
             {{ "Update" }}
           </el-button>
-          <el-button
+          <!-- <el-button
             class="operationItem-button"
             size="small"
             type="danger"
@@ -74,7 +74,7 @@
             "
           >
             {{ "Set Active" }}
-          </el-button>
+          </el-button> -->
           <!-- <el-button
             class="operationItem-button"
             v-for="(operationItem, operationKey) in operationButtons"
@@ -90,54 +90,76 @@
         </template>
       </el-table-column>
     </el-table>
+
     <AddCourse
       :showAddCourse="showAddCourse"
       @closeAddCourse="closeAddCourse($event)"
       @updateData="updateData()"
     />
 
-  <el-dialog
-    title="Course Status"
-    :visible.sync="showSetActive"
-    width="22%"
-    :show-close="false"
-    :close-on-press-escape="false"
-    :close-on-click-modal="false"
-    top="50px"
-  >
-    <span>Are you sure you want to set Active?</span>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="showSetActive = false">Cancel</el-button>
-      <el-button type="primary" @click="setActiveCourse(courseData.ID)">Set Active</el-button>
-    </span>
-  </el-dialog>
+    <ViewInfoCourse
+      :courseData="courseData"
+      :showViewInfoCourse="showViewInfoCourse"
+      @closeViewInfoCourse="closeViewInfoCourse($event)"
+    />
 
-  <el-dialog
-    title="Course Status"
-    :visible.sync="showSetInActive"
-    width="22%"
-    :show-close="false"
-    :close-on-press-escape="false"
-    :close-on-click-modal="false"
-    top="50px"
-  >
-    <span>Are you sure you want to set Inactive?</span>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="showSetInActive = false">Cancel</el-button>
-      <el-button type="danger" @click="setInActiveCourse(courseData.ID)">Set Inactive</el-button>
-    </span>
-  </el-dialog>
+    <UpdateCourse
+      v-if="showUpdateCourse"
+      :courseData="courseData"
+      :showUpdateCourse="showUpdateCourse"
+      @closeUpdateCourse="closeUpdateCourse($event)"
+    />
 
+    <el-dialog
+      title="Course Status"
+      :visible.sync="showSetActive"
+      width="22%"
+      :show-close="false"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      top="50px"
+    >
+      <span>Are you sure you want to set Active?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="showSetActive = false">Cancel</el-button>
+        <el-button type="primary" @click="setActiveCourse(courseData.ID)"
+          >Set Active</el-button
+        >
+      </span>
+    </el-dialog>
+
+    <el-dialog
+      title="Course Status"
+      :visible.sync="showSetInActive"
+      width="22%"
+      :show-close="false"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      top="50px"
+    >
+      <span>Are you sure you want to set Inactive?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="showSetInActive = false">Cancel</el-button>
+        <el-button type="danger" @click="setInActiveCourse(courseData.ID)"
+          >Set Inactive</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import AddCourse from "@/components/admin/content/dialog/settings/course/AddCourse.vue";
+import ViewInfoCourse from "@/components/admin/content/dialog/settings/course/ViewInfoCourse.vue";
+import UpdateCourse from "@/components/admin/content/dialog/settings/course/UpdateCourse.vue";
+
 import { tableProps } from "@/components/admin/content/settings/tableProps_Course.js";
 
 export default {
   components: {
-    AddCourse
+    AddCourse,
+    ViewInfoCourse,
+    UpdateCourse
   },
   data() {
     return {
@@ -148,6 +170,8 @@ export default {
       courseData: {},
       showSetActive: false,
       showSetInActive: false,
+      showViewInfoCourse: false,
+      showUpdateCourse: false
       // operationButtons: [
       //   {
       //     name: "View Info",
@@ -180,8 +204,10 @@ export default {
       this.courseData = itemData;
       switch (name) {
         case "View Info":
+          this.showViewInfoCourse = true;
           break;
         case "Update":
+          this.showUpdateCourse = true;
           break;
         // case "Delete":
         //   break;
@@ -213,7 +239,7 @@ export default {
       let params = {
         request: 6,
         data: {
-          ID: ID,
+          ID: ID
         }
       };
       this.http
@@ -234,7 +260,7 @@ export default {
       let params = {
         request: 7,
         data: {
-          ID: ID,
+          ID: ID
         }
       };
       this.http
@@ -253,6 +279,12 @@ export default {
     },
     closeAddCourse(val) {
       this.showAddCourse = val;
+    },
+    closeViewInfoCourse(val) {
+      this.showViewInfoCourse = val;
+    },
+    closeUpdateCourse(val) {
+      this.showUpdateCourse = val;
     },
     updateData() {
       this.getAllCourse();

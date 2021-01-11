@@ -24,7 +24,7 @@ if ($params) {
     case 4:
     // update data
       $data = new CourseData($conn);
-      echo json_encode($data->updateSampleData($params['data']));
+      echo json_encode($data->updateCourseData($params['data']));
       break;
     case 5:
     // delete data
