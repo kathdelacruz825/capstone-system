@@ -58,15 +58,33 @@ class CourseData {
     return $this->response;
   }
   
-  function setSampleData($params) {
-    $name = $params['name'];
-    $age = $params['age'];
-    $query = "Insert into `tbl_course` (name, age) values ('$name', '$age')";
+  function setCourseData($params) {
+    $CourseID = $params['CourseID'];
+    $CourseDescription = $params['CourseDescription'];
+    $CourseStatus = intval($params['CourseStatus']);
+    $query = "Insert into `tbl_course`
+              (
+                `CourseID`,
+                `CourseDescription`,
+                `CourseStatus`
+              ) 
+              values 
+              (
+                '$CourseID',
+                '$CourseDescription',
+                $CourseStatus
+              )";
     
     if ($this->link->query($query) === TRUE) {
-      echo "New record successfully created!";
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "New record successfully created!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     } else {
-      echo "Error creating record!";
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error creating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     }
   }
  

@@ -383,9 +383,6 @@ export default {
 </script>
 
 <style lang="scss">
-.add-dialog-form {
-}
-
 .el-dialog__body {
   padding: 0px 15px 15px;
 

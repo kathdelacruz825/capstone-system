@@ -56,24 +56,24 @@
           <el-button
             class="operationItem-button"
             size="small"
-            type="success"
-            v-if="tableData[scope.$index].CourseStatus == 'Active'"
-            @click.native.prevent="
-              operationAction('Set Active', tableData[scope.$index])
-            "
-          >
-            {{ "Set Active" }}
-          </el-button>
-          <el-button
-            class="operationItem-button"
-            size="small"
             type="danger"
-            v-if="tableData[scope.$index].CourseStatus == 'Inactive'"
+            v-if="tableData[scope.$index].CourseStatus == 'Active'"
             @click.native.prevent="
               operationAction('Set Inactive', tableData[scope.$index])
             "
           >
             {{ "Set Inactive" }}
+          </el-button>
+          <el-button
+            class="operationItem-button"
+            size="small"
+            type="success"
+            v-if="tableData[scope.$index].CourseStatus == 'Inactive'"
+            @click.native.prevent="
+              operationAction('Set Active', tableData[scope.$index])
+            "
+          >
+            {{ "Set Active" }}
           </el-button>
           <!-- <el-button
             class="operationItem-button"
@@ -93,6 +93,7 @@
     <AddCourse
       :showAddCourse="showAddCourse"
       @closeAddCourse="closeAddCourse($event)"
+      @updateData="updateData()"
     />
   </div>
 </template>
@@ -173,6 +174,9 @@ export default {
     },
     closeAddCourse(val) {
       this.showAddCourse = val;
+    },
+    updateData() {
+      this.getAllCourse();
     }
   },
   props: {},
