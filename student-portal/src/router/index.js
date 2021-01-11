@@ -8,6 +8,9 @@ const routes = [
     path: "/",
     name: "UserLogin",
     component: () => import("../views/UserLogin.vue")
+    // meta: {
+    //   requiresAuth: false
+    // }
   },
   {
     path: "/admin/login",
@@ -122,7 +125,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
-  let isAuthenticated = localStorage.getItem('user') != null ? true : false;
+  let isAuthenticated = localStorage.getItem("user") != null ? true : false;
+  // let isLogin = localStorage.getItem('isLogin') != null ? localStorage.getItem('isLogin') : false;
   if (requiresAuth && isAuthenticated == false) {
     return next("/");
   } else {

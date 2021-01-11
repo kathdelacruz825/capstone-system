@@ -15,7 +15,13 @@ class CourseData {
   }
   
   function getAllCourseData() {
-    $query = "Select * from `tbl_course`";
+    $query = "Select 
+              `tbl_course`.`ID`,
+              `tbl_course`.`CourseID`,
+              `tbl_course`.`CourseDescription`,
+              `tbl_course_status`.`Status`
+              from `tbl_course`
+              Inner Join `tbl_course_status` ON `tbl_course`.`CourseStatus` = `tbl_course_status`.`ID`";
 
     $result = $this->link->query($query);
 

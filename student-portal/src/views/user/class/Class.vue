@@ -56,6 +56,7 @@ export default {
   },
   methods: {
     goPage(url) {
+      if (this.$route.name == url) return;
       this.$router.push({ name: url });
     }
   }

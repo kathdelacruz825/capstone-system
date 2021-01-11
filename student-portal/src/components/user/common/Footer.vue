@@ -75,6 +75,7 @@ export default {
   },
   methods: {
     goPage(url) {
+      if (this.$route.name == url) return;
       this.$router.push({ name: url });
     }
   },
@@ -84,7 +85,7 @@ export default {
     // }
   },
   mounted() {
-    this.userDetails = JSON.parse(localStorage.getItem('user'));
+    this.userDetails = JSON.parse(localStorage.getItem("user"));
     this.active = this.activeItem;
   }
 };

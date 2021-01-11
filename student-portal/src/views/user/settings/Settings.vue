@@ -95,7 +95,7 @@
         </div>
       </van-cell-group>
     </van-action-sheet>
-    <Footer :activeItem="3" />
+    <Footer :activeItem="Number(userDetails.AccountType) === 1 ? 2 : 3" />
   </div>
 </template>
 
@@ -115,13 +115,13 @@ export default {
     return {
       pageTitle: "Settings",
       showUpload: false,
-      userDetails: {},
+      userDetails: {}
     };
   },
   methods: {
     logout() {
       this.$store.dispatch("setLogin", false);
-      localStorage.removeItem('user');
+      localStorage.removeItem("user");
       this.$router.push({ name: "UserLogin" });
     },
     uploadImage(file) {
@@ -129,11 +129,16 @@ export default {
         request: 7,
         data: {
           ID: this.userDetails.ID,
-          Icon: file.content,
+          Icon: file.content
         }
       };
       this.http
-        .post(this.userDetails.AccountType == '1'? this.api.StudentService : this.api.ParentService, params)
+        .post(
+          this.userDetails.AccountType == "1"
+            ? this.api.StudentService
+            : this.api.ParentService,
+          params
+        )
         .then(response => {
           this.showUpload = false;
           if (response.State == 1) {
@@ -150,8 +155,8 @@ export default {
     }
   },
   computed: {},
-  mounted() {
-    this.userDetails = JSON.parse(localStorage.getItem('user'));
+  created() {
+    this.userDetails = JSON.parse(localStorage.getItem("user"));
   }
 };
 </script>
