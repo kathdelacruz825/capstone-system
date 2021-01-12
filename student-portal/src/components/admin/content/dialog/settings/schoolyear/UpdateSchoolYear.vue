@@ -23,24 +23,26 @@
         <el-divider content-position="left">School Year Details</el-divider>
         <div class="form-item-account-details">
           <div class="date-block">
-          <el-form-item label="School Year From:" prop="YearFrom">
-            <div class="block">
-              <el-date-picker
-                v-model="newSchoolYearData.YearFrom"
-                type="year"
-                placeholder="Pick a Year From">
-              </el-date-picker>
-            </div>
-          </el-form-item>
-          <el-form-item label="School Year To:" prop="YearTo">
-            <div class="block">
-              <el-date-picker
-                v-model="newSchoolYearData.YearTo"
-                type="year"
-                placeholder="Pick a Year To">
-              </el-date-picker>
-            </div>
-          </el-form-item>
+            <el-form-item label="School Year From:" prop="YearFrom">
+              <div class="block">
+                <el-date-picker
+                  v-model="newSchoolYearData.YearFrom"
+                  type="year"
+                  placeholder="Pick a Year From"
+                >
+                </el-date-picker>
+              </div>
+            </el-form-item>
+            <el-form-item label="School Year To:" prop="YearTo">
+              <div class="block">
+                <el-date-picker
+                  v-model="newSchoolYearData.YearTo"
+                  type="year"
+                  placeholder="Pick a Year To"
+                >
+                </el-date-picker>
+              </div>
+            </el-form-item>
           </div>
           <el-form-item label="Status:">
             <el-radio-group v-model="newSchoolYearData.Status" size="mini">
@@ -97,7 +99,7 @@ export default {
               ID: this.newSchoolYearData.ID,
               YearFrom: this.formatDate(this.newSchoolYearData.YearFrom),
               YearTo: this.formatDate(this.newSchoolYearData.YearTo),
-              Status: this.newSchoolYearData.Status == 'Active' ? 1 : 2
+              Status: this.newSchoolYearData.Status == "Active" ? 1 : 2
             }
           };
           this.http
@@ -128,14 +130,14 @@ export default {
     },
     formatDate(date) {
       var d = new Date(date),
-          month = '' + (d.getMonth() + 1),
-          day = '' + d.getDate(),
-          year = d.getFullYear();
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
       if (month.length < 2) {
-        month = '0' + month;
+        month = "0" + month;
       }
       if (day.length < 2) {
-        day = '0' + day;
+        day = "0" + day;
       }
       return `${year}`;
     }
@@ -155,7 +157,7 @@ export default {
   created() {},
   mounted() {
     this.newSchoolYearData = this.schoolYearData;
-  },
+  }
 };
 </script>
 

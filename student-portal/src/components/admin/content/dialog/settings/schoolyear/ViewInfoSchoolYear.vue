@@ -21,26 +21,28 @@
         <el-divider content-position="left">School Year Details</el-divider>
         <div class="form-item-account-details">
           <div class="date-block">
-          <el-form-item label="School Year From:" prop="YearFrom">
-            <div class="block">
-              <el-date-picker
-                disabled
-                v-model="schoolYearData.YearFrom"
-                type="year"
-                placeholder="Pick a Year From">
-              </el-date-picker>
-            </div>
-          </el-form-item>
-          <el-form-item label="School Year To:" prop="YearTo">
-            <div class="block">
-              <el-date-picker
-                disabled
-                v-model="schoolYearData.YearTo"
-                type="year"
-                placeholder="Pick a Year To">
-              </el-date-picker>
-            </div>
-          </el-form-item>
+            <el-form-item label="School Year From:" prop="YearFrom">
+              <div class="block">
+                <el-date-picker
+                  disabled
+                  v-model="schoolYearData.YearFrom"
+                  type="year"
+                  placeholder="Pick a Year From"
+                >
+                </el-date-picker>
+              </div>
+            </el-form-item>
+            <el-form-item label="School Year To:" prop="YearTo">
+              <div class="block">
+                <el-date-picker
+                  disabled
+                  v-model="schoolYearData.YearTo"
+                  type="year"
+                  placeholder="Pick a Year To"
+                >
+                </el-date-picker>
+              </div>
+            </el-form-item>
           </div>
           <el-form-item label="Status:">
             <el-radio-group v-model="schoolYearData.Status" size="mini">
@@ -66,7 +68,7 @@ export default {
   methods: {
     closeDialog() {
       this.$emit("closeViewInfoSchoolYear", false);
-    },
+    }
   },
   props: {
     showViewInfoSchoolYear: {
