@@ -222,6 +222,23 @@ class StudentData {
       return $this->response[0];
     }
   }
-  
+
+  function countStudent($params) {
+    $countData = array(
+      "count" => "",
+    );
+    $query = "SELECT COUNT(ID) FROM tbl_accounts_student where AccountPending=1";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $countData["count"] = $row[0];
+        $this->response[] = $countData;
+      }
+    }
+    return $this->response;
+  }
+
 }
 ?>

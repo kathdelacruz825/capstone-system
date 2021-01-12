@@ -58,7 +58,7 @@ export default {
       },
       ruleForm: {
         Title: "",
-        Status: 1 //number 1 - 2
+        Status: 2 //number 1 - 2
       }
     };
   },
@@ -81,7 +81,7 @@ export default {
             .post(this.api.GradingPeriodService, params)
             .then(response => {
               if (response.data.State == 1) {
-                this.ruleForm.Status = 1;
+                this.ruleForm.Status = 2;
                 this.$refs.ruleForm.resetFields();
                 this.updateData();
               }

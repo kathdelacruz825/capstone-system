@@ -106,5 +106,31 @@ class SchoolYearData {
     }
   }
 
+  function getAllSchoolYearByActive() {
+    $query = "Select
+              `tbl_school_year`.`ID`,
+              `tbl_school_year`.`YearFrom`,
+              `tbl_school_year`.`YearTo`,
+              CONCAT(`tbl_school_year`.`YearFrom`, '-', `tbl_school_year`.`YearTo`) AS SchooYear,
+              `tbl_school_year_status`.`Status`
+              from `tbl_school_year`
+              Inner Join `tbl_school_year_status` ON `tbl_school_year`.`Status`=`tbl_school_year_status`.`ID`
+              Where `tbl_school_year`.`Status`=1";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["YearFrom"] = $row[1];
+        $this->tempData["YearTo"] = $row[2];
+        $this->tempData["SchooYear"] = $row[3];
+        $this->tempData["Status"] = $row[4];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+
 }
 ?>

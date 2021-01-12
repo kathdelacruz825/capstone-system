@@ -31,6 +31,11 @@ if ($params) {
       $data = new GradingPeriodData($conn);
       echo json_encode($data->deleteSampleData($params['data']));
       break;
+    case 6:
+      // delete data
+        $data = new GradingPeriodData($conn);
+        echo json_encode($data->getAllGradingPeriodByActive($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }

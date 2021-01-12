@@ -30,7 +30,12 @@ if ($params) {
       // // delete data
       //   $data = new SampleData($conn);
       //   echo json_encode($data->deleteSampleData($params['data']));
-        break;
+    break;
+    case 8:
+      // count student
+      $data = new ParentData($conn);
+      echo json_encode($data->countParent($params['data']));
+      break;
     default:
       echo "Invalid Request";
   }

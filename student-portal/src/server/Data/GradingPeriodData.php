@@ -95,5 +95,26 @@ class GradingPeriodData {
     }
   }
 
+  function getAllGradingPeriodByActive() {
+    $query = "Select
+              `tbl_grading_period`.`ID`,
+              `tbl_grading_period`.`Title`,
+              `tbl_grading_period_status`.`Status`
+              from `tbl_grading_period`
+              Inner Join `tbl_grading_period_status` ON `tbl_grading_period`.`Status`=`tbl_grading_period_status`.`ID`
+              Where `tbl_grading_period`.`Status`=1";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["Title"] = $row[1];
+        $this->tempData["Status"] = $row[2];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
 }
 ?>
