@@ -107,6 +107,7 @@
       v-if="showUpdateCourse"
       :courseData="courseData"
       :showUpdateCourse="showUpdateCourse"
+      @updateData="updateData()"
       @closeUpdateCourse="closeUpdateCourse($event)"
     />
 

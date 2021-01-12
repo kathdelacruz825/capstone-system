@@ -72,6 +72,7 @@
     <UpdateYearLevel
       v-if="showViewUpdateYearLevel"
       :YearLevelData="YearLevelData"
+      @updateData="updateData()"
       :showViewUpdateYearLevel="showViewUpdateYearLevel"
       @closeUpdateYearLevel="closeUpdateYearLevel($event)"
     />

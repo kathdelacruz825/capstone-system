@@ -26,16 +26,10 @@
             <el-input v-model="ruleForm.Code" type="text"></el-input>
           </el-form-item>
           <el-form-item label="Title:" prop="Title">
-            <el-input
-              v-model="ruleForm.Title"
-              type="text"
-            ></el-input>
+            <el-input v-model="ruleForm.Title" type="text"></el-input>
           </el-form-item>
           <el-form-item label="Description:" prop="Description">
-            <el-input
-              v-model="ruleForm.Description"
-              type="text"
-            ></el-input>
+            <el-input v-model="ruleForm.Description" type="text"></el-input>
           </el-form-item>
           <el-form-item label="Status:">
             <el-radio-group v-model="ruleForm.Status" size="mini">
@@ -74,9 +68,7 @@ export default {
     return {
       rules: {
         Code: [{ validator: validateCode, trigger: "blur" }],
-        Title: [
-          { validator: validateTitle, trigger: "blur" }
-        ]
+        Title: [{ validator: validateTitle, trigger: "blur" }]
       },
       ruleForm: {
         Code: "",

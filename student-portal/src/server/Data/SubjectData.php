@@ -85,16 +85,29 @@ class SubjectData {
     }
   }
  
-  function updateSampleData($params) {
-    $id = $params['id'];
-    $name = $params['name'];
-    $age = $params['age'];
+  function updateSubjectData($params) {
+    $ID = $params['ID'];
+    $Code = $params['Code'];
+    $Title = $params['Title'];
+    $Desc = $params['Description'];
+    $Status = intval($params['Status']);
 
-    $query = "Update `tbl_sample` SET name='$name', age='$age' where id=$id";
+    $query = "Update `tbl_subject` SET
+              Code='$Code',
+              Title='$Title',
+              Description='$Desc',
+              Status=$Status
+              where ID=$ID";
+
     if ($this->link->query($query) === TRUE) {
-      echo "Record successfully updated";
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     } else {
-      echo "Error updating record!";
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     }
   }
   

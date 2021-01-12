@@ -27,7 +27,7 @@
         :prop="propItem.propName"
         :label="propItem.propLabel"
         :width="propItem.width"
-        :align="propKey == 2 ? 'left' : 'center'"
+        :align="propKey == 2 && propKey == 4 ? 'center' : 'left'"
         class-name="text-style"
       >
       </el-table-column>
@@ -98,18 +98,19 @@
     />
 
     <ViewInfoSubject
-      :courseData="courseData"
-      :showViewInfoCourse="showViewInfoCourse"
-      @closeViewInfoCourse="closeViewInfoCourse($event)"
+      :subjectData="subjectData"
+      :showViewInfoSubject="showViewInfoSubject"
+      @closeViewInfoSubject="closeViewInfoSubject($event)"
     />
 
     <UpdateSubject
-      v-if="showUpdateCourse"
-      :courseData="courseData"
-      :showUpdateCourse="showUpdateCourse"
-      @closeUpdateCourse="closeUpdateCourse($event)"
+      v-if="showUpdateSubject"
+      :subjectData="subjectData"
+      :showUpdateSubject="showUpdateSubject"
+      @updateData="updateData()"
+      @closeUpdateSubject="closeUpdateSubject($event)"
     />
-<!-- 
+    <!-- 
     <el-dialog
       title="Course Status"
       :visible.sync="showSetActive"
@@ -122,7 +123,7 @@
       <span>Are you sure you want to set Active?</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="showSetActive = false">Cancel</el-button>
-        <el-button type="primary" @click="setActiveCourse(courseData.ID)"
+        <el-button type="primary" @click="setActiveCourse(subjectData.ID)"
           >Set Active</el-button
         >
       </span>
@@ -140,7 +141,7 @@
       <span>Are you sure you want to set Inactive?</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="showSetInActive = false">Cancel</el-button>
-        <el-button type="danger" @click="setInActiveCourse(courseData.ID)"
+        <el-button type="danger" @click="setInActiveCourse(subjectData.ID)"
           >Set Inactive</el-button
         >
       </span>
@@ -167,11 +168,11 @@ export default {
       search: "",
       tableProps: tableProps,
       tableData: [],
-      courseData: {},
+      subjectData: {},
       showSetActive: false,
       showSetInActive: false,
-      showViewInfoCourse: false,
-      showUpdateCourse: false
+      showViewInfoSubject: false,
+      showUpdateSubject: false
       // operationButtons: [
       //   {
       //     name: "View Info",
@@ -201,13 +202,13 @@ export default {
       console.log(val);
     },
     operationAction(name, itemData) {
-      this.courseData = itemData;
+      this.subjectData = itemData;
       switch (name) {
         case "View Info":
-          this.showViewInfoCourse = true;
+          this.showViewInfoSubject = true;
           break;
         case "Update":
-          this.showUpdateCourse = true;
+          this.showUpdateSubject = true;
           break;
         // case "Delete":
         //   break;
@@ -280,11 +281,11 @@ export default {
     closeAddSubject(val) {
       this.showAddSubject = val;
     },
-    closeViewInfoCourse(val) {
-      this.showViewInfoCourse = val;
+    closeViewInfoSubject(val) {
+      this.showViewInfoSubject = val;
     },
-    closeUpdateCourse(val) {
-      this.showUpdateCourse = val;
+    closeUpdateSubject(val) {
+      this.showUpdateSubject = val;
     },
     updateData() {
       this.getAllSubject();

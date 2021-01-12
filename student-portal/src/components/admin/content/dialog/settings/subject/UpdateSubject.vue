@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :visible.sync="showUpdateCourse"
+    :visible.sync="showUpdateSubject"
     :show-close="false"
     :close-on-press-escape="false"
     :close-on-click-modal="false"
@@ -8,31 +8,34 @@
     width="600px"
   >
     <template #title>
-      Update Course
+      Update Subject
     </template>
     <div class="add-course-content">
       <el-form
         :label-position="'left'"
-        :model="newCourseData"
+        :model="newSubjectData"
         class="add-dialog-form"
         label-width="130px"
         status-icon
-        ref="newCourseData"
+        ref="newSubjectData"
         :rules="rules"
       >
-        <el-divider content-position="left">Course Details</el-divider>
+        <el-divider content-position="left">Subject Details</el-divider>
         <div class="form-item-account-details">
-          <el-form-item label="Code:" prop="CourseID">
-            <el-input v-model="newCourseData.CourseID" type="text"></el-input>
+          <el-form-item label="Code:" prop="Code">
+            <el-input v-model="newSubjectData.Code" type="text"></el-input>
           </el-form-item>
-          <el-form-item label="Description:" prop="CourseDescription">
+          <el-form-item label="Title:" prop="Title">
+            <el-input v-model="newSubjectData.Title" type="text"></el-input>
+          </el-form-item>
+          <el-form-item label="Description:" prop="Description">
             <el-input
-              v-model="newCourseData.CourseDescription"
+              v-model="newSubjectData.Description"
               type="text"
             ></el-input>
           </el-form-item>
           <el-form-item label="Status:">
-            <el-radio-group v-model="newCourseData.CourseStatus" size="mini">
+            <el-radio-group v-model="newSubjectData.Status" size="mini">
               <el-radio :label="'Active'" border>Active</el-radio>
               <el-radio :label="'Inactive'" border>Inactive</el-radio>
             </el-radio-group>
@@ -51,49 +54,48 @@
 export default {
   components: {},
   data() {
-    var validateCourseID = (rule, value, callback) => {
+    var validateCode = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the course code"));
+        callback(new Error("Please input the subject code"));
       } else {
         callback();
       }
     };
-    var validateCourseDescription = (rule, value, callback) => {
+    var validateTitle = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the course description"));
+        callback(new Error("Please input the subject title"));
       } else {
         callback();
       }
     };
     return {
       rules: {
-        CourseID: [{ validator: validateCourseID, trigger: "blur" }],
-        CourseDescription: [
-          { validator: validateCourseDescription, trigger: "blur" }
-        ]
+        Code: [{ validator: validateCode, trigger: "blur" }],
+        Title: [{ validator: validateTitle, trigger: "blur" }]
       },
-      newCourseData: {}
+      newSubjectData: {}
     };
   },
   methods: {
     closeDialog() {
-      this.$emit("closeUpdateCourse", false);
+      this.$emit("closeUpdateSubject", false);
       this.updateData();
     },
     update() {
-      this.$refs.newCourseData.validate(valid => {
+      this.$refs.newSubjectData.validate(valid => {
         if (valid) {
           let params = {
             request: 4,
             data: {
-              ID: this.newCourseData.ID,
-              CourseID: this.newCourseData.CourseID,
-              CourseDescription: this.newCourseData.CourseDescription,
-              CourseStatus: this.newCourseData.CourseStatus == "Active" ? 1 : 2
+              ID: this.newSubjectData.ID,
+              Code: this.newSubjectData.Code,
+              Title: this.newSubjectData.Title,
+              Description: this.newSubjectData.Description,
+              Status: this.newSubjectData.Status == "Active" ? 1 : 2
             }
           };
           this.http
-            .post(this.api.CourseService, params)
+            .post(this.api.SubjectService, params)
             .then(response => {
               if (response.data.State == 1) {
                 this.updateData();
@@ -120,11 +122,11 @@ export default {
     }
   },
   props: {
-    showUpdateCourse: {
+    showUpdateSubject: {
       type: Boolean,
       default: false
     },
-    courseData: {
+    subjectData: {
       type: Object,
       default: () => {
         return {};
@@ -133,7 +135,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.newCourseData = this.courseData;
+    this.newSubjectData = this.subjectData;
   }
 };
 </script>
