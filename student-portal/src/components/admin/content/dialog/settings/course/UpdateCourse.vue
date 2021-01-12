@@ -42,7 +42,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">Cancel</el-button>
-      <el-button type="primary" @click="update()">Save</el-button>
+      <el-button type="primary" @click="update()">Update</el-button>
     </span>
   </el-dialog>
 </template>

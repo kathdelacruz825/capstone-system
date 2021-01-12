@@ -39,7 +39,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">Cancel</el-button>
-      <el-button type="primary" @click="save()">Save</el-button>
+      <el-button type="primary" @click="save()">Update</el-button>
     </span>
   </el-dialog>
 </template>
@@ -50,7 +50,7 @@ export default {
   data() {
     var validateCourseID = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the grading perid title"));
+        callback(new Error("Please input the grading period title"));
       } else {
         callback();
       }

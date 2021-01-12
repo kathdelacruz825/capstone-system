@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :visible.sync="showAddGradingPeriod"
+    :visible.sync="showAddSchoolYear"
     :show-close="false"
     :close-on-press-escape="false"
     :close-on-click-modal="false"
@@ -8,9 +8,9 @@
     width="600px"
   >
     <template #title>
-      Add Grading Period
+      Add School Year
     </template>
-    <div class="add-course-content">
+    <div class="add-course-content add-school-year-content">
       <el-form
         :label-position="'left'"
         :model="ruleForm"
@@ -20,11 +20,28 @@
         ref="ruleForm"
         :rules="rules"
       >
-        <el-divider content-position="left">Grading Period Details</el-divider>
+        <el-divider content-position="left">School Year Details</el-divider>
         <div class="form-item-account-details">
-          <el-form-item label="Title:" prop="Title">
-            <el-input v-model="ruleForm.Title" type="text"></el-input>
+          <div class="date-block">
+          <el-form-item label="School Year From:" prop="YearFrom">
+            <div class="block">
+              <el-date-picker
+                v-model="ruleForm.YearFrom"
+                type="year"
+                placeholder="Pick a Year From">
+              </el-date-picker>
+            </div>
           </el-form-item>
+          <el-form-item label="School Year To:" prop="YearTo">
+            <div class="block">
+              <el-date-picker
+                v-model="ruleForm.YearTo"
+                type="year"
+                placeholder="Pick a Year To">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+          </div>
           <el-form-item label="Status:">
             <el-radio-group v-model="ruleForm.Status" size="mini">
               <el-radio :label="1" border>Active</el-radio>
@@ -45,26 +62,35 @@
 export default {
   components: {},
   data() {
-    var validateCourseID = (rule, value, callback) => {
+    var validateYearFrom = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the grading period title"));
+        callback(new Error("Please input the Year From"));
+      } else {
+        callback();
+      }
+    };
+    var validateYearTo = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("Please input the Year To"));
       } else {
         callback();
       }
     };
     return {
       rules: {
-        Title: [{ validator: validateCourseID, trigger: "blur" }]
+        YearFrom: [{ validator: validateYearFrom, trigger: "blur" }],
+        YearTo: [{ validator: validateYearTo, trigger: "blur" }]
       },
       ruleForm: {
-        Title: "",
-        Status: 1 //number 1 - 2
+        YearFrom: "",
+        YearTo: "",
+        Status: 2 //number 1 - 2
       }
     };
   },
   methods: {
     closeDialog() {
-      this.$emit("closeAddGradingPeriod", false);
+      this.$emit("closeAddAddSchoolYear", false);
       this.$refs.ruleForm.resetFields();
     },
     save() {
@@ -73,15 +99,16 @@ export default {
           let params = {
             request: 3,
             data: {
-              Title: this.ruleForm.Title,
+              YearFrom: this.formatDate(this.ruleForm.YearFrom),
+              YearTo: this.formatDate(this.ruleForm.YearTo),
               Status: this.ruleForm.Status
             }
           };
           this.http
-            .post(this.api.GradingPeriodService, params)
+            .post(this.api.SchoolYearService, params)
             .then(response => {
               if (response.data.State == 1) {
-                this.ruleForm.Status = 1;
+                this.ruleForm.Status = 2;
                 this.$refs.ruleForm.resetFields();
                 this.updateData();
               }
@@ -104,10 +131,23 @@ export default {
     },
     updateData() {
       this.$emit("updateData");
+    },
+    formatDate(date) {
+      var d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+      if (month.length < 2) {
+        month = '0' + month;
+      }
+      if (day.length < 2) {
+        day = '0' + day;
+      }
+      return `${year}`;
     }
   },
   props: {
-    showAddGradingPeriod: {
+    showAddSchoolYear: {
       type: Boolean,
       default: false
     }
@@ -120,6 +160,18 @@ export default {
 .add-course-content {
   .el-form-item__content {
     text-align: left;
+  }
+}
+
+.add-school-year-content {
+  .el-form-item__content {
+    display: flex;
+    // .block:first-child {
+    //   margin-right: 10px;
+    // }
+    .demonstration {
+      margin: 0px 10px;
+    }
   }
 }
 </style>

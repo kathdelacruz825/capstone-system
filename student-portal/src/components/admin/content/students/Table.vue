@@ -133,10 +133,10 @@ export default {
             name: "Update",
             btnType: "warning"
           },
-          {
-            name: "Delete",
-            btnType: "danger"
-          },
+          // {
+          //   name: "Delete",
+          //   btnType: "danger"
+          // },
           {
             name: "Set Inactive",
             btnType: "danger"
