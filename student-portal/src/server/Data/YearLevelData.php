@@ -68,7 +68,7 @@ class YearLevelData {
     
     if ($this->link->query($query) === TRUE) {
       $this->successTemp["State"] = 1;
-      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->successTemp["Message"] = "New record successfully created!";
       $this->response[] = $this->successTemp;
       return $this->response[0];
     } else {

@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :visible.sync="showAddCourse"
+    :visible.sync="showAddSubject"
     :show-close="false"
     :close-on-press-escape="false"
     :close-on-click-modal="false"
@@ -8,7 +8,7 @@
     width="600px"
   >
     <template #title>
-      Add Course
+      Add Subject
     </template>
     <div class="add-course-content">
       <el-form
@@ -20,19 +20,25 @@
         ref="ruleForm"
         :rules="rules"
       >
-        <el-divider content-position="left">Course Details</el-divider>
+        <el-divider content-position="left">Subject Details</el-divider>
         <div class="form-item-account-details">
-          <el-form-item label="Code:" prop="CourseID">
-            <el-input v-model="ruleForm.CourseID" type="text"></el-input>
+          <el-form-item label="Code:" prop="Code">
+            <el-input v-model="ruleForm.Code" type="text"></el-input>
           </el-form-item>
-          <el-form-item label="Description:" prop="CourseDescription">
+          <el-form-item label="Title:" prop="Title">
             <el-input
-              v-model="ruleForm.CourseDescription"
+              v-model="ruleForm.Title"
+              type="text"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="Description:" prop="Description">
+            <el-input
+              v-model="ruleForm.Description"
               type="text"
             ></el-input>
           </el-form-item>
           <el-form-item label="Status:">
-            <el-radio-group v-model="ruleForm.CourseStatus" size="mini">
+            <el-radio-group v-model="ruleForm.Status" size="mini">
               <el-radio :label="1" border>Active</el-radio>
               <el-radio :label="2" border>Inactive</el-radio>
             </el-radio-group>
@@ -51,37 +57,38 @@
 export default {
   components: {},
   data() {
-    var validateCourseID = (rule, value, callback) => {
+    var validateCode = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the course code"));
+        callback(new Error("Please input the subject code"));
       } else {
         callback();
       }
     };
-    var validateCourseDescription = (rule, value, callback) => {
+    var validateTitle = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the course description"));
+        callback(new Error("Please input the subject title"));
       } else {
         callback();
       }
     };
     return {
       rules: {
-        CourseID: [{ validator: validateCourseID, trigger: "blur" }],
-        CourseDescription: [
-          { validator: validateCourseDescription, trigger: "blur" }
+        Code: [{ validator: validateCode, trigger: "blur" }],
+        Title: [
+          { validator: validateTitle, trigger: "blur" }
         ]
       },
       ruleForm: {
-        CourseID: "",
-        CourseDescription: "",
-        CourseStatus: 1 //number 1 - 2
+        Code: "",
+        Title: "",
+        Description: "",
+        Status: 1 //number 1 - 2
       }
     };
   },
   methods: {
     closeDialog() {
-      this.$emit("closeAddCourse", false);
+      this.$emit("closeAddSubject", false);
       this.$refs.ruleForm.resetFields();
     },
     save() {
@@ -90,16 +97,17 @@ export default {
           let params = {
             request: 3,
             data: {
-              CourseID: this.ruleForm.CourseID,
-              CourseDescription: this.ruleForm.CourseDescription,
-              CourseStatus: this.ruleForm.CourseStatus
+              Code: this.ruleForm.Code,
+              Title: this.ruleForm.Title,
+              Description: this.ruleForm.Description,
+              Status: this.ruleForm.Status
             }
           };
           this.http
-            .post(this.api.CourseService, params)
+            .post(this.api.SubjectService, params)
             .then(response => {
               if (response.data.State == 1) {
-                this.ruleForm.CourseStatus = 1;
+                this.ruleForm.Status = 1;
                 this.$refs.ruleForm.resetFields();
                 this.updateData();
               }
@@ -125,7 +133,7 @@ export default {
     }
   },
   props: {
-    showAddCourse: {
+    showAddSubject: {
       type: Boolean,
       default: false
     }

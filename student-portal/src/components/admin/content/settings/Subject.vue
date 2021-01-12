@@ -93,7 +93,7 @@
 
     <AddSubject
       :showAddSubject="showAddSubject"
-      @closeAddCourse="closeAddCourse($event)"
+      @closeAddSubject="closeAddSubject($event)"
       @updateData="updateData()"
     />
 
@@ -109,7 +109,7 @@
       :showUpdateCourse="showUpdateCourse"
       @closeUpdateCourse="closeUpdateCourse($event)"
     />
-
+<!-- 
     <el-dialog
       title="Course Status"
       :visible.sync="showSetActive"
@@ -144,7 +144,7 @@
           >Set Inactive</el-button
         >
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
@@ -235,49 +235,49 @@ export default {
           console.log(error);
         });
     },
-    setActiveCourse(ID) {
-      let params = {
-        request: 6,
-        data: {
-          ID: ID
-        }
-      };
-      this.http
-        .post(this.api.CourseService, params)
-        .then(response => {
-          this.showSetActive = false;
-          this.updateData();
-          this.$message({
-            type: response.data.State == 1 ? "success" : "danger",
-            message: response.data.Message
-          });
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-    setInActiveCourse(ID) {
-      let params = {
-        request: 7,
-        data: {
-          ID: ID
-        }
-      };
-      this.http
-        .post(this.api.CourseService, params)
-        .then(response => {
-          this.showSetInActive = false;
-          this.updateData();
-          this.$message({
-            type: response.data.State == 1 ? "success" : "danger",
-            message: response.data.Message
-          });
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-    closeAddCourse(val) {
+    // setActiveCourse(ID) {
+    //   let params = {
+    //     request: 6,
+    //     data: {
+    //       ID: ID
+    //     }
+    //   };
+    //   this.http
+    //     .post(this.api.CourseService, params)
+    //     .then(response => {
+    //       this.showSetActive = false;
+    //       this.updateData();
+    //       this.$message({
+    //         type: response.data.State == 1 ? "success" : "danger",
+    //         message: response.data.Message
+    //       });
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // },
+    // setInActiveCourse(ID) {
+    //   let params = {
+    //     request: 7,
+    //     data: {
+    //       ID: ID
+    //     }
+    //   };
+    //   this.http
+    //     .post(this.api.CourseService, params)
+    //     .then(response => {
+    //       this.showSetInActive = false;
+    //       this.updateData();
+    //       this.$message({
+    //         type: response.data.State == 1 ? "success" : "danger",
+    //         message: response.data.Message
+    //       });
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // },
+    closeAddSubject(val) {
       this.showAddSubject = val;
     },
     closeViewInfoCourse(val) {

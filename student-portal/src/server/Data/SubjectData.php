@@ -60,15 +60,28 @@ class SubjectData {
     return $this->response;
   }
   
-  function setSampleData($params) {
-    $name = $params['name'];
-    $age = $params['age'];
-    $query = "Insert into `tbl_sample` (name, age) values ('$name', '$age')";
+  function setSubjectData($params) {
+    // $ID = $params['ID'];
+    $Code = $params['Code'];
+    $Title = $params['Title'];
+    $Desc = $params['Description'];
+    $Status = intval($params['Status']);
+    
+    $query = "Insert into `tbl_subject` 
+              (Code, Title, Description, Status) 
+              values 
+              ('$Code', '$Title', '$Desc', $Status)";
     
     if ($this->link->query($query) === TRUE) {
-      echo "New record successfully created!";
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "New record successfully created!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     } else {
-      echo "Error creating record!";
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error creating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     }
   }
  
