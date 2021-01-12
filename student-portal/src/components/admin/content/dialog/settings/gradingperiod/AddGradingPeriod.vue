@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :visible.sync="showViewUpdateYearLevel"
+    :visible.sync="showAddGradingPeriod"
     :show-close="false"
     :close-on-press-escape="false"
     :close-on-click-modal="false"
@@ -8,27 +8,27 @@
     width="600px"
   >
     <template #title>
-      Update Year Level
+      Add Grading Period
     </template>
     <div class="add-course-content">
       <el-form
         :label-position="'left'"
-        :model="YearLevelData"
+        :model="ruleForm"
         class="add-dialog-form"
         label-width="130px"
         status-icon
-        ref="YearLevelData"
+        ref="ruleForm"
         :rules="rules"
       >
-        <el-divider content-position="left">Year Level Details</el-divider>
+        <el-divider content-position="left">Grading Period Details</el-divider>
         <div class="form-item-account-details">
-          <el-form-item label="Year Level:" prop="YearLevel">
-            <el-input v-model="YearLevelData.YearLevel" type="text"></el-input>
+          <el-form-item label="Title:" prop="Title">
+            <el-input v-model="ruleForm.Title" type="text"></el-input>
           </el-form-item>
           <el-form-item label="Status:">
-            <el-radio-group v-model="YearLevelData.YearLevelStatus" size="mini">
-              <el-radio :label="'Active'" border>Active</el-radio>
-              <el-radio :label="'Inactive'" border>Inactive</el-radio>
+            <el-radio-group v-model="ruleForm.Status" size="mini">
+              <el-radio :label="1" border>Active</el-radio>
+              <el-radio :label="2" border>Inactive</el-radio>
             </el-radio-group>
           </el-form-item>
         </div>
@@ -45,41 +45,44 @@
 export default {
   components: {},
   data() {
-    var validateYearLevel = (rule, value, callback) => {
+    var validateCourseID = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the year level"));
+        callback(new Error("Please input the grading perid title"));
       } else {
         callback();
       }
     };
     return {
       rules: {
-        YearLevel: [{ validator: validateYearLevel, trigger: "blur" }]
+        Title: [{ validator: validateCourseID, trigger: "blur" }]
+      },
+      ruleForm: {
+        Title: "",
+        Status: 1 //number 1 - 2
       }
     };
   },
   methods: {
     closeDialog() {
-      this.$emit("closeUpdateYearLevel", false);
-      this.$refs.YearLevelData.resetFields();
-      this.updateData();
+      this.$emit("closeAddGradingPeriod", false);
+      this.$refs.ruleForm.resetFields();
     },
     save() {
-      this.$refs.YearLevelData.validate(valid => {
+      this.$refs.ruleForm.validate(valid => {
         if (valid) {
           let params = {
-            request: 4,
+            request: 3,
             data: {
-              ID: this.YearLevelData.ID,
-              YearLevel: this.YearLevelData.YearLevel,
-              YearLevelStatus:
-                this.YearLevelData.YearLevelStatus == "Active" ? 1 : 2
+              Title: this.ruleForm.Title,
+              Status: this.ruleForm.Status
             }
           };
           this.http
-            .post(this.api.YearLevelService, params)
+            .post(this.api.GradingPeriodService, params)
             .then(response => {
               if (response.data.State == 1) {
+                this.ruleForm.Status = 1;
+                this.$refs.ruleForm.resetFields();
                 this.updateData();
               }
               this.$message({
@@ -104,15 +107,9 @@ export default {
     }
   },
   props: {
-    showViewUpdateYearLevel: {
+    showAddGradingPeriod: {
       type: Boolean,
       default: false
-    },
-    YearLevelData: {
-      type: Object,
-      default: () => {
-        return {};
-      }
     }
   },
   created() {}

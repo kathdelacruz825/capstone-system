@@ -5,6 +5,7 @@ export const api = {
   CourseService: "/services/CourseService.php",
   YearLevelService: "/services/YearLevelService.php",
   SubjectService: "/services/SubjectService.php",
+  GradingPeriodService: "/services/GradingPeriodService.php",
   // SampleService: "/services/SampleService.php",
 
   AdminService: "/services/AdminService.php"

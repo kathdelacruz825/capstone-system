@@ -35,6 +35,14 @@ export default {
     },
     YearLevel: resolve => {
       require(["@/components/admin/content/settings/YearLevel.vue"], resolve);
+    },
+    SchoolYear: resolve => {
+      require(["@/components/admin/content/settings/SchoolYear.vue"], resolve);
+    },
+    GradingPeriod: resolve => {
+      require([
+        "@/components/admin/content/settings/GradingPeriod.vue"
+      ], resolve);
     }
   },
   data() {
@@ -44,8 +52,10 @@ export default {
       activeTabName: "Course",
       tabItems: [
         { name: "Course", component: "Course" },
-        { name: "Year Level", component: "YearLevel" },
         { name: "Subject", component: "Subject" },
+        { name: "Year Level", component: "YearLevel" },
+        { name: "Grading Period", component: "GradingPeriod" },
+        { name: "School Year", component: "SchoolYear" },
         { name: "System", component: "System" }
       ]
     };

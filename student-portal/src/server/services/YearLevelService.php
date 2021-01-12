@@ -24,12 +24,12 @@ if ($params) {
     case 4:
     // update data
       $data = new YearLevelData($conn);
-      echo json_encode($data->updateSampleData($params['data']));
+      echo json_encode($data->updateYearLevelData($params['data']));
       break;
     case 5:
     // delete data
       $data = new YearLevelData($conn);
-      echo json_encode($data->deleteSampleData($params['data']));
+      echo json_encode($data->deleteYearLevelData($params['data']));
       break;
     default:
       echo "Invalid Request";

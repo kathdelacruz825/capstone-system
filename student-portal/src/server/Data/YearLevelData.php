@@ -78,40 +78,45 @@ class YearLevelData {
       return $this->response[0];
     }
   }
-
-  function setSampleData($params) {
-    $name = $params['name'];
-    $age = $params['age'];
-    $query = "Insert into `tbl_course` (name, age) values ('$name', '$age')";
-    
-    if ($this->link->query($query) === TRUE) {
-      echo "New record successfully created!";
-    } else {
-      echo "Error creating record!";
-    }
-  }
  
-  function updateSampleData($params) {
-    $id = $params['id'];
-    $name = $params['name'];
-    $age = $params['age'];
+  function updateYearLevelData($params) {
+    $ID = $params['ID'];
+    $YearLevel = $params['YearLevel'];
+    $YearLevelStatus = intval($params['YearLevelStatus']);
 
-    $query = "Update `tbl_course` SET name='$name', age='$age' where id=$id";
+    $query = "Update `tbl_yearlevel` SET
+              YearLevel='$YearLevel',
+              YearLevelStatus=$YearLevelStatus
+              where id=$ID";
+
     if ($this->link->query($query) === TRUE) {
-      echo "Record successfully updated";
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     } else {
-      echo "Error updating record!";
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     }
   }
   
-  function deleteSampleData($params) {
-    $id = $params['id'];
+  function deleteYearLevelData($params) {
+    $id = $params['ID'];
     
-    $query = "Delete from `tbl_course` where id=$id";
+    $query = "Delete from `tbl_yearlevel` where id=$id";
+
     if ($this->link->query($query) === TRUE) {
-      echo "Record successfully deleted";
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully deleted!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     } else {
-      echo "Error deleting record!";
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error deleting record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     }
   }
 

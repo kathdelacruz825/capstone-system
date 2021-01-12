@@ -123,18 +123,18 @@ const router = new VueRouter({
   routes
 });
 
-router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
-  let isAuthenticated = localStorage.getItem("user") != null ? true : false;
-  // let isLogin = localStorage.getItem('isLogin') != null ? localStorage.getItem('isLogin') : false;
-  if (requiresAuth && isAuthenticated == false) {
-    return next("/");
-  } else {
-    if (to.name == "UserLogin" && isAuthenticated == true) {
-      return next(false);
-    } else {
-      return next();
-    }
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+//   let isAuthenticated = localStorage.getItem("user") != null ? true : false;
+//   // let isLogin = localStorage.getItem('isLogin') != null ? localStorage.getItem('isLogin') : false;
+//   if (requiresAuth && isAuthenticated == false) {
+//     return next("/");
+//   } else {
+//     if (to.name == "UserLogin" && isAuthenticated == true) {
+//       return next(false);
+//     } else {
+//       return next();
+//     }
+//   }
+// });
 export default router;
