@@ -55,8 +55,8 @@ export default {
         { name: "Subject", component: "Subject" },
         { name: "Year Level", component: "YearLevel" },
         { name: "Grading Period", component: "GradingPeriod" },
-        { name: "School Year", component: "SchoolYear" },
-        { name: "System", component: "System" }
+        { name: "School Year", component: "SchoolYear" }
+        // { name: "System", component: "System" }
       ]
     };
   },
