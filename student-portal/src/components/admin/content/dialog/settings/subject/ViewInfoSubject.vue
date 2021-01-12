@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :visible.sync="showViewInfoYearLevel"
+    :visible.sync="showViewInfoCourse"
     :show-close="false"
     :close-on-press-escape="false"
     :close-on-click-modal="false"
@@ -8,27 +8,34 @@
     width="600px"
   >
     <template #title>
-      Add Year Level
+      View Info Course
     </template>
     <div class="add-course-content">
       <el-form
         :label-position="'left'"
-        :model="YearLevelData"
+        :model="courseData"
         class="add-dialog-form"
         label-width="130px"
         status-icon
       >
-        <el-divider content-position="left">Year Level Details</el-divider>
+        <el-divider content-position="left">Course Details</el-divider>
         <div class="form-item-account-details">
-          <el-form-item label="Year Level:" prop="YearLevel">
+          <el-form-item label="Code:" prop="CourseID">
             <el-input
-              v-model="YearLevelData.YearLevel"
+              v-model="courseData.CourseID"
+              type="text"
+              readonly
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="Description:" prop="CourseDescription">
+            <el-input
+              v-model="courseData.CourseDescription"
               type="text"
               readonly
             ></el-input>
           </el-form-item>
           <el-form-item label="Status:">
-            <el-radio-group v-model="YearLevelData.YearLevelStatus" size="mini">
+            <el-radio-group v-model="courseData.CourseStatus" size="mini">
               <el-radio :label="'Active'" border disabled>Active</el-radio>
               <el-radio :label="'Inactive'" border disabled>Inactive</el-radio>
             </el-radio-group>
@@ -50,15 +57,15 @@ export default {
   },
   methods: {
     closeDialog() {
-      this.$emit("closeViewInfoYearLevel", false);
+      this.$emit("closeViewInfoCourse", false);
     }
   },
   props: {
-    showViewInfoYearLevel: {
+    showViewInfoCourse: {
       type: Boolean,
       default: false
     },
-    YearLevelData: {
+    courseData: {
       type: Object,
       default: () => {
         return {};

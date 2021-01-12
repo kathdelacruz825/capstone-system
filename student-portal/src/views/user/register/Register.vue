@@ -288,7 +288,7 @@ export default {
       this.currentCourse = courseVal.name;
       this.studentDetails.Course = courseVal.id;
     },
-    register() {
+    async register() {
       if (this.accountType == "Student") {
         if (
           this.studentDetails.AccountPassword == this.studentConfirmPassword
@@ -347,7 +347,7 @@ export default {
               AccountID: this.parentDetails.studentID
             }
           };
-          this.http
+          await this.http
             .post(this.api.StudentService, paramsStudent)
             .then(response => {
               if (response.data[0].State == 1) {

@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :visible.sync="showViewUpdateYearLevel"
+    :visible.sync="showUpdateCourse"
     :show-close="false"
     :close-on-press-escape="false"
     :close-on-click-modal="false"
@@ -8,25 +8,31 @@
     width="600px"
   >
     <template #title>
-      Update Year Level
+      Update Course
     </template>
     <div class="add-course-content">
       <el-form
         :label-position="'left'"
-        :model="YearLevelData"
+        :model="newCourseData"
         class="add-dialog-form"
         label-width="130px"
         status-icon
-        ref="YearLevelData"
+        ref="newCourseData"
         :rules="rules"
       >
-        <el-divider content-position="left">Year Level Details</el-divider>
+        <el-divider content-position="left">Course Details</el-divider>
         <div class="form-item-account-details">
-          <el-form-item label="Year Level:" prop="YearLevel">
-            <el-input v-model="YearLevelData.YearLevel" type="text"></el-input>
+          <el-form-item label="Code:" prop="CourseID">
+            <el-input v-model="newCourseData.CourseID" type="text"></el-input>
+          </el-form-item>
+          <el-form-item label="Description:" prop="CourseDescription">
+            <el-input
+              v-model="newCourseData.CourseDescription"
+              type="text"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Status:">
-            <el-radio-group v-model="YearLevelData.YearLevelStatus" size="mini">
+            <el-radio-group v-model="newCourseData.CourseStatus" size="mini">
               <el-radio :label="'Active'" border>Active</el-radio>
               <el-radio :label="'Inactive'" border>Inactive</el-radio>
             </el-radio-group>
@@ -36,7 +42,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">Cancel</el-button>
-      <el-button type="primary" @click="save()">Save</el-button>
+      <el-button type="primary" @click="update()">Save</el-button>
     </span>
   </el-dialog>
 </template>
@@ -45,37 +51,49 @@
 export default {
   components: {},
   data() {
-    var validateYearLevel = (rule, value, callback) => {
+    var validateCourseID = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the year level"));
+        callback(new Error("Please input the course code"));
+      } else {
+        callback();
+      }
+    };
+    var validateCourseDescription = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("Please input the course description"));
       } else {
         callback();
       }
     };
     return {
       rules: {
-        YearLevel: [{ validator: validateYearLevel, trigger: "blur" }]
-      }
+        CourseID: [{ validator: validateCourseID, trigger: "blur" }],
+        CourseDescription: [
+          { validator: validateCourseDescription, trigger: "blur" }
+        ]
+      },
+      newCourseData: {}
     };
   },
   methods: {
     closeDialog() {
-      this.$emit("closeUpdateYearLevel", false);
-      this.$refs.YearLevelData.resetFields();
+      this.$emit("closeUpdateCourse", false);
+      this.updateData();
     },
-    save() {
-      this.$refs.YearLevelData.validate(valid => {
+    update() {
+      this.$refs.newCourseData.validate(valid => {
         if (valid) {
           let params = {
-            request: 3,
+            request: 4,
             data: {
-              YearLevel: this.YearLevelData.YearLevel,
-              YearLevelStatus:
-                this.YearLevelData.YearLevelStatus == "Active" ? 1 : 2
+              ID: this.newCourseData.ID,
+              CourseID: this.newCourseData.CourseID,
+              CourseDescription: this.newCourseData.CourseDescription,
+              CourseStatus: this.newCourseData.CourseStatus == "Active" ? 1 : 2
             }
           };
           this.http
-            .post(this.api.YearLevelService, params)
+            .post(this.api.CourseService, params)
             .then(response => {
               if (response.data.State == 1) {
                 this.updateData();
@@ -102,18 +120,21 @@ export default {
     }
   },
   props: {
-    showViewUpdateYearLevel: {
+    showUpdateCourse: {
       type: Boolean,
       default: false
     },
-    YearLevelData: {
+    courseData: {
       type: Object,
       default: () => {
         return {};
       }
     }
   },
-  created() {}
+  created() {},
+  mounted() {
+    this.newCourseData = this.courseData;
+  }
 };
 </script>
 

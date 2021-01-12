@@ -64,16 +64,16 @@
     />
 
     <ViewInfoYearLevel
-      :courseData="courseData"
-      :showViewInfoCourse="showViewInfoCourse"
-      @closeViewInfoCourse="closeViewInfoCourse($event)"
+      :YearLevelData="YearLevelData"
+      :showViewInfoYearLevel="showViewInfoYearLevel"
+      @closeViewInfoYearLevel="closeViewInfoYearLevel($event)"
     />
 
     <UpdateYearLevel
-      v-if="showUpdateCourse"
-      :courseData="courseData"
-      :showUpdateCourse="showUpdateCourse"
-      @closeUpdateCourse="closeUpdateCourse($event)"
+      v-if="showViewUpdateYearLevel"
+      :YearLevelData="YearLevelData"
+      :showViewUpdateYearLevel="showViewUpdateYearLevel"
+      @closeUpdateYearLevel="closeUpdateYearLevel($event)"
     />
   </div>
 </template>
@@ -97,11 +97,11 @@ export default {
       search: "",
       tableProps: tableProps,
       tableData: [],
-      courseData: {},
+      YearLevelData: {},
       showSetActive: false,
       showSetInActive: false,
-      showViewInfoCourse: false,
-      showUpdateCourse: false
+      showViewInfoYearLevel: false,
+      showViewUpdateYearLevel: false
       // operationButtons: [
       //   {
       //     name: "View Info",
@@ -131,13 +131,13 @@ export default {
       console.log(val);
     },
     operationAction(name, itemData) {
-      this.courseData = itemData;
+      this.YearLevelData = itemData;
       switch (name) {
         case "View Info":
-          this.showViewInfoCourse = true;
+          this.showViewInfoYearLevel = true;
           break;
         case "Update":
-          this.showUpdateCourse = true;
+          this.showViewUpdateYearLevel = true;
           break;
         // case "Delete":
         //   break;
@@ -168,11 +168,11 @@ export default {
     closeAddCourse(val) {
       this.showAddYearLevel = val;
     },
-    closeViewInfoCourse(val) {
-      this.showViewInfoCourse = val;
+    closeViewInfoYearLevel(val) {
+      this.showViewInfoYearLevel = val;
     },
-    closeUpdateCourse(val) {
-      this.showUpdateCourse = val;
+    closeUpdateYearLevel(val) {
+      this.showViewUpdateYearLevel = val;
     },
     updateData() {
       this.getAllYearLevel();
