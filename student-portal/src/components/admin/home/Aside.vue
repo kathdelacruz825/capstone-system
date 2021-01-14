@@ -16,7 +16,7 @@
         @click="selectTabContent(tabItem.name)"
       >
         <i :class="tabItem.icon"></i>
-        <span>{{ tabItem.name }}</span>
+        <span>{{ tabItem.name == 'Grades' ? 'Student Record' : tabItem.name }}</span>
       </el-menu-item>
     </el-menu>
   </el-col>
@@ -79,6 +79,10 @@ export default {
   height: 100%;
   .el-menu {
     height: 100%;
+  }
+  .el-menu li {
+    text-align: left;
+    padding: 0px 35px !important;
   }
 }
 </style>

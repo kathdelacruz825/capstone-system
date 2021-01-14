@@ -48,5 +48,6 @@ export default {
   padding: 10px;
   background: #fff;
   height: 100%;
+  overflow: hidden;
 }
 </style>
