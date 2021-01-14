@@ -25,6 +25,7 @@
     </el-tabs>
     <AddStudent
       :showAddStudent="showAddStudent"
+      @updateData="updateData()"
       @closeAddStudent="closeAddStudent($event)"
     />
   </div>

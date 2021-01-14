@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="Update Student"
+    title="Update Parent"
     :visible.sync="showUpdateStudent"
     @close="closeDialog"
     :destroy-on-close="true"
@@ -46,8 +46,8 @@
                   v-model="newStudentData.AccountType"
                   size="mini"
                 >
-                  <el-radio label="Student" border>Student</el-radio>
-                  <el-radio label="Parent" border disabled>Parent</el-radio>
+                  <el-radio label="Student" border disabled>Student</el-radio>
+                  <el-radio label="Parent" border>Parent</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="Account Status">
@@ -104,42 +104,9 @@
           </el-form-item>
         </div>
         <el-divider content-position="left">School Details</el-divider>
-        <div class="form-item-school-details">
-          <el-form-item label="Course:">
-            <el-dropdown trigger="click" @command="selectCourse">
-              <el-button type="primary">
-                {{ currentCourse
-                }}<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  v-for="(courseItem, courseKey) in courseList"
-                  :key="courseKey"
-                  :command="courseItem"
-                >
-                  {{ courseItem.CourseID }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </el-form-item>
-          <el-form-item label="Year Level:">
-            <el-dropdown trigger="click" @command="selectYearLevel">
-              <el-button type="primary">
-                {{ currentYearLevel
-                }}<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  v-for="(yearLevelItem, yearLevelKey) in yearLevelList"
-                  :key="yearLevelKey"
-                  :command="yearLevelItem"
-                >
-                  {{ yearLevelItem.YearLevel }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </el-form-item>
-        </div>
+        <el-form-item label="Student ID:" prop="StudentID">
+          <el-input v-model="newStudentData.StudentID" type="text"></el-input>
+        </el-form-item>
       </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -154,10 +121,6 @@ export default {
   components: {},
   data() {
     return {
-      currentCourse: "",
-      courseList: [],
-      currentYearLevel: "",
-      yearLevelList: [],
       fileList: [],
       newStudentData: {}
     };
@@ -167,95 +130,76 @@ export default {
       this.$emit("closeUpdateStudent", false);
     },
     update() {
-      let params = {
-        request: 12,
+      let paramsStudent = {
+        request: 6,
         data: {
-          ID: this.newStudentData.ID,
-          AccountType: this.newStudentData.AccountType == "Student" ? 1 : 2,
-          AccountStatus: this.newStudentData.AccountStatus == "Active" ? 1 : 2,
-          AccountPending:
-            this.newStudentData.AccountPending == "Approved"
-              ? 1
-              : this.newStudentData.AccountPending == "Pending"
-              ? 2
-              : 3,
-          AccountOnlineState: this.newStudentData.AccountOnlineState,
-          AccountID: this.newStudentData.AccountID,
-          AccountPassword: this.newStudentData.AccountPassword,
-          LastName: this.newStudentData.LastName,
-          FirstName: this.newStudentData.FirstName,
-          MiddleName: this.newStudentData.MiddleName,
-          ExtName: this.newStudentData.ExtName,
-          PhoneNumber: this.newStudentData.PhoneNumber,
-          Email: this.newStudentData.Email,
-          Icon: "",
-          YearLevel: this.filterYearLevel(this.newStudentData.YearLevel)[0].ID,
-          Course: this.filterCourse(this.newStudentData.Course)[0].ID,
-          ParentID: this.newStudentData.ParentID,
-          CreateTime: this.newStudentData.CreateTime,
-          UpdateTime: this.createTime()
+          AccountID: this.newStudentData.StudentID
         }
       };
       this.http
-        .post(this.api.AdminService, params)
+        .post(this.api.StudentService, paramsStudent)
         .then(response => {
           if (response.data[0].State == 1) {
-            this.closeDialog();
+            let params = {
+              request: 4,
+              data: {
+                ID: this.newStudentData.ID,
+                AccountType:
+                  this.newStudentData.AccountType == "Student" ? 1 : 2,
+                AccountStatus:
+                  this.newStudentData.AccountStatus == "Active" ? 1 : 2,
+                AccountPending:
+                  this.newStudentData.AccountPending == "Approved"
+                    ? 1
+                    : this.newStudentData.AccountPending == "Pending"
+                    ? 2
+                    : 3,
+                AccountOnlineState: this.newStudentData.AccountOnlineState,
+                AccountID: this.newStudentData.AccountID,
+                AccountPassword: this.newStudentData.AccountPassword,
+                LastName: this.newStudentData.LastName,
+                FirstName: this.newStudentData.FirstName,
+                MiddleName: this.newStudentData.MiddleName,
+                ExtName: this.newStudentData.ExtName,
+                PhoneNumber: this.newStudentData.PhoneNumber,
+                Email: this.newStudentData.Email,
+                Icon: "",
+                StudentID: this.newStudentData.StudentID,
+                CreateTime: this.newStudentData.CreateTime,
+                UpdateTime: this.createTime()
+              }
+            };
+            this.http
+              .post(this.api.ParentService, params)
+              .then(response => {
+                if (response.data[0].State == 1) {
+                  this.updateData();
+                  this.$message({
+                    type: "success",
+                    message: response.data[0].Message
+                  });
+                }
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          } else {
             this.$message({
-              type: "success",
-              message: response.data[0].Message
+              type: "error",
+              message: "Student Account ID not exist!"
             });
           }
         })
         .catch(error => {
+          this.$message({
+            type: "danger",
+            message: "Connection Error!"
+          });
           console.log(error);
         });
     },
-    selectCourse(item) {
-      this.newStudentData.Course = item.CourseID;
-      this.currentCourse = item.CourseID;
-    },
-    getAllCourse() {
-      let params = {
-        request: 1,
-        data: {}
-      };
-      this.http
-        .post(this.api.CourseService, params)
-        .then(response => {
-          this.courseList = response.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-    filterCourse(course) {
-      return this.courseList.filter(val => {
-        return val.CourseID == course;
-      });
-    },
-    getAllYearLevel() {
-      let params = {
-        request: 1,
-        data: {}
-      };
-      this.http
-        .post(this.api.YearLevelService, params)
-        .then(response => {
-          this.yearLevelList = response.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-    filterYearLevel(yearLevel) {
-      return this.yearLevelList.filter(val => {
-        return val.YearLevel == yearLevel;
-      });
-    },
-    selectYearLevel(item) {
-      this.newStudentData.YearLevel = item.YearLevel;
-      this.currentYearLevel = item.YearLevel;
+    updateData() {
+      this.$emit("updateData");
     },
     createTime() {
       let today = new Date();
@@ -304,10 +248,6 @@ export default {
   // },
   mounted() {
     this.newStudentData = this.studentData;
-    this.currentCourse = this.newStudentData.Course;
-    this.currentYearLevel = this.newStudentData.YearLevel;
-    this.getAllCourse();
-    this.getAllYearLevel();
   }
 };
 </script>

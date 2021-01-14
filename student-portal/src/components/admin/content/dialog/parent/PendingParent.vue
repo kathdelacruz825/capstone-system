@@ -1,7 +1,7 @@
 <template>
   <el-dialog
-    title="Student Status"
-    :visible.sync="showInActiveStudent"
+    title="Parent Pending"
+    :visible.sync="showPendingStudent"
     width="20%"
     @close="closeDialog()"
     :show-close="false"
@@ -9,12 +9,12 @@
     :close-on-click-modal="false"
     top="50px"
   >
-    <span>Are you sure you want to set {{ statusTitle }}?</span>
+    <span>Are you sure you want to {{ pendingTitle }}?</span>
     <span slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">Cancel</el-button>
-      <el-button type="primary" @click="deleteStudent"
-        >Set {{ statusTitle }}</el-button
-      >
+      <el-button type="primary" @click="deleteStudent">{{
+        pendingTitle
+      }}</el-button>
     </span>
   </el-dialog>
 </template>
@@ -27,15 +27,23 @@ export default {
   },
   methods: {
     closeDialog() {
-      this.$emit("closeInActiveStudent", false);
+      this.$emit("closePendingStudent", false);
     },
     deleteStudent() {
       let params = {
         request: this.request,
-        data: this.studentData
+        data: {
+          ID: this.studentData.ID,
+          AccountPending:
+            this.pendingTitle == "Approve"
+              ? 1
+              : this.pendingTitle == "Re-approve"
+              ? 1
+              : 3
+        }
       };
       this.http
-        .post(this.api.AdminService, params)
+        .post(this.api.ParentService, params)
         .then(response => {
           if (response.data[0].State == 1) {
             this.closeDialog();
@@ -52,17 +60,17 @@ export default {
     }
   },
   props: {
-    showInActiveStudent: {
+    showPendingStudent: {
       type: Boolean,
       default: false
     },
-    statusTitle: {
+    pendingTitle: {
       type: String,
       default: ""
     },
     request: {
       type: Number,
-      default: 8 // default value for set inactive
+      default: 10 // default value for approve
     },
     studentData: {
       type: Object,

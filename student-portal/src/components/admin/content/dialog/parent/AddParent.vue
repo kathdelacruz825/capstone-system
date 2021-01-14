@@ -92,7 +92,7 @@
         </div>
         <el-divider content-position="left">School Details</el-divider>
         <el-form-item label="Student ID:" prop="StudentID">
-          <el-input v-model="ruleForm.StudentID" type="email"></el-input>
+          <el-input v-model="ruleForm.StudentID" type="text"></el-input>
         </el-form-item>
       </el-form>
     </div>

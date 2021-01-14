@@ -57,9 +57,10 @@
         </template>
       </el-table-column>
     </el-table>
-    <UpdateStudent
+    <UpdateParent
       v-if="showUpdateStudent"
       :showUpdateStudent="showUpdateStudent"
+      @updateData="updateData()"
       @closeUpdateStudent="closeUpdateStudent($event)"
       :studentData="studentData"
     />
@@ -75,7 +76,7 @@
       :studentData="studentData"
     />
 
-    <StatusStudent
+    <StatusParent
       :showInActiveStudent="showInActiveStudent"
       :statusTitle="statusTitle"
       :request="request"
@@ -84,7 +85,7 @@
       :studentData="studentData"
     />
 
-    <PendingStudent
+    <PendingParent
       :showPendingStudent="showPendingStudent"
       :pendingTitle="pendingTitle"
       :request="request"
@@ -96,21 +97,21 @@
 </template>
 
 <script>
-import UpdateStudent from "@/components/admin/content/dialog/student/UpdateStudent.vue";
-import ViewInfoStudent from "@/components/admin/content/dialog/student/ViewInfoStudent.vue";
-import DeleteStudent from "@/components/admin/content/dialog/student/DeleteStudent.vue";
-import StatusStudent from "@/components/admin/content/dialog/student/StatusStudent.vue";
-import PendingStudent from "@/components/admin/content/dialog/student/PendingStudent.vue";
+import UpdateParent from "@/components/admin/content/dialog/parent/UpdateParent.vue";
+import ViewInfoStudent from "@/components/admin/content/dialog/parent/ViewInfoStudent.vue";
+import DeleteStudent from "@/components/admin/content/dialog/parent/DeleteStudent.vue";
+import StatusParent from "@/components/admin/content/dialog/parent/StatusParent.vue";
+import PendingParent from "@/components/admin/content/dialog/parent/PendingParent.vue";
 
 import { tableProps } from "@/components/admin/content/parent/tablesettings";
 
 export default {
   components: {
-    UpdateStudent,
+    UpdateParent,
     ViewInfoStudent,
     DeleteStudent,
-    StatusStudent,
-    PendingStudent
+    StatusParent,
+    PendingParent
   },
   data() {
     return {
@@ -209,7 +210,7 @@ export default {
           this.showInActiveStudent = true;
           break;
         case "Set Inactive":
-          this.request = 8;
+          this.request = 9;
           this.statusTitle = "Inactive";
           this.showInActiveStudent = true;
           break;
@@ -219,7 +220,7 @@ export default {
           this.pendingTitle = "Approve";
           break;
         case "Reject":
-          this.request = 11;
+          this.request = 10;
           this.showPendingStudent = true;
           this.pendingTitle = "Reject";
           break;

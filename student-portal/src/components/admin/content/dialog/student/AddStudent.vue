@@ -250,7 +250,7 @@ export default {
             .post(this.api.AdminService, params)
             .then(response => {
               if (response.data[0].State == 1) {
-                // tuloy dito
+                this.updateData();
                 this.$message({
                   type: "success",
                   message: "Student data saved!"
@@ -287,6 +287,9 @@ export default {
         this.$message.error("Avatar picture size can not exceed 2MB!");
       }
       return isJPG && isLt2M;
+    },
+    updateData() {
+      this.$emit("updateData");
     },
     handleRemove(file, fileList) {
       console.log(file, fileList);

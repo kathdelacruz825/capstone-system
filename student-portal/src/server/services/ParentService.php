@@ -21,26 +21,36 @@ if ($params) {
         $data = new ParentData($conn);
         echo json_encode($data->setParentData($params['data']));
         break;
-      // case 4:
-      // // update data
-      //   $data = new SampleData($conn);
-      //   echo json_encode($data->updateSampleData($params['data']));
-      //   break;
+      case 4:
+      // update data
+        $data = new ParentData($conn);
+        echo json_encode($data->updateParentData($params['data']));
+        break;
       // case 5:
       // // delete data
       //   $data = new SampleData($conn);
       //   echo json_encode($data->deleteSampleData($params['data']));
-    break;
-    case 7:
-      // count student
-      $data = new ParentData($conn);
-      echo json_encode($data->getParentByStatus($params['data']));
       break;
-    case 8:
-      // count student
-      $data = new ParentData($conn);
-      echo json_encode($data->countParent($params['data']));
-      break;
+      case 7:
+        // count student
+        $data = new ParentData($conn);
+        echo json_encode($data->getParentByStatus($params['data']));
+        break;
+      case 8:
+        // count student
+        $data = new ParentData($conn);
+        echo json_encode($data->countParent($params['data']));
+        break;
+      case 9:
+        // count student
+        $data = new ParentData($conn);
+        echo json_encode($data->setStatusParenData($params['data']));
+        break;
+      case 10:
+        // count student
+        $data = new ParentData($conn);
+        echo json_encode($data->setPendingParenData($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }

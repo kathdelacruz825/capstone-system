@@ -9,7 +9,7 @@
     width="600px"
   >
     <template #title>
-      Student Info
+      Parent Info
     </template>
     <div class="add-student-content">
       <el-form
@@ -121,42 +121,9 @@
           </el-form-item>
         </div>
         <el-divider content-position="left">School Details</el-divider>
-        <div class="form-item-school-details">
-          <el-form-item label="Course:">
-            <el-dropdown trigger="click">
-              <el-button type="primary" disabled>
-                {{ studentData.Course
-                }}<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  disabled
-                  v-for="(courseItem, courseKey) in []"
-                  :key="courseKey"
-                >
-                  {{ courseItem.CourseID }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </el-form-item>
-          <el-form-item label="Year Level:">
-            <el-dropdown trigger="click">
-              <el-button type="primary" disabled>
-                {{ studentData.YearLevel
-                }}<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  disabled
-                  v-for="(yearLevelItem, yearLevelKey) in []"
-                  :key="yearLevelKey"
-                >
-                  {{ yearLevelItem.YearLevel }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </el-form-item>
-        </div>
+        <el-form-item label="Student ID:" prop="StudentID">
+          <el-input v-model="studentData.StudentID" type="text"></el-input>
+        </el-form-item>
       </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
