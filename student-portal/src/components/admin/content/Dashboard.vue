@@ -156,6 +156,20 @@ export default {
           console.log(error);
         });
     },
+    getTeacherData() {
+      var params = {
+        request: 8,
+        data: {}
+      };
+      this.http
+        .post(this.api.TeacherService, params)
+        .then(response => {
+          this.teacherCount = response.data[0].count;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     getCurrentDateTime() {
       let today = new Date();
       let currdate =
@@ -190,6 +204,7 @@ export default {
     await this.getParentData();
     await this.getSchoolYearData();
     await this.getGradingPeriodData();
+    await this.getTeacherData();
   }
 };
 </script>

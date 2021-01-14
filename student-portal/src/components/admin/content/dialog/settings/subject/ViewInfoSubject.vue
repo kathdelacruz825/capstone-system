@@ -8,7 +8,7 @@
     width="600px"
   >
     <template #title>
-      Add Subject
+      View Info Subject
     </template>
     <div class="add-course-content">
       <el-form

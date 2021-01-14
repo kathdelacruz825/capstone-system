@@ -8,7 +8,7 @@
     width="600px"
   >
     <template #title>
-      Add School Year
+      View Info Year
     </template>
     <div class="add-course-content add-school-year-content">
       <el-form

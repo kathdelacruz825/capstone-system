@@ -8,27 +8,41 @@
     width="600px"
   >
     <template #title>
-      View Info Year Level
+      View Info Teacher
     </template>
     <div class="add-course-content">
       <el-form
         :label-position="'left'"
-        :model="YearLevelData"
+        :model="teacherData"
         class="add-dialog-form"
         label-width="130px"
         status-icon
       >
-        <el-divider content-position="left">Year Level Details</el-divider>
+        <el-divider content-position="left">Teacher Details</el-divider>
         <div class="form-item-account-details">
-          <el-form-item label="Year Level:" prop="YearLevel">
+          <el-form-item label="Account ID:" prop="YearLevel">
             <el-input
-              v-model="YearLevelData.YearLevel"
+              v-model="teacherData.AccountID"
+              type="text"
+              readonly
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="Name:" prop="YearLevel">
+            <el-input
+              v-model="teacherData.Name"
+              type="text"
+              readonly
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="Position:" prop="YearLevel">
+            <el-input
+              v-model="teacherData.Position"
               type="text"
               readonly
             ></el-input>
           </el-form-item>
           <el-form-item label="Status:">
-            <el-radio-group v-model="YearLevelData.YearLevelStatus" size="mini">
+            <el-radio-group v-model="teacherData.Status" size="mini">
               <el-radio :label="'Active'" border disabled>Active</el-radio>
               <el-radio :label="'Inactive'" border disabled>Inactive</el-radio>
             </el-radio-group>
@@ -58,7 +72,7 @@ export default {
       type: Boolean,
       default: false
     },
-    YearLevelData: {
+    teacherData: {
       type: Object,
       default: () => {
         return {};

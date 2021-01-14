@@ -39,6 +39,9 @@ export default {
     SchoolYear: resolve => {
       require(["@/components/admin/content/settings/SchoolYear.vue"], resolve);
     },
+    Teacher: resolve => {
+      require(["@/components/admin/content/settings/Teacher.vue"], resolve);
+    },
     GradingPeriod: resolve => {
       require([
         "@/components/admin/content/settings/GradingPeriod.vue"
@@ -55,7 +58,8 @@ export default {
         { name: "Subject", component: "Subject" },
         { name: "Year Level", component: "YearLevel" },
         { name: "Grading Period", component: "GradingPeriod" },
-        { name: "School Year", component: "SchoolYear" }
+        { name: "School Year", component: "SchoolYear" },
+        { name: "Teacher", component: "Teacher" }
         // { name: "System", component: "System" }
       ]
     };

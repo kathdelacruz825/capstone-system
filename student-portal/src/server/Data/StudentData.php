@@ -178,7 +178,7 @@ class StudentData {
       $this->successTemp["State"] = 0;
       $this->successTemp["Message"] = "Account ID already exist!";
       $this->response[] = $this->successTemp;
-      return $this->response;
+      return $this->response[0];
     } else {
       $query = "Insert into `tbl_accounts_student`
               (AccountType, AccountStatus, AccountPending, AccountOnlineState,
@@ -195,12 +195,12 @@ class StudentData {
         $this->successTemp["State"] = 1;
         $this->successTemp["Message"] = "New record successfully created!";
         $this->response[] = $this->successTemp;
-        return $this->response;
+        return $this->response[0];
       } else {
         $this->successTemp["State"] = 0;
         $this->successTemp["Message"] = "Error creating record!";
         $this->response[] = $this->successTemp;
-        return $this->response;
+        return $this->response[0];
       }
     }
   }
