@@ -73,7 +73,7 @@ export default {
       this.activeUser = index;
       this.$store.dispatch("setUserType", this.userType[this.activeUser]);
     },
-    login() {
+    async login() {
       var params = {
         request: 2,
         data: {
@@ -81,7 +81,7 @@ export default {
           AccountPassword: this.userDetails.password
         }
       };
-      this.http
+      await this.http
         .post(
           this.activeUser == 0
             ? this.api.StudentService

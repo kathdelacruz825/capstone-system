@@ -405,12 +405,12 @@ export default {
         }
       }
     },
-    getAllCourse() {
+    async getAllCourse() {
       let params = {
         request: 1,
         data: {}
       };
-      this.http
+      await this.http
         .post(this.api.CourseService, params)
         .then(response => {
           response.data.map(val => {
@@ -428,12 +428,12 @@ export default {
           console.log(error);
         });
     },
-    getAllYearLevel() {
+    async getAllYearLevel() {
       let params = {
         request: 1,
         data: {}
       };
-      this.http
+      await this.http
         .post(this.api.YearLevelService, params)
         .then(response => {
           response.data.map(val => {

@@ -124,7 +124,7 @@ export default {
       localStorage.removeItem("user");
       this.$router.push({ name: "UserLogin" });
     },
-    uploadImage(file) {
+    async uploadImage(file) {
       let params = {
         request: 7,
         data: {
@@ -132,7 +132,7 @@ export default {
           Icon: file.content
         }
       };
-      this.http
+      await this.http
         .post(
           this.userDetails.AccountType == "1"
             ? this.api.StudentService

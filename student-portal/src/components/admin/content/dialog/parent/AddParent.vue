@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="Add Student"
+    title="Add Parent"
     :visible.sync="showAddStudent"
     @close="closeDialog"
     :show-close="false"
@@ -45,8 +45,8 @@
             <div class="radio">
               <el-form-item label="Account Type">
                 <el-radio-group v-model="AccountType" size="mini">
-                  <el-radio label="Student" border>Student</el-radio>
-                  <el-radio label="Parent" border disabled>Parent</el-radio>
+                  <el-radio label="Student" disabled border>Student</el-radio>
+                  <el-radio label="Parent" border>Parent</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="Account Status">
@@ -91,42 +91,9 @@
           </el-form-item>
         </div>
         <el-divider content-position="left">School Details</el-divider>
-        <div class="form-item-school-details">
-          <el-form-item label="Course:">
-            <el-dropdown trigger="click" @command="selectCourse">
-              <el-button type="primary">
-                {{ currentCourse
-                }}<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  v-for="(courseItem, courseKey) in courseList"
-                  :key="courseKey"
-                  :command="courseItem"
-                >
-                  {{ courseItem.CourseID }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </el-form-item>
-          <el-form-item label="Year Level:">
-            <el-dropdown trigger="click" @command="selectYearLevel">
-              <el-button type="primary">
-                {{ currentYearLevel
-                }}<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  v-for="(yearLevelItem, yearLevelKey) in yearLevelList"
-                  :key="yearLevelKey"
-                  :command="yearLevelItem"
-                >
-                  {{ yearLevelItem.YearLevel }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </el-form-item>
-        </div>
+        <el-form-item label="Student ID:" prop="StudentID">
+          <el-input v-model="ruleForm.StudentID" type="email"></el-input>
+        </el-form-item>
       </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
@@ -175,15 +142,23 @@ export default {
         callback();
       }
     };
+    var validateStudentID = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("Please input the student ID"));
+      } else {
+        callback();
+      }
+    };
     return {
       rules: {
         AccountID: [{ validator: validateAccountID, trigger: "blur" }],
         AccountPassword: [{ validator: validatePass, trigger: "blur" }],
         LastName: [{ validator: validateLastName, trigger: "blur" }],
         FirstName: [{ validator: validateFirstName, trigger: "blur" }],
-        MiddleName: [{ validator: validateMiddleName, trigger: "blur" }]
+        MiddleName: [{ validator: validateMiddleName, trigger: "blur" }],
+        StudentID: [{ validator: validateStudentID, trigger: "blur" }]
       },
-      AccountType: "Student",
+      AccountType: "Parent",
       AccountStatus: "Active",
       ruleForm: {
         ID: "",
@@ -200,16 +175,10 @@ export default {
         PhoneNumber: "",
         Email: "",
         Icon: "",
-        YearLevel: "",
-        Course: "",
-        ParentID: "",
+        StudentID: "",
         CreateTime: "",
         UpdateTime: ""
       },
-      currentCourse: "",
-      courseList: [],
-      currentYearLevel: "",
-      yearLevelList: [],
       fileList: []
     };
   },
@@ -223,47 +192,72 @@ export default {
     save() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          let params = {
-            request: 5,
+          let paramsStudent = {
+            request: 6,
             data: {
-              AccountType: this.AccountType == "Student" ? 1 : 2, //this.ruleForm.AccountType,
-              AccountStatus: this.AccountStatus == "Active" ? 1 : 2, //this.ruleForm.AccountStatus,
-              AccountPending: this.ruleForm.AccountPending,
-              AccountOnlineState: this.ruleForm.AccountOnlineState,
-              AccountID: this.ruleForm.AccountID,
-              AccountPassword: this.ruleForm.AccountPassword,
-              LastName: this.ruleForm.LastName,
-              FirstName: this.ruleForm.MiddleName,
-              MiddleName: this.ruleForm.MiddleName,
-              ExtName: this.ruleForm.ExtName,
-              PhoneNumber: this.ruleForm.PhoneNumber,
-              Email: this.ruleForm.Email,
-              Icon: this.ruleForm.Icon,
-              YearLevel: this.ruleForm.YearLevel,
-              Course: this.ruleForm.Course,
-              ParentID: this.ruleForm.ParentID,
-              CreateTime: this.createTime(),
-              UpdateTime: this.createTime()
+              AccountID: this.ruleForm.StudentID
             }
           };
           this.http
-            .post(this.api.AdminService, params)
+            .post(this.api.StudentService, paramsStudent)
             .then(response => {
               if (response.data[0].State == 1) {
-                // tuloy dito
-                this.$message({
-                  type: "success",
-                  message: "Student data saved!"
-                });
-                this.resetFields();
+                let params = {
+                  request: 3,
+                  data: {
+                    AccountType: this.AccountType == "Student" ? 1 : 2, //this.ruleForm.AccountType,
+                    AccountStatus: this.AccountStatus == "Active" ? 1 : 2, //this.ruleForm.AccountStatus,
+                    AccountPending: this.ruleForm.AccountPending,
+                    AccountOnlineState: this.ruleForm.AccountOnlineState,
+                    AccountID: this.ruleForm.AccountID,
+                    AccountPassword: this.ruleForm.AccountPassword,
+                    LastName: this.ruleForm.LastName,
+                    FirstName: this.ruleForm.MiddleName,
+                    MiddleName: this.ruleForm.MiddleName,
+                    ExtName: this.ruleForm.ExtName,
+                    PhoneNumber: this.ruleForm.PhoneNumber,
+                    Email: this.ruleForm.Email,
+                    Icon: this.ruleForm.Icon,
+                    StudentID: this.ruleForm.StudentID,
+                    CreateTime: this.createTime(),
+                    UpdateTime: this.createTime()
+                  }
+                };
+                this.http
+                  .post(this.api.ParentService, params)
+                  .then(res => {
+                    if (res.data[0].State == 1) {
+                      this.updateData();
+                      this.$message({
+                        type: "success",
+                        message: res.data[0].Message
+                      });
+                    } else {
+                      this.$message({
+                        type: "warning",
+                        message: res.data[0].Message
+                      });
+                    }
+                  })
+                  .catch(error => {
+                    this.$message({
+                      type: "danger",
+                      message: "Connection Error!"
+                    });
+                    console.log(error);
+                  });
               } else {
                 this.$message({
-                  type: "warning",
-                  message: "Student Account ID already exist!"
+                  type: "error",
+                  message: response.data[0].Message
                 });
               }
             })
             .catch(error => {
+              this.$message({
+                type: "danger",
+                message: "Connection Error!"
+              });
               console.log(error);
             });
         } else {
@@ -288,52 +282,15 @@ export default {
       }
       return isJPG && isLt2M;
     },
+    updateData() {
+      this.$emit("updateData");
+    },
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
     handlePreview(file) {
       console.log(file);
       console.log(this.fileList);
-    },
-    getAllCourse() {
-      let params = {
-        request: 1,
-        data: {}
-      };
-      this.http
-        .post(this.api.CourseService, params)
-        .then(response => {
-          this.courseList = response.data;
-          this.currentCourse = response.data[0].CourseID;
-          this.ruleForm.Course = response.data[0].ID;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-    getAllYearLevel() {
-      let params = {
-        request: 1,
-        data: {}
-      };
-      this.http
-        .post(this.api.YearLevelService, params)
-        .then(response => {
-          this.yearLevelList = response.data;
-          this.currentYearLevel = response.data[0].YearLevel;
-          this.ruleForm.YearLevel = response.data[0].ID;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-    selectCourse(item) {
-      this.ruleForm.Course = item.ID;
-      this.currentCourse = item.CourseID;
-    },
-    selectYearLevel(item) {
-      this.ruleForm.YearLevel = item.ID;
-      this.currentYearLevel = item.YearLevel;
     },
     resetFields() {
       this.$refs.ruleForm.resetFields();
@@ -375,10 +332,7 @@ export default {
       default: false
     }
   },
-  created() {
-    this.getAllCourse();
-    this.getAllYearLevel();
-  }
+  created() {}
 };
 </script>
 

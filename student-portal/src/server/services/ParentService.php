@@ -31,6 +31,11 @@ if ($params) {
       //   $data = new SampleData($conn);
       //   echo json_encode($data->deleteSampleData($params['data']));
     break;
+    case 7:
+      // count student
+      $data = new ParentData($conn);
+      echo json_encode($data->getParentByStatus($params['data']));
+      break;
     case 8:
       // count student
       $data = new ParentData($conn);
