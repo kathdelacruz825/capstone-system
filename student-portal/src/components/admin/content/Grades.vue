@@ -2,7 +2,7 @@
   <div class="grades">
     <div class="top-panel">
       <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col :span="5">
 
             <div class="search-box">
               <!-- <div class="title-box">
@@ -21,10 +21,49 @@
             </div>
             <div class="bottom-box"></div>
         </el-col>
-        <el-col :span="18">
+        <el-col :span="19">
           <div class="grid-content bg-purple">
             <el-divider content-position="left">Student Info</el-divider>
-            <div>student info</div>
+            <div class="student-info-box">
+              <div class="left">
+                <img src="" alt="student image">
+              </div>
+              <div class="right">
+                <div class="top-info">
+                  <small>Name</small>
+                  <h3>ad</h3>
+                </div>
+                <div class="bottom-info">
+                  <div>1</div>
+                  <div>2</div>
+                  <div>3</div>
+                </div>
+              </div>
+            </div>
+            <el-divider content-position="left">Record Info</el-divider>
+            <div class="record-box">
+              <div class="record-box-wrapper">
+                <div class="record-header">
+                  <div class="item-header"
+                    v-for="(item, key) in itemClass"
+                    :key="key"
+                    @click="selectItemClass(key)"
+                    :class="activeItemClass == key ? 'selected' : null">
+                    {{ item.name }}
+                  </div>
+                </div>
+                <div class="record-body">
+                  <div class="action">
+                    <el-row>
+                      <el-button type="primary" icon="el-icon-circle-plus"></el-button>
+                      <el-button type="warning" icon="el-icon-edit"></el-button>
+                      <el-button type="danger" icon="el-icon-delete"></el-button>
+                    </el-row>
+                  </div>
+                  table here
+                </div>
+              </div>
+            </div>
           </div>
         </el-col>
       </el-row>
@@ -40,9 +79,40 @@ export default {
       searchText: '',
       select: 'Account ID',
       studentList: [],
+      itemClass: [
+        {
+          name: "Grades",
+          link: "Grades"
+        },
+        {
+          name: "Quizzes",
+          link: "Quizzes"
+        },
+        {
+          name: "Examinations",
+          link: "Examinations"
+        },
+        {
+          name: "Attendance",
+          link: "Attendance"
+        },
+        {
+          name: "Schedule",
+          link: "Schedule"
+        }
+      ],
+      activeItemClass: 0,
+      classActions: [
+        { title: 'Add' , icon: '' },
+        { title: 'Edit' , icon: '' },
+        { title: 'Delete' , icon: '' },
+      ],
     };
   },
   methods: {
+    selectItemClass(index) {
+      this.activeItemClass = index;
+    },
     getStudentList() {
       var params = {
         request: 1,
@@ -119,6 +189,7 @@ export default {
         padding: 5px 10px;
         font-size: 14px;
         border-bottom: 1px solid #EBEEF5;
+        cursor: pointer;
       }
       // .list-wrapper .list-item:not(:last-child) {
       //   border-bottom: 1px solid #EBEEF5;
@@ -141,5 +212,54 @@ export default {
     border: 1px solid #ccc;
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.25);
   }
+
+  .student-info-box {
+    display: flex;
+    height: 120px;
+    // margin-bottom: 20px;
+    .left {
+      width: 150px;
+    }
+    .right {
+      flex: 3;
+      text-align: left;
+      padding: 0px 0px 0px 10px;
+    }
+    .right .top-info {
+
+    }
+    .right .bottom-info {
+      display: flex;
+      &>div {
+        flex: 1;
+      }
+    }
+  }
+
+  .record-box {
+    margin-bottom: 20px;
+    .record-box-wrapper {
+      padding: 0px 10px;
+    }
+    .record-box-wrapper .record-header {
+      display: flex;
+      .item-header.selected {
+        background: #DCDFE6;
+        color: #333;
+      }
+      .item-header {
+        padding: 5px 10px;
+        background: #409EFF;
+        color: #fff;
+        border-top-right-radius: 8px;
+        border-top-left-radius: 8px;
+        cursor: pointer;
+      }
+      .item-header:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+  }
+
 }
 </style>
