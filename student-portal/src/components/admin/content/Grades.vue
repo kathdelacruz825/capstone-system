@@ -8,7 +8,7 @@
               <!-- <div class="title-box">
                 <span>Search</span>
               </div> -->
-              <el-input placeholder="Search" v-model="searchText" @change="getStudentList" class="input-with-select">
+              <el-input placeholder="Input name to search" v-model="searchText" @change="getStudentList" class="input-with-select">
                 <el-button slot="append" icon="el-icon-search" @click="getStudentList()"></el-button>
               </el-input>
               <div class="list">
@@ -69,7 +69,7 @@
                       <el-button type="success" icon="el-icon-circle-plus" @click="showAddGradeF()"></el-button>
                     </el-row>
                   </div>
-                  <component :is="itemClass[activeItemClass].link"></component>
+                  <component :is="itemClass[activeItemClass].link" :tableData="tableData"></component>
                 </div>
               </div>
             </div>
@@ -79,7 +79,8 @@
     </div>
     <AddGrade
       v-if="showAddGrade"
-      :studentID="studentData.AccountID"
+      :studentID="studentData.ID"
+      @updateData="updateData"
       @closeAddGrade="closeAddGrade($event)"
       :showAddGrade="showAddGrade"/>
   </div>
@@ -100,6 +101,7 @@ export default {
       showAddGrade: false,
       searchText: '',
       select: 'Account ID',
+      tableData: [],
       studentList: [],
       itemClass: [
         {
@@ -136,7 +138,7 @@ export default {
     selectItemClass(index) {
       this.activeItemClass = index;
     },
-    getStudentList() {
+    async getStudentList() {
       if (this.searchText) {
         var params = {
           request: 13,
@@ -144,7 +146,7 @@ export default {
             searchText: this.searchText,
           },
         };
-        this.http
+        await this.http
           .post(this.api.AdminService, params)
           .then(response => {
             this.studentList = [];
@@ -157,12 +159,32 @@ export default {
         this.studentList = [];
       }
     },
+    getStudentGradeData(val) {
+      var params = {
+        request: 1,
+        data: {
+          StudentID: val,
+        },
+      };
+      this.http
+        .post(this.api.AdminGradingService, params)
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    updateData() {
+      console.log(1);
+      this.getStudentGradeData(this.studentData.ID)
+    },
     closeAddGrade(val) {
       this.showAddGrade = val;
     },
     selectStudent(val) {
       this.studentData = val;
-      console.log(val);
+      this.getStudentGradeData(val.ID)
     },
     showAddGradeF() {
       if (this.studentData != null) {

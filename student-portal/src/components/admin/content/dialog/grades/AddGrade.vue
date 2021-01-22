@@ -113,12 +113,12 @@ export default {
         SubjectID: '',
         Quarter: '',
         Grade: '',
-        // FirstGrade: '',
-        // SecondGrade: '',
-        // ThirdGrade: '',
-        // FourthGrade: '',
-        // OverAllGrade: '',
-        // Remarks: '',
+        FirstGrade: '',
+        SecondGrade: '',
+        ThirdGrade: '',
+        FourthGrade: '',
+        OverAllGrade: '',
+        Remarks: '',
         TeacherID: '',
       },
       currentTeacher: '---Select---',
@@ -136,10 +136,8 @@ export default {
       this.currentTeacher = '---Select---';
       this.currentSubject = '---Select---';
       this.$emit("closeAddGrade", false);
-      this.$refs.ruleForm.resetFields();
-    },
-    updateData() {
       this.$emit("updateData");
+      this.$refs.ruleForm.resetFields();
     },
     selectTeacher(val) {
       this.currentTeacher = val.Name;
@@ -175,14 +173,80 @@ export default {
           message: "Select Teacher!"
         });
       } else {
+        if (this.ruleForm.Quarter == 'First') {
+          this.ruleForm.FirstGrade = this.ruleForm.Grade;
+          this.ruleForm.SecondGrade = '';
+          this.ruleForm.ThirdGrade = '';
+          this.ruleForm.FourthGrade = '';
+        } else if (this.ruleForm.Quarter == 'Second') {
+          this.ruleForm.SecondGrade = this.ruleForm.Grade;
+          this.ruleForm.FirstGrade = '';
+          this.ruleForm.ThirdGrade = '';
+          this.ruleForm.FourthGrade = '';
+        } else if (this.ruleForm.Quarter == 'Third') {
+          this.ruleForm.ThirdGrade = this.ruleForm.Grade;
+          this.ruleForm.FirstGrade = '';
+          this.ruleForm.SecondGrade = '';
+          this.ruleForm.FourthGrade = '';
+        } else {
+          this.ruleForm.FourthGrade = this.ruleForm.Grade;
+          this.ruleForm.FirstGrade = '';
+          this.ruleForm.SecondGrade = '';
+          this.ruleForm.ThirdGrade = '';
+        }
         let params = {
-          request: 1,
-          data: this.ruleForm
+          request: 2,
+          data: {
+            StudentID: this.ruleForm.StudentID,
+            SubjectID: this.ruleForm.SubjectID,
+            FirstGrade: Number(this.ruleForm.FirstGrade ? this.ruleForm.FirstGrade : 0),
+            SecondGrade: Number(this.ruleForm.SecondGrade ? this.ruleForm.SecondGrade : 0),
+            ThirdGrade: Number(this.ruleForm.ThirdGrade ? this.ruleForm.ThirdGrade : 0),
+            FourthGrade: Number(this.ruleForm.FourthGrade ? this.ruleForm.FourthGrade : 0),
+            OverAllGrade: this.computeOverALL(this.ruleForm),
+            Remarks: this.computeRemarks(this.ruleForm),
+            TeacherID: this.ruleForm.TeacherID,
+          }
         };
-        console.log(params);
+        this.http
+          .post(this.api.AdminGradingService, params)
+          .then(response => {
+            if (response.data.State == 1) {
+              this.$emit("updateData");
+              this.$message({
+                type: "success",
+                message: response.data.Message
+              });
+            } else {
+              this.$message({
+                type: "warning",
+                message: response.data.Message
+              });
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
       }
 
     },
+    computeOverALL(obj) {
+      let first = Number(obj.FirstGrade ? obj.FirstGrade : 0);
+      let second = Number(obj.SecondGrade ? obj.SecondGrade : 0);
+      let third = Number(obj.ThirdGrade ? obj.ThirdGrade : 0);
+      let fourth = Number(obj.FourthGrade ? obj.FourthGrade : 0);
+      let overAll = (first + second + third + fourth) / 4;
+      return overAll;
+    },
+    computeRemarks(obj) {
+      let first = Number(obj.FirstGrade ? obj.FirstGrade : 0);
+      let second = Number(obj.SecondGrade ? obj.SecondGrade : 0);
+      let third = Number(obj.ThirdGrade ? obj.ThirdGrade : 0);
+      let fourth = Number(obj.FourthGrade ? obj.FourthGrade : 0);
+      let overAll = (first + second + third + fourth) / 4;
+      return overAll >=75 ? 'Pass' : 'Failed';
+    },
+    
     getAllTeacher() {
       let params = {
         request: 1,

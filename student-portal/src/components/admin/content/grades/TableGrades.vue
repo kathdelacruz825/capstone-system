@@ -53,6 +53,11 @@
         label="Remarks"
         width="120">
         </el-table-column>
+      <!-- <el-table-column
+        prop="TeacherID"
+        label="Teacher"
+        width="120">
+        </el-table-column> -->
       <el-table-column fixed="right" label="Operations" :width="'230'">
         <template slot-scope="scope">
           <el-button
@@ -80,7 +85,6 @@ export default {
     return {
       tableProps: tableProps,
       gradeData: {},
-      tableData: [],
     };
   },
   methods: {
@@ -96,7 +100,14 @@ export default {
       }
     },
   },
-  props: {},
+  props: {
+    tableData: {
+      type: Array,
+      default: () => {
+        return [];
+      },
+    }
+  },
   created() {},
   mounted() {}
 };
