@@ -66,6 +66,11 @@ if ($params) {
         $data = new AdminData($conn);
         echo json_encode($data->UpdateStudentData($params['data']));
         break;
+      case 13:
+        // search student by
+        $data = new AdminData($conn);
+        echo json_encode($data->SearchStudentData($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }

@@ -274,6 +274,74 @@ class AdminData {
     return $this->response;
   }
 
+  function SearchStudentData($params) {
+    $searchText = $params['searchText'];
+    $query = "Select
+              `tbl_accounts_student`.`ID`,
+              `tbl_account_type`.`AccountType`,
+              `tbl_account_status`.`AccountStatus`,
+              `tbl_account_pending`.`AccountPending`,
+              `tbl_accounts_student`.`AccountOnlineState`,
+              `tbl_accounts_student`.`AccountID`,
+              `tbl_accounts_student`.`AccountPassword`,
+              `tbl_accounts_student`.`LastName`,
+              `tbl_accounts_student`.`FirstName`,
+              `tbl_accounts_student`.`MiddleName`,
+              `tbl_accounts_student`.`ExtName`,
+              `tbl_accounts_student`.`PhoneNumber`,
+              `tbl_accounts_student`.`Email`,
+              `tbl_accounts_student`.`Icon`,
+              `tbl_yearlevel`.`YearLevel`, 
+              `tbl_course`.`CourseID`,
+              `tbl_accounts_student`.`ParentID`,
+              `tbl_accounts_student`.`CreateTime`,
+              `tbl_accounts_student`.`UpdateTime`
+              from (((((`tbl_accounts_student`
+              Inner Join `tbl_account_type` on `tbl_accounts_student`.`AccountType`=`tbl_account_type`.`id`)
+              Inner Join `tbl_account_status` on `tbl_accounts_student`.`AccountStatus`=`tbl_account_status`.`ID`)
+              Inner Join `tbl_account_pending` on `tbl_accounts_student`.`AccountPending`=`tbl_account_pending`.`ID`)
+              Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel`=`tbl_yearlevel`.`ID`)
+              Inner Join `tbl_course` on `tbl_accounts_student`.`Course`=`tbl_course`.`ID`)
+              Where
+              `tbl_accounts_student`.`FirstName` Like '%$searchText%'
+              OR
+              `tbl_accounts_student`.`LastName` Like '%$searchText%'
+              Or
+              `tbl_accounts_student`.`MiddleName` Like '%$searchText%'
+              And
+              `tbl_accounts_student`.`AccountStatus`=1
+              And
+              `tbl_accounts_student`.`AccountPending`=1";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempDataStudent["ID"] = $row[0];
+        $this->tempDataStudent["AccountType"] = $row[1];
+        $this->tempDataStudent["AccountStatus"] = $row[2];
+        $this->tempDataStudent["AccountPending"] = $row[3];
+        $this->tempDataStudent["AccountOnlineState"] = $row[4];
+        $this->tempDataStudent["AccountID"] = $row[5];
+        $this->tempDataStudent["AccountPassword"] = $row[6];
+        $this->tempDataStudent["LastName"] = $row[7];
+        $this->tempDataStudent["FirstName"] = $row[8];
+        $this->tempDataStudent["MiddleName"] = $row[9];
+        $this->tempDataStudent["ExtName"] = $row[10];
+        $this->tempDataStudent["PhoneNumber"] = $row[11];
+        $this->tempDataStudent["Email"] = $row[12];
+        $this->tempDataStudent["Icon"] = $row[13];
+        $this->tempDataStudent["YearLevel"] = $row[14];
+        $this->tempDataStudent["Course"] = $row[15];
+        $this->tempDataStudent["ParentID"] = $row[16];
+        $this->tempDataStudent["CreateTime"] = $row[17];
+        $this->tempDataStudent["UpdateTime"] = $row[18];
+        $this->response[] = $this->tempDataStudent;
+      }
+    }
+    return $this->response;
+  }
+
   function setStudentData($params) {
     $AccountType = intval($params['AccountType']);
     $AccountStatus = intval($params['AccountStatus']);

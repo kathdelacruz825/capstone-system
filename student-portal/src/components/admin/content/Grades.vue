@@ -8,8 +8,8 @@
               <!-- <div class="title-box">
                 <span>Search</span>
               </div> -->
-              <el-input placeholder="Search" v-model="searchText" class="input-with-select">
-                <el-button slot="append" icon="el-icon-search"></el-button>
+              <el-input placeholder="Search" v-model="searchText" @change="getStudentList" class="input-with-select">
+                <el-button slot="append" icon="el-icon-search" @click="getStudentList()"></el-button>
               </el-input>
               <div class="list">
                 <div class="list-wrapper">
@@ -137,19 +137,25 @@ export default {
       this.activeItemClass = index;
     },
     getStudentList() {
-      var params = {
-        request: 1,
-        data: {}
-      };
-      this.http
-        .post(this.api.AdminService, params)
-        .then(response => {
-          this.studentList = [];
-          this.studentList = response.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      if (this.searchText) {
+        var params = {
+          request: 13,
+          data: {
+            searchText: this.searchText,
+          },
+        };
+        this.http
+          .post(this.api.AdminService, params)
+          .then(response => {
+            this.studentList = [];
+            this.studentList = response.data;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      } else {
+        this.studentList = [];
+      }
     },
     closeAddGrade(val) {
       this.showAddGrade = val;
@@ -165,9 +171,7 @@ export default {
     },
   },
   props: {},
-  created() {
-    this.getStudentList();
-  }
+  created() {}
 };
 </script>
 
