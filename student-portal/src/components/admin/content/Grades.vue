@@ -13,7 +13,11 @@
               </el-input>
               <div class="list">
                 <div class="list-wrapper">
-                  <div class="list-item" v-for="(item, key) in studentList" :key="key">
+                  <div
+                    class="list-item"
+                    v-for="(item, key) in studentList"
+                    :key="key"
+                    @click="selectStudent(item)">
                     {{ item.LastName + ' ' + item.FirstName + ', ' + item.MiddleName.split('')[0] }}
                   </div>
                 </div>
@@ -26,17 +30,24 @@
             <el-divider content-position="left">Student Info</el-divider>
             <div class="student-info-box">
               <div class="left">
-                <img src="" alt="student image">
+                <img v-if="studentData != null" :src="studentData.Icon" alt="">
               </div>
               <div class="right">
                 <div class="top-info">
-                  <small>Name</small>
-                  <h3>ad</h3>
+                  <small>Student Name</small>
+                  <h3 v-if="studentData != null">
+                    {{ studentData.LastName 
+                        + ' ' + 
+                        studentData.FirstName 
+                        + ', ' + 
+                        studentData.MiddleName.split('')[0] 
+                    }}
+                  </h3>
                 </div>
                 <div class="bottom-info">
-                  <div>1</div>
-                  <div>2</div>
-                  <div>3</div>
+                  <div><small>Student ID:</small> <b v-if="studentData != null">{{ studentData.AccountID }}</b></div>
+                  <div><small>Course:</small> <b v-if="studentData != null">{{ studentData.Course }}</b></div>
+                  <div><small>Year:</small> <b v-if="studentData != null">{{ studentData.YearLevel }}</b></div>
                 </div>
               </div>
             </div>
@@ -55,12 +66,10 @@
                 <div class="record-body">
                   <div class="action">
                     <el-row>
-                      <el-button type="primary" icon="el-icon-circle-plus"></el-button>
-                      <el-button type="warning" icon="el-icon-edit"></el-button>
-                      <el-button type="danger" icon="el-icon-delete"></el-button>
+                      <el-button type="success" icon="el-icon-circle-plus" @click="showAddGradeF()"></el-button>
                     </el-row>
                   </div>
-                  table here
+                  <component :is="itemClass[activeItemClass].link"></component>
                 </div>
               </div>
             </div>
@@ -68,21 +77,34 @@
         </el-col>
       </el-row>
     </div>
+    <AddGrade
+      v-if="showAddGrade"
+      :studentID="studentData.AccountID"
+      @closeAddGrade="closeAddGrade($event)"
+      :showAddGrade="showAddGrade"/>
   </div>
 </template>
 
 <script>
+import AddGrade from '@/components/admin/content/dialog/grades/AddGrade.vue'
+
 export default {
-  components: {},
+  components: {
+    AddGrade,
+    TableGrades: resolve => {
+      require(["@/components/admin/content/grades/TableGrades.vue"], resolve);
+    },
+  },
   data() {
     return {
+      showAddGrade: false,
       searchText: '',
       select: 'Account ID',
       studentList: [],
       itemClass: [
         {
           name: "Grades",
-          link: "Grades"
+          link: "TableGrades"
         },
         {
           name: "Quizzes",
@@ -107,6 +129,7 @@ export default {
         { title: 'Edit' , icon: '' },
         { title: 'Delete' , icon: '' },
       ],
+      studentData: null,
     };
   },
   methods: {
@@ -127,6 +150,18 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    closeAddGrade(val) {
+      this.showAddGrade = val;
+    },
+    selectStudent(val) {
+      this.studentData = val;
+      console.log(val);
+    },
+    showAddGradeF() {
+      if (this.studentData != null) {
+        this.showAddGrade = true;
+      }
     },
   },
   props: {},
@@ -215,10 +250,16 @@ export default {
 
   .student-info-box {
     display: flex;
+    padding: 0px 10px;
     height: 120px;
     // margin-bottom: 20px;
     .left {
       width: 150px;
+      height: 120px;
+      img {
+        height: 100%;
+        width: 100%;
+      }
     }
     .right {
       flex: 3;
@@ -226,7 +267,7 @@ export default {
       padding: 0px 0px 0px 10px;
     }
     .right .top-info {
-
+      min-height: 52px;
     }
     .right .bottom-info {
       display: flex;
@@ -258,6 +299,23 @@ export default {
       .item-header:not(:last-child) {
         margin-right: 10px;
       }
+    }
+  }
+
+  .record-body {
+    .action {
+      margin: 10px 0px;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .action .el-button {
+      height: 25px;
+      width: 30px;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 

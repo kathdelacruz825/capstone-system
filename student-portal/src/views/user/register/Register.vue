@@ -319,7 +319,7 @@ export default {
           this.http
             .post(this.api.StudentService, params)
             .then(response => {
-              if (response.data[0].State == 1) {
+              if (response.data.State == 1) {
                 Dialog.alert({
                   title: "Registration",
                   message:
