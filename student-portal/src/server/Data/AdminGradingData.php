@@ -25,7 +25,7 @@ class AdminGradingData {
     $query = "Select 
               `tbl_record_grade`.`ID`,
               `tbl_record_grade`.`StudentID`,
-              `tbl_record_grade`.`SubjectID`,
+              `tbl_subject`.`Title`,
               `tbl_record_grade`.`FirstGrade`,
               `tbl_record_grade`.`SecondGrade`,
               `tbl_record_grade`.`ThirdGrade`,
@@ -34,6 +34,7 @@ class AdminGradingData {
               `tbl_record_grade`.`Remarks`,
               `tbl_record_grade`.`TeacherID`
               from `tbl_record_grade`
+              Inner Join `tbl_subject` ON `tbl_record_grade`.`SubjectID` = `tbl_subject`.`ID`
               Where `tbl_record_grade`.`StudentID`='$StudentID'";
 
     $result = $this->link->query($query);
@@ -122,16 +123,27 @@ class AdminGradingData {
     }
   }
 
-  function updateCourseData($params) {
+  function updateStudentGradeData($params) {
     $ID = $params['ID'];
-    $CourseID = $params['CourseID'];
-    $CourseDescription = $params['CourseDescription'];
-    $CourseStatus = $params['CourseStatus'];
+    // $StudentID = $params['StudentID'];
+    $SubjectID = $params['SubjectID'];
+    $FirstGrade = $params['FirstGrade'];
+    $SecondGrade = $params['SecondGrade'];
+    $ThirdGrade = $params['ThirdGrade'];
+    $FourthGrade = $params['FourthGrade'];
+    $OverAllGrade = $params['OverAllGrade'];
+    $Remarks = $params['Remarks'];
+    $TeacherID = $params['TeacherID'];
 
-    $query = "Update `tbl_course` SET
-              `CourseID`='$CourseID',
-              `CourseDescription`='$CourseDescription',
-              `CourseStatus`=$CourseStatus
+    $query = "Update `tbl_record_grade` SET
+              `SubjectID`='$SubjectID',
+              `FirstGrade`='$FirstGrade',
+              `SecondGrade`='$SecondGrade',
+              `ThirdGrade`='$ThirdGrade',
+              `FourthGrade`='$FourthGrade',
+              `OverAllGrade`='$OverAllGrade',
+              `Remarks`='$Remarks',
+              `TeacherID`='$TeacherID'
               where ID=$ID";
 
     if ($this->link->query($query) === TRUE) {
@@ -158,6 +170,7 @@ class AdminGradingData {
       $this->response[] = $this->successTemp;
       return $this->response[0];
     } else {
+      $this->successTemp["State"] = 0;
       $this->successTemp["Message"] = "Error updating record!";
       $this->response[] = $this->successTemp;
       return $this->response[0];
@@ -177,14 +190,20 @@ class AdminGradingData {
     }
   }
   
-  function deleteSampleData($params) {
-    $id = $params['id'];
+  function deleteStudentGradeData($params) {
+    $id = $params['ID'];
     
-    $query = "Delete from `tbl_course` where id=$id";
+    $query = "Delete from `tbl_record_grade` where id=$id";
     if ($this->link->query($query) === TRUE) {
-      echo "Record successfully deleted";
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully deleted";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     } else {
-      echo "Error deleting record!";
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error deleting record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     }
   }
 

@@ -69,7 +69,10 @@
                       <el-button type="success" icon="el-icon-circle-plus" @click="showAddGradeF()"></el-button>
                     </el-row>
                   </div>
-                  <component :is="itemClass[activeItemClass].link" :tableData="tableData"></component>
+                  <component
+                    :is="itemClass[activeItemClass].link"
+                    @updateData="updateData"
+                    :tableData="tableData"></component>
                 </div>
               </div>
             </div>
@@ -176,7 +179,6 @@ export default {
         });
     },
     updateData() {
-      console.log(1);
       this.getStudentGradeData(this.studentData.ID)
     },
     closeAddGrade(val) {

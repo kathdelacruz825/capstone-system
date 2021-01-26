@@ -73,18 +73,46 @@
         </template>
       </el-table-column>
     </el-table>
+
+  <el-dialog
+    title="Delete Grade"
+    :visible.sync="showDeleteGrade"
+    width="20%"
+    :show-close="false"
+    :close-on-press-escape="false"
+    :close-on-click-modal="false"
+    top="50px"
+  >
+    <span>Are you sure you want to delete?</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="showDeleteGrade = false">Cancel</el-button>
+      <el-button type="primary" @click="deleteData()">Delete</el-button>
+    </span>
+  </el-dialog>
+
+    <UpdateGrade
+      v-if="showUpdateGrade"
+      :studentData="gradeData"
+      @updateData="updateData"
+      @closeUpdateGrade="closeUpdateGrade($event)"
+      :showUpdateGrade="showUpdateGrade"/>
   </div>
 </template>
 
 <script>
 import { tableProps } from "@/components/admin/content/grades/tableProps_TableGrades.js";
+import UpdateGrade from '@/components/admin/content/dialog/grades/UpdateGrade.vue'
 
 export default {
-  components: {},
+  components: {
+    UpdateGrade
+  },
   data() {
     return {
       tableProps: tableProps,
       gradeData: {},
+      showDeleteGrade: false,
+      showUpdateGrade: false,
     };
   },
   methods: {
@@ -92,13 +120,49 @@ export default {
       this.gradeData = itemData;
       switch (name) {
         case "Edit":
+          this.showUpdateGrade = true;
           break;
         case "Delete":
+          this.showDeleteGrade = true;
           break;
         default:
           console.log("Invalid Option");
       }
     },
+    deleteData() {
+      let params = {
+        request: 5,
+        data: {
+          ID: this.gradeData.ID
+        },
+      }
+        this.http
+          .post(this.api.AdminGradingService, params)
+          .then(response => {
+            if (response.data.State == 1) {
+              this.showDeleteGrade = false;
+              this.$emit("updateData");
+              this.$message({
+                type: "success",
+                message: response.data.Message
+              });
+            } else {
+              this.$message({
+                type: "warning",
+                message: response.data.Message
+              });
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    },
+    updateData() {
+      this.$emit("updateData");
+    },
+    closeUpdateGrade(val) {
+      this.showUpdateGrade = val;
+    }
   },
   props: {
     tableData: {
