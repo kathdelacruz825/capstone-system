@@ -9,6 +9,7 @@ export const api = {
   SchoolYearService: "/services/SchoolYearService.php",
   TeacherService: "/services/TeacherService.php",
   AdminGradingService: "/services/AdminGradingService.php",
+  AdminQuizService: "/services/AdminQuizService.php",
   // SampleService: "/services/SampleService.php",
 
   AdminService: "/services/AdminService.php"

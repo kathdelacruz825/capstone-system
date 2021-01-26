@@ -66,7 +66,11 @@
                 <div class="record-body">
                   <div class="action">
                     <el-row>
-                      <el-button type="success" icon="el-icon-circle-plus" @click="showAddGradeF()"></el-button>
+                      <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 0" @click="showAddGradeF()"></el-button>
+                      <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 1" @click="showAddQuizF()"></el-button>
+                      <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 2" @click="showAddGradeF()"></el-button>
+                      <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 3" @click="showAddGradeF()"></el-button>
+                      <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 4" @click="showAddGradeF()"></el-button>
                     </el-row>
                   </div>
                   <component
@@ -86,22 +90,36 @@
       @updateData="updateData"
       @closeAddGrade="closeAddGrade($event)"
       :showAddGrade="showAddGrade"/>
+
+    <AddQuiz
+      v-if="showAddQuiz"
+      :studentID="studentData.ID"
+      @updateData="updateData"
+      @closeAddQuiz="closeAddQuiz($event)"
+      :showAddQuiz="showAddQuiz" />
+
   </div>
 </template>
 
 <script>
 import AddGrade from '@/components/admin/content/dialog/grades/AddGrade.vue'
+import AddQuiz from '@/components/admin/content/dialog/grades/AddQuiz.vue'
 
 export default {
   components: {
     AddGrade,
+    AddQuiz,
     TableGrades: resolve => {
       require(["@/components/admin/content/grades/TableGrades.vue"], resolve);
+    },
+    TableQuiz: resolve => {
+      require(["@/components/admin/content/grades/TableQuiz.vue"], resolve);
     },
   },
   data() {
     return {
       showAddGrade: false,
+      showAddQuiz: false,
       searchText: '',
       select: 'Account ID',
       tableData: [],
@@ -113,7 +131,7 @@ export default {
         },
         {
           name: "Quizzes",
-          link: "Quizzes"
+          link: "TableQuiz"
         },
         {
           name: "Examinations",
@@ -140,6 +158,7 @@ export default {
   methods: {
     selectItemClass(index) {
       this.activeItemClass = index;
+      this.updateData();
     },
     async getStudentList() {
       if (this.searchText) {
@@ -178,19 +197,51 @@ export default {
           console.log(error);
         });
     },
+    getStudentQuizData(val) {
+      var params = {
+        request: 1,
+        data: {
+          StudentID: val,
+        },
+      };
+      this.http
+        .post(this.api.AdminQuizService, params)
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     updateData() {
-      this.getStudentGradeData(this.studentData.ID)
+      if (this.activeItemClass === 0) {
+        this.getStudentGradeData(this.studentData.ID)
+      } else if (this.activeItemClass === 1) {
+        this.getStudentQuizData(this.studentData.ID);
+      }
     },
     closeAddGrade(val) {
       this.showAddGrade = val;
     },
+    closeAddQuiz(val) {
+      this.showAddQuiz = val;
+    },
     selectStudent(val) {
       this.studentData = val;
-      this.getStudentGradeData(val.ID)
+      if (this.activeItemClass === 0) {
+        this.getStudentGradeData(val.ID)
+      } else if (this.activeItemClass === 1) {
+        this.getStudentQuizData(val.ID);
+      }
     },
     showAddGradeF() {
       if (this.studentData != null) {
         this.showAddGrade = true;
+      }
+    },
+    showAddQuizF() {
+      if (this.studentData != null) {
+        this.showAddQuiz = true;
       }
     },
   },

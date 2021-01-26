@@ -221,7 +221,7 @@ export default {
       let third = Number(obj.ThirdGrade ? obj.ThirdGrade : 0);
       let fourth = Number(obj.FourthGrade ? obj.FourthGrade : 0);
       let overAll = (first + second + third + fourth) / 4;
-      return overAll >=75 ? 'Pass' : 'Failed';
+      return overAll >=75 ? 'Passed' : 'Failed';
     },
     
     getAllTeacher() {
@@ -281,7 +281,6 @@ export default {
     await this.getAllSubject();
   },
   mounted() {
-    console.log(this.studentData);
     this.currentSubject = this.studentData.SubjectID;
   }
 };
