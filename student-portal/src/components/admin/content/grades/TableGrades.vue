@@ -11,11 +11,11 @@
         class-name="text-style"
       >
       </el-table-column> -->
-      <el-table-column
+      <!-- <el-table-column
         prop="ID"
         label="ID"
         width="50">
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="SubjectID"
         label="Subject"

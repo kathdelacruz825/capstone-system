@@ -1,9 +1,9 @@
 const tableProps = [
-  {
-    propName: "ID",
-    propLabel: "ID",
-    width: "50"
-  },
+  // {
+  //   propName: "ID",
+  //   propLabel: "ID",
+  //   width: "50"
+  // },
   // {
   //   propName: "StudentID",
   //   propLabel: "Student ID",

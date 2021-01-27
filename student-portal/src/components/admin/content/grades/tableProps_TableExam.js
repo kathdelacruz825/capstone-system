@@ -10,24 +10,14 @@ const tableProps = [
     width: "200"
   },
   {
-    propName: "GradingPeriod",
+    propName: "GradingPeriodID",
     propLabel: "Grading Period",
     width: "200"
   },
   {
-    propName: "Title",
-    propLabel: "Title",
-    width: "200"
-  },
-  {
-    propName: "Description",
-    propLabel: "Description",
-    width: "120"
-  },
-  {
     propName: "Score",
     propLabel: "Score",
-    width: "120"
+    width: "200"
   },
   {
     propName: "OverAllItems",

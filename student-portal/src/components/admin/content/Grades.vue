@@ -68,7 +68,7 @@
                     <el-row>
                       <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 0" @click="showAddGradeF()"></el-button>
                       <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 1" @click="showAddQuizF()"></el-button>
-                      <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 2" @click="showAddGradeF()"></el-button>
+                      <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 2" @click="showAddExamF()"></el-button>
                       <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 3" @click="showAddGradeF()"></el-button>
                       <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 4" @click="showAddGradeF()"></el-button>
                     </el-row>
@@ -98,28 +98,41 @@
       @closeAddQuiz="closeAddQuiz($event)"
       :showAddQuiz="showAddQuiz" />
 
+    <AddExam
+      v-if="showAddExam"
+      :studentID="studentData.ID"
+      @updateData="updateData"
+      @closeAddExam="closeAddExam($event)"
+      :showAddExam="showAddExam" />
+
   </div>
 </template>
 
 <script>
 import AddGrade from '@/components/admin/content/dialog/grades/AddGrade.vue'
 import AddQuiz from '@/components/admin/content/dialog/grades/AddQuiz.vue'
+import AddExam from '@/components/admin/content/dialog/grades/AddExam.vue'
 
 export default {
   components: {
     AddGrade,
     AddQuiz,
+    AddExam,
     TableGrades: resolve => {
       require(["@/components/admin/content/grades/TableGrades.vue"], resolve);
     },
     TableQuiz: resolve => {
       require(["@/components/admin/content/grades/TableQuiz.vue"], resolve);
     },
+    TableExam: resolve => {
+      require(["@/components/admin/content/grades/TableExam.vue"], resolve);
+    },
   },
   data() {
     return {
       showAddGrade: false,
       showAddQuiz: false,
+      showAddExam: false,
       searchText: '',
       select: 'Account ID',
       tableData: [],
@@ -135,7 +148,7 @@ export default {
         },
         {
           name: "Examinations",
-          link: "Examinations"
+          link: "TableExam"
         },
         {
           name: "Attendance",
@@ -213,11 +226,29 @@ export default {
           console.log(error);
         });
     },
+    getStudentExamData(val) {
+      var params = {
+        request: 1,
+        data: {
+          StudentID: val,
+        },
+      };
+      this.http
+        .post(this.api.AdminExamService, params)
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     updateData() {
       if (this.activeItemClass === 0) {
         this.getStudentGradeData(this.studentData.ID)
       } else if (this.activeItemClass === 1) {
         this.getStudentQuizData(this.studentData.ID);
+      } else if (this.activeItemClass === 2) {
+        this.getStudentExamData(this.studentData.ID);
       }
     },
     closeAddGrade(val) {
@@ -226,12 +257,17 @@ export default {
     closeAddQuiz(val) {
       this.showAddQuiz = val;
     },
+    closeAddExam(val) {
+      this.showAddExam = val;
+    },
     selectStudent(val) {
       this.studentData = val;
       if (this.activeItemClass === 0) {
         this.getStudentGradeData(val.ID)
       } else if (this.activeItemClass === 1) {
         this.getStudentQuizData(val.ID);
+      } else if (this.activeItemClass === 2) {
+        this.getStudentExamData(val.ID);
       }
     },
     showAddGradeF() {
@@ -244,6 +280,11 @@ export default {
         this.showAddQuiz = true;
       }
     },
+    showAddExamF() {
+      if (this.studentData != null) {
+        this.showAddExam = true;
+      }
+    }
   },
   props: {},
   created() {}

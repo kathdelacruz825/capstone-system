@@ -28,7 +28,7 @@
     </el-table>
 
   <el-dialog
-    title="Delete Quiz"
+    title="Delete Exam"
     :visible.sync="showDeleteGrade"
     width="20%"
     :show-close="false"
@@ -43,29 +43,29 @@
     </span>
   </el-dialog>
 
-    <UpdateQuiz
-      v-if="showUpdateQuiz"
+    <UpdateExam
+      v-if="showUpdateExam"
       :studentData="studentData"
       @updateData="updateData"
-      @closeUpdateGrade="closeUpdateGrade($event)"
-      :showUpdateQuiz="showUpdateQuiz"/>
+      @closeUpdateExam="closeUpdateExam($event)"
+      :showUpdateExam="showUpdateExam"/>
   </div>
 </template>
 
 <script>
-import { tableProps } from "@/components/admin/content/grades/tableProps_TableQuiz.js";
-import UpdateQuiz from '@/components/admin/content/dialog/grades/UpdateQuiz.vue'
+import { tableProps } from "@/components/admin/content/grades/tableProps_TableExam.js";
+import UpdateExam from '@/components/admin/content/dialog/grades/UpdateExam.vue'
 
 export default {
   components: {
-    UpdateQuiz
+    UpdateExam
   },
   data() {
     return {
       tableProps: tableProps,
       studentData: {},
       showDeleteGrade: false,
-      showUpdateQuiz: false,
+      showUpdateExam: false,
     };
   },
   methods: {
@@ -74,7 +74,7 @@ export default {
       this.studentData = itemData;
       switch (name) {
         case "Edit":
-          this.showUpdateQuiz = true;
+          this.showUpdateExam = true;
           break;
         case "Delete":
           this.showDeleteGrade = true;
@@ -91,7 +91,7 @@ export default {
         },
       }
         this.http
-          .post(this.api.AdminQuizService, params)
+          .post(this.api.AdminExamService, params)
           .then(response => {
             if (response.data.State == 1) {
               this.showDeleteGrade = false;
@@ -114,8 +114,8 @@ export default {
     updateData() {
       this.$emit("updateData");
     },
-    closeUpdateGrade(val) {
-      this.showUpdateQuiz = val;
+    closeUpdateExam(val) {
+      this.showUpdateExam = val;
     }
   },
   props: {
