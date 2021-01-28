@@ -31,6 +31,11 @@ if ($params) {
       $data = new AdminQuizData($conn);
       echo json_encode($data->deleteStudentQuizData($params['data']));
       break;
+    case 6:
+      // select by subject
+        $data = new AdminQuizData($conn);
+        echo json_encode($data->getQuizDataBySubject($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }

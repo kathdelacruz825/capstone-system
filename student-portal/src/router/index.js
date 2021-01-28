@@ -79,6 +79,14 @@ const routes = [
     }
   },
   {
+    path: "/class/quizzes/quizview/:subject?/:subjectid?",
+    name: "QuizView",
+    component: () => import("../views/user/class/quiz/QuizView.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/class/examinations",
     name: "Examinations",
     component: () => import("../views/user/class/Examinations.vue"),

@@ -8,12 +8,12 @@
             class="quiz-item"
             v-for="(quizItem, quizKey) in quizItems"
             :key="quizKey"
-            :title="quizItem"
-            is-link
+            :title="quizItem.Title"
+            @click="goPage(quizItem.Code, quizItem.ID)"
           >
             <template #title>
               <van-tag class="tag" color="#7232dd" type="danger"></van-tag>
-              <span class="custom-title">{{ quizItem }}</span>
+              <span class="custom-title">{{ quizItem.Title }}</span>
             </template>
           </van-cell>
         </van-cell-group>
@@ -36,10 +36,31 @@ export default {
   data() {
     return {
       pageTitle: "Quizzes",
-      quizItems: ["Science", "English", "Filipino", "Mathematics", "Mapeh"]
+      quizItems: []
     };
   },
-  methods: {}
+  methods: {
+    getAllSubject() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.SubjectService, params)
+        .then(response => {
+          this.quizItems = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    goPage(subject, subjectid) {
+      this.$router.push({ name: 'QuizView', params: { subject: subject, subjectid: subjectid }})
+    }
+  },
+  created() {
+    this.getAllSubject();
+  },
 };
 </script>
 <style lang="scss">
@@ -82,6 +103,9 @@ export default {
 
     .quiz-item:not(:last-child) {
       margin-bottom: 10px;
+    }
+    .custom-title {
+      line-height: 20px;
     }
   }
 }

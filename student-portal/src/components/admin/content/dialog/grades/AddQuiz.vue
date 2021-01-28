@@ -291,7 +291,6 @@ export default {
       this.currentGradingPeriod = '---Select---';
       this.currentTeacher = '---Select---';
       this.currentSubject = '---Select---';
-      this.ruleForm.StudentID = '';
       this.ruleForm.SubjectID = '';
       this.ruleForm.GradingPeriod = '';
       this.ruleForm.Title = '';

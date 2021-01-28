@@ -4,7 +4,7 @@
     <div class="grades-content">
       <div class="general-average">
         <div>General Average</div>
-        <div>87.00</div>
+        <div class="color" :class="{red: generalAverage <= '74'}">{{ generalAverage.toFixed(2) }}</div>
       </div>
       <div class="grade-items">
         <van-collapse v-model="activeNames">
@@ -14,13 +14,36 @@
             :name="gradeKey"
           >
             <template #title>
-              <div class="left">{{ gradeItem.subjectName }}</div>
-              <div class="right">{{ gradeItem.grade }}</div>
+              <div class="left">{{ gradeItem.SubjectID }}</div>
+              <div class="right" :class="{red: gradeItem.OverAllGrade <= '74'}">{{ gradeItem.OverAllGrade }}</div>
             </template>
             <template #default>
-              <div>Teacher: {{ gradeItem.teacher }}</div>
-              <div>other details</div>
-              <div>other details</div>
+              <div>Teacher: {{ gradeItem.TeacherID }}</div>
+              <div>First Grading:
+                <span class="color" :class="{red: gradeItem.FirstGrade <= '74'}">
+                  {{ gradeItem.FirstGrade }}
+                </span>
+              </div>
+              <div>Secord Grading: 
+                <span class="color" :class="{red: gradeItem.ThirdGrade <= '74'}">
+                  {{ gradeItem.ThirdGrade }}
+                </span>
+              </div>
+              <div>Third Grading: 
+                <span class="color" :class="{red: gradeItem.FourthGrade <= '74'}">
+                  {{ gradeItem.FourthGrade }}
+                </span>
+              </div>
+              <div>Fourth Grading: 
+                <span class="color" :class="{red: gradeItem.FourthGrade <= '74'}">
+                  {{ gradeItem.FourthGrade }}
+                </span>
+              </div>
+              <div>Remarks: 
+                <span class="color" :class="{red: gradeItem.Remarks == 'Failed'}">
+                  {{ gradeItem.Remarks }}
+                </span>
+              </div>
             </template>
           </van-collapse-item>
         </van-collapse>
@@ -43,37 +66,47 @@ export default {
   data() {
     return {
       pageTitle: "Grades",
+      generalAverage: 0,
       activeNames: [],
-      gradeData: [
-        {
-          subjectName: "Science",
-          grade: "80.50",
-          teacher: "Pepito Manalastas"
-        },
-        {
-          subjectName: "English",
-          grade: "81.75",
-          teacher: "Bayani ni Juan"
-        },
-        {
-          subjectName: "Filipino",
-          grade: "81.75",
-          teacher: "Notpa Aquino"
-        },
-        {
-          subjectName: "Mathematics",
-          grade: "81.75",
-          teacher: "Me Tabbil"
-        },
-        {
-          subjectName: "Mapeh",
-          grade: "81.75",
-          teacher: "I am Kung Fu"
-        }
-      ]
+      userDetails: {},
+      gradeData: []
     };
   },
-  methods: {}
+  methods: {
+    getStudentGradeData(val) {
+      var params = {
+        request: 1,
+        data: {
+          StudentID: val,
+        },
+      };
+      this.http
+        .post(this.api.AdminGradingService, params)
+        .then(response => {
+          this.gradeData = response.data;
+          if (this.gradeData.length > 0) {
+            this.computeGenAve(this.gradeData);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    computeGenAve(arr) {
+      var tempVal = 0;
+      for(var i = 0; i < arr.length; i++) {
+        var currGrade = Number(arr[i].OverAllGrade);
+        tempVal = currGrade + tempVal;
+      }
+      this.generalAverage = tempVal / arr.length
+    }
+  },
+  created(){
+    this.userDetails = JSON.parse(localStorage.getItem("user"));
+  },
+  mounted() {
+    this.getStudentGradeData(this.userDetails.ID);
+  }
 };
 </script>
 <style lang="scss">
@@ -95,6 +128,12 @@ export default {
       height: 45px;
       line-height: 45px;
     }
+    .color {
+      color: green;
+    }
+    .color.red {
+      color: red;
+    }
   }
 
   .grade-items {
@@ -113,6 +152,10 @@ export default {
 
       .right {
         text-align: right;
+        color: green;
+      }
+      .right.red {
+        color: red;
       }
     }
 
@@ -122,6 +165,13 @@ export default {
 
     .van-cell::after {
       // display: none;
+    }
+
+    .color {
+      color: green;
+    }
+    .color.red {
+      color: red;
     }
   }
 }

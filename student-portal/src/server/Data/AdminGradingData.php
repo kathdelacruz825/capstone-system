@@ -32,9 +32,10 @@ class AdminGradingData {
               `tbl_record_grade`.`FourthGrade`,
               `tbl_record_grade`.`OverAllGrade`,
               `tbl_record_grade`.`Remarks`,
-              `tbl_record_grade`.`TeacherID`
-              from `tbl_record_grade`
-              Inner Join `tbl_subject` ON `tbl_record_grade`.`SubjectID` = `tbl_subject`.`ID`
+              `tbl_teacher`.`Name`
+              from ((`tbl_record_grade`
+              Inner Join `tbl_subject` ON `tbl_record_grade`.`SubjectID` = `tbl_subject`.`ID`)
+              Inner Join `tbl_teacher` ON `tbl_record_grade`.`TeacherID` = `tbl_teacher`.`AccountID`)
               Where `tbl_record_grade`.`StudentID`='$StudentID'";
 
     $result = $this->link->query($query);
