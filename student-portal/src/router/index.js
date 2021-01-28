@@ -95,7 +95,7 @@ const routes = [
     }
   },
   {
-    path: "/class/examinations/examview",
+    path: "/class/examinations/examview/:period?/:periodid?",
     name: "ExamView",
     component: () => import("../views/user/class/examinations/ExamView.vue"),
     meta: {

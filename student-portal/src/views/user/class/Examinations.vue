@@ -8,13 +8,13 @@
             class="examinations-item"
             v-for="(examItem, examKey) in examinationsItem"
             :key="examKey"
-            :title="examItem"
+            :title="examItem.Title"
             is-link
-            @click="goPage(examItem)"
+            @click="goPage(examItem.Title, examItem.ID)"
           >
             <template #title>
               <van-tag class="tag" color="#7232dd" type="danger"></van-tag>
-              <span class="custom-title">{{ examItem }}</span>
+              <span class="custom-title">{{ examItem.Title +' Grading Period' }}</span>
             </template>
           </van-cell>
         </van-cell-group>
@@ -37,18 +37,30 @@ export default {
   data() {
     return {
       pageTitle: "Examinations",
-      examinationsItem: [
-        "First Grading Period",
-        "Second Grading Period",
-        "Third Grading Period",
-        "Fourth Grading Period"
-      ]
+      examinationsItem: []
     };
   },
   methods: {
-    goPage(pageTitle) {
-      this.$router.push({ name: "ExamView", params: { pageTitle: pageTitle } });
-    }
+    goPage(period, periodid) {
+      this.$router.push({ name: "ExamView", params: { period: period, periodid: periodid } });
+    },
+    getAllGradingPeriod() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.GradingPeriodService, params)
+        .then(response => {
+          this.examinationsItem = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+  },
+  created() {
+    this.getAllGradingPeriod();
   }
 };
 </script>

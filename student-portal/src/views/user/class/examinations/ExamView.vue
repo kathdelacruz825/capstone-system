@@ -10,9 +10,9 @@
         >
           <div class="left">
             <van-tag class="tag" color="#7232dd" type="danger"></van-tag
-            >{{ examItem.subjectName }}
+            >{{ examItem.SubjectID }}
           </div>
-          <div class="right">{{ examItem.score }}</div>
+          <div class="right">{{ examItem.Score + '/' + examItem.OverAllItems }}</div>
         </div>
       </div>
     </div>
@@ -33,33 +33,35 @@ export default {
   data() {
     return {
       pageTitle: "",
-      examData: [
-        {
-          subjectName: "Science",
-          score: "50/50"
-        },
-        {
-          subjectName: "English",
-          score: "50/50"
-        },
-        {
-          subjectName: "Filipino",
-          score: "50/50"
-        },
-        {
-          subjectName: "Mathematics",
-          score: "50/50"
-        },
-        {
-          subjectName: "Mapeh",
-          score: "50/50"
-        }
-      ]
+      userDetails: {},
+      examData: []
     };
   },
-  methods: {},
+  methods: {
+    getStudentQuizData(val, periodID) {
+      var params = {
+        request: 6,
+        data: {
+          StudentID: val,
+          GradingPeriodID: periodID
+        },
+      };
+      this.http
+        .post(this.api.AdminExamService, params)
+        .then(response => {
+          this.examData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+  },
+  created() {
+    this.userDetails = JSON.parse(localStorage.getItem("user"));
+  },
   mounted() {
-    this.pageTitle = this.$route.params.pageTitle;
+    this.getStudentQuizData(this.userDetails.ID, this.$route.params.periodid);
+    this.pageTitle = this.$route.params.period + ' Grading Period';
   }
 };
 </script>
