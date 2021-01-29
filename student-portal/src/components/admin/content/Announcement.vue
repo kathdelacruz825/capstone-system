@@ -20,14 +20,13 @@
         </div>
       </div>
     </div>
-    <TableAnnounce
-      @updateData="updateData"
-      :tableData="tableData"/>
+    <TableAnnounce @updateData="updateData" :tableData="tableData" />
     <AddAnnounce
       v-if="showAddAnnounce"
       :showAddAnnounce="showAddAnnounce"
       @closeAddAnnounce="closeAddAnnounce($event)"
-      @updateData="updateData"/>
+      @updateData="updateData"
+    />
   </div>
 </template>
 
@@ -44,7 +43,7 @@ export default {
     return {
       search: "",
       showAddAnnounce: false,
-      tableData: [],
+      tableData: []
     };
   },
   methods: {

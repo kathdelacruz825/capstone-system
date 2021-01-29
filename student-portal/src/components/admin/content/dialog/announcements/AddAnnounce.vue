@@ -43,17 +43,15 @@
             <el-input v-model="ruleForm.Title" type="text"></el-input>
           </el-form-item>
           <el-form-item label="Description:" prop="CourseDescription">
-            <el-input
-              v-model="ruleForm.Description"
-              type="text"
-            ></el-input>
+            <el-input v-model="ruleForm.Description" type="text"></el-input>
           </el-form-item>
           <el-form-item label="Date:" prop="CourseDescription">
             <el-date-picker
               v-model="ruleForm.OnDate"
               type="datetime"
               placeholder="Select date and time"
-              default-time="12:00:00">
+              default-time="12:00:00"
+            >
             </el-date-picker>
           </el-form-item>
 
@@ -81,13 +79,13 @@ export default {
       currentType: "---Select---",
       typeList: [],
       ruleForm: {
-        Type: '',
-        Title: '',
-        Description: '',
-        OnDate: '',
+        Type: "",
+        Title: "",
+        Description: "",
+        OnDate: "",
         CreatedBy: 1,
         Status: 1,
-        CreatedTime: '',
+        CreatedTime: ""
       }
     };
   },
@@ -127,7 +125,7 @@ export default {
             OnDate: this.formatDate(this.ruleForm.OnDate),
             CreatedBy: this.ruleForm.CreatedBy,
             Status: this.ruleForm.Status,
-            CreatedTime: this.createTime(),
+            CreatedTime: this.createTime()
           }
         };
         console.log(params);
@@ -152,8 +150,6 @@ export default {
             console.log(error);
           });
       }
-
-
     },
     selectType(val) {
       this.currentType = val.Type;
@@ -163,14 +159,14 @@ export default {
       this.$emit("updateData");
     },
     resetFields() {
-      this.currentType = '---Select---';
-        this.ruleForm.Type= '';
-        this.ruleForm.Title= '';
-        this.ruleForm.Description = '';
-        this.ruleForm.OnDate = '';
-        this.ruleForm.CreatedBy = 1; 
-        this.ruleForm.Status = 1;
-        this.ruleForm.CreatedTime = '';
+      this.currentType = "---Select---";
+      this.ruleForm.Type = "";
+      this.ruleForm.Title = "";
+      this.ruleForm.Description = "";
+      this.ruleForm.OnDate = "";
+      this.ruleForm.CreatedBy = 1;
+      this.ruleForm.Status = 1;
+      this.ruleForm.CreatedTime = "";
     },
     getAnnouncementType() {
       var params = {
@@ -191,11 +187,14 @@ export default {
         month = "" + (d.getMonth() + 1),
         day = "" + d.getDate(),
         year = d.getFullYear(),
-        time = d.getHours() + ':' 
-            + (d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()) + ':' 
-            + (d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds());
+        time =
+          d.getHours() +
+          ":" +
+          (d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()) +
+          ":" +
+          (d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds());
       var timePeriod = d.getHours() < 13 ? "AM" : "PM";
-      
+
       if (month.length < 2) {
         month = "0" + month;
       }
@@ -230,7 +229,7 @@ export default {
         " " +
         timePeriod;
       return currtime;
-    },
+    }
   },
   props: {
     showAddAnnounce: {

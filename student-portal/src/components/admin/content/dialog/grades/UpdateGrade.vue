@@ -184,7 +184,7 @@ export default {
           ),
           OverAllGrade: this.computeOverALL(this.studentData),
           Remarks: this.computeRemarks(this.studentData),
-          TeacherID: this.parseTeacher(this.currentTeacher)//this.studentData.TeacherID
+          TeacherID: this.parseTeacher(this.currentTeacher) //this.studentData.TeacherID
         }
       };
       this.http
@@ -208,7 +208,7 @@ export default {
         });
     },
     parseSubject(item) {
-      var newItem =  this.subjectList.filter(val => {
+      var newItem = this.subjectList.filter(val => {
         if (val.Title == item) {
           return val;
         }
@@ -216,7 +216,7 @@ export default {
       return newItem;
     },
     parseTeacher(item) {
-      var newItem =  this.teacherList.filter(val => {
+      var newItem = this.teacherList.filter(val => {
         if (val.Name == item) {
           return val;
         }

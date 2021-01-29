@@ -52,13 +52,14 @@
         <el-button type="primary" @click="deleteData()">Delete</el-button>
       </span>
     </el-dialog>
-  
+
     <UpdateAnnounce
       v-if="showAnnouncementUpdate"
       @updateData="updateData"
       @closeUpdateAnnounce="closeUpdateAnnounce($event)"
       :showAnnouncementUpdate="showAnnouncementUpdate"
-      :announceData="announceData"/>
+      :announceData="announceData"
+    />
   </div>
 </template>
 
@@ -76,7 +77,7 @@ export default {
       tableProps: tableProps,
       showAnnouncement: false,
       showAnnouncementUpdate: false,
-      announceData: {},
+      announceData: {}
     };
   },
   methods: {
@@ -135,7 +136,7 @@ export default {
       default: () => {
         return [];
       }
-    },
+    }
   },
   created() {}
 };

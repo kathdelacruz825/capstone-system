@@ -71,7 +71,6 @@ export default {
         }
 
         this.getAnnouncementData();
-
       }, 1000);
     },
     onRefresh() {

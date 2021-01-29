@@ -73,7 +73,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">Cancel</el-button>
-      <el-button type="primary" @click="save()">Save</el-button>
+      <el-button type="primary" @click="save()">Update</el-button>
     </span>
   </el-dialog>
 </template>
@@ -120,15 +120,15 @@ export default {
     },
     selectTeacher(val) {
       this.currentTeacher = val.Name;
-      this.studentData.TeacherID = val.AccountID;
+      // this.studentData.TeacherID = val.AccountID;
     },
     selectSubject(val) {
       this.currentSubject = val.Title;
-      this.studentData.SubjectID = val.ID;
+      // this.studentData.SubjectID = val.ID;
     },
     selectGradingPeriod(val) {
       this.currentGradingPeriod = val.Title;
-      this.studentData.GradingPeriodID = val.ID;
+      // this.studentData.GradingPeriodID = val.ID;
     },
     save() {
       if (this.studentData.SubjectID == "") {
@@ -157,8 +157,8 @@ export default {
           data: {
             ID: this.studentData.ID,
             StudentID: this.studentData.StudentID,
-            SubjectID: this.studentData.SubjectID,
-            GradingPeriodID: this.studentData.GradingPeriodID,
+            SubjectID: this.parseSubject(this.currentSubject), //this.studentData.SubjectID,
+            GradingPeriodID: this.parseGrading(this.currentGradingPeriod), //this.studentData.GradingPeriodID,
             Score: this.studentData.Score,
             OverAllItems: this.studentData.OverAllItems,
             Remarks: this.computeRemarks(this.ruleForm)
@@ -215,11 +215,11 @@ export default {
         .post(this.api.SubjectService, params)
         .then(response => {
           this.subjectList = response.data;
-          this.studentData.SubjectID = this.subjectList.filter(val => {
-            if (val.Title == this.studentData.SubjectID) {
-              return val;
-            }
-          })[0].ID;
+          // this.studentData.SubjectID = this.subjectList.filter(val => {
+          //   if (val.Title == this.studentData.SubjectID) {
+          //     return val;
+          //   }
+          // })[0].ID;
         })
         .catch(error => {
           console.log(error);
@@ -234,17 +234,33 @@ export default {
         .post(this.api.GradingPeriodService, params)
         .then(response => {
           this.gradingPeriodList = response.data;
-          this.studentData.GradingPeriodID = this.gradingPeriodList.filter(
-            val => {
-              if (val.Title == this.studentData.GradingPeriod) {
-                return val;
-              }
-            }
-          )[0].ID;
+          // this.studentData.GradingPeriodID = this.gradingPeriodList.filter(
+          //   val => {
+          //     if (val.Title == this.studentData.GradingPeriod) {
+          //       return val;
+          //     }
+          //   }
+          // )[0].ID;
         })
         .catch(error => {
           console.log(error);
         });
+    },
+    parseSubject(item) {
+      var newItem = this.subjectList.filter(val => {
+        if (val.Title == item) {
+          return val;
+        }
+      })[0].ID;
+      return newItem;
+    },
+    parseGrading(item) {
+      var newItem = this.gradingPeriodList.filter(val => {
+        if (val.Title == item) {
+          return val;
+        }
+      })[0].ID;
+      return newItem;
     },
     resetFields() {
       this.currentGradingPeriod = "---Select---";

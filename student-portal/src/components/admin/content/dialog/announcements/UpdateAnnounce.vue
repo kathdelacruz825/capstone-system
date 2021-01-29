@@ -43,16 +43,14 @@
             <el-input v-model="newData.Title" type="text"></el-input>
           </el-form-item>
           <el-form-item label="Description:" prop="CourseDescription">
-            <el-input
-              v-model="newData.Description"
-              type="text"
-            ></el-input>
+            <el-input v-model="newData.Description" type="text"></el-input>
           </el-form-item>
           <el-form-item label="Date:" prop="CourseDescription">
             <el-date-picker
               v-model="newData.OnDate"
               type="datetime"
-              placeholder="Select date and time">
+              placeholder="Select date and time"
+            >
             </el-date-picker>
           </el-form-item>
 
@@ -73,7 +71,6 @@
 </template>
 
 <script>
-
 export default {
   components: {},
   data() {
@@ -81,15 +78,15 @@ export default {
       currentType: "---Select---",
       typeList: [],
       ruleForm: {
-        Type: '',
-        Title: '',
-        Description: '',
-        OnDate: '',
+        Type: "",
+        Title: "",
+        Description: "",
+        OnDate: "",
         CreatedBy: 1,
         Status: 1,
-        CreatedTime: '',
+        CreatedTime: ""
       },
-      newData: {},
+      newData: {}
     };
   },
   methods: {
@@ -127,8 +124,8 @@ export default {
             Description: this.newData.Description,
             OnDate: this.formatDate(this.newData.OnDate),
             CreatedBy: this.newData.CreatedBy,
-            Status: this.newData.Status == 'Active' ? 1 : 2,
-            CreatedTime: this.createTime(),
+            Status: this.newData.Status == "Active" ? 1 : 2,
+            CreatedTime: this.createTime()
           }
         };
         this.http
@@ -179,7 +176,7 @@ export default {
         });
     },
     parseItem(item) {
-      var newItem =  this.typeList.filter(val => {
+      var newItem = this.typeList.filter(val => {
         if (val.Type == item) {
           return val;
         }
@@ -191,11 +188,14 @@ export default {
         month = "" + (d.getMonth() + 1),
         day = "" + d.getDate(),
         year = d.getFullYear(),
-        time = d.getHours() + ':' 
-            + (d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()) + ':' 
-            + (d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds());
+        time =
+          d.getHours() +
+          ":" +
+          (d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()) +
+          ":" +
+          (d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds());
       var timePeriod = d.getHours() < 13 ? "AM" : "PM";
-      
+
       if (month.length < 2) {
         month = "0" + month;
       }
@@ -230,7 +230,7 @@ export default {
         " " +
         timePeriod;
       return currtime;
-    },
+    }
   },
   props: {
     showAnnouncementUpdate: {
