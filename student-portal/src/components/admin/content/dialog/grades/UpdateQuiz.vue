@@ -22,7 +22,6 @@
       >
         <el-divider content-position="left">Quiz Details</el-divider>
         <div class="form-item-account-details">
-
           <el-form-item label="Subject:">
             <el-dropdown trigger="click" @command="selectSubject">
               <el-button type="primary">
@@ -60,24 +59,15 @@
           </el-form-item>
 
           <el-form-item label="Title:" prop="currGrade">
-            <el-input
-              v-model="studentData.Title"
-              type="text"
-            ></el-input>
+            <el-input v-model="studentData.Title" type="text"></el-input>
           </el-form-item>
 
           <el-form-item label="Description:" prop="currGrade">
-            <el-input
-              v-model="studentData.Description"
-              type="text"
-            ></el-input>
+            <el-input v-model="studentData.Description" type="text"></el-input>
           </el-form-item>
 
           <el-form-item label="Score:" prop="currGrade">
-            <el-input
-              v-model="studentData.Score"
-              type="number"
-            ></el-input>
+            <el-input v-model="studentData.Score" type="number"></el-input>
           </el-form-item>
 
           <el-form-item label="Over All Items:" prop="currGrade">
@@ -86,7 +76,7 @@
               type="number"
             ></el-input>
           </el-form-item>
-          
+
           <el-form-item label="Teacher:">
             <el-dropdown trigger="click" @command="selectTeacher">
               <el-button type="primary">
@@ -127,33 +117,33 @@ export default {
     };
     return {
       rules: {
-        currGrade: [{ validator: validateCurrentGrade, trigger: "blur" }],
+        currGrade: [{ validator: validateCurrentGrade, trigger: "blur" }]
       },
       ruleForm: {
-        StudentID: '',
-        SubjectID: '',
-        GradingPeriod: '',
-        Title: '',
-        Description: '',
-        Score: '',
-        OverAllItems: '',
-        Remarks: '',
-        TeacherID: '',
+        StudentID: "",
+        SubjectID: "",
+        GradingPeriod: "",
+        Title: "",
+        Description: "",
+        Score: "",
+        OverAllItems: "",
+        Remarks: "",
+        TeacherID: ""
       },
-      currentTeacher: '---Select---',
-      currentSubject: '---Select---',
-      currentGradingPeriod: '---Select---',
-      currentGrade: '',
+      currentTeacher: "---Select---",
+      currentSubject: "---Select---",
+      currentGradingPeriod: "---Select---",
+      currentGrade: "",
       teacherList: [],
       subjectList: [],
-      gradingPeriodList: [],
+      gradingPeriodList: []
     };
   },
   methods: {
     closeDialog() {
-      this.currentGradingPeriod = '---Select---';
-      this.currentTeacher = '---Select---';
-      this.currentSubject = '---Select---';
+      this.currentGradingPeriod = "---Select---";
+      this.currentTeacher = "---Select---";
+      this.currentSubject = "---Select---";
       this.$emit("closeUpdateGrade", false);
       this.$emit("updateData");
       this.$refs.ruleForm.resetFields();
@@ -171,33 +161,33 @@ export default {
       this.studentData.GradingPeriod = val.ID;
     },
     save() {
-      if (this.studentData.SubjectID == '') {
+      if (this.studentData.SubjectID == "") {
         this.$message({
           type: "warning",
           message: "Select Subject!"
         });
-      } else if (this.studentData.GradingPeriod == '') {
+      } else if (this.studentData.GradingPeriod == "") {
         this.$message({
           type: "warning",
           message: "Select Grading Period!"
         });
-      } else if (this.studentData.Title == '') {
+      } else if (this.studentData.Title == "") {
         this.$message({
           type: "warning",
           message: "Enter Title!"
         });
-      } else if (this.studentData.Score == '') {
-          this.$message({
+      } else if (this.studentData.Score == "") {
+        this.$message({
           type: "warning",
           message: "Enter Score!"
         });
-      } else if (this.studentData.OverAllItems == '') {
-          this.$message({
+      } else if (this.studentData.OverAllItems == "") {
+        this.$message({
           type: "warning",
           message: "Enter Over All Items!"
         });
-      } else if (this.studentData.TeacherID == '') {
-          this.$message({
+      } else if (this.studentData.TeacherID == "") {
+        this.$message({
           type: "warning",
           message: "Select Teacher!"
         });
@@ -214,7 +204,7 @@ export default {
             Score: this.studentData.Score,
             OverAllItems: this.studentData.OverAllItems,
             Remarks: this.computeRemarks(this.studentData),
-            TeacherID: this.studentData.TeacherID,
+            TeacherID: this.studentData.TeacherID
           }
         };
         this.http
@@ -237,14 +227,13 @@ export default {
             console.log(error);
           });
       }
-
     },
     computeRemarks(obj) {
       var Score = Number(obj.Score);
       var OverAllItems = Number(obj.OverAllItems) / 2;
-      return Score >= OverAllItems ? 'Passed' : 'Failed';
+      return Score >= OverAllItems ? "Passed" : "Failed";
     },
-    
+
     getAllTeacher() {
       let params = {
         request: 1,
@@ -254,9 +243,9 @@ export default {
         .post(this.api.TeacherService, params)
         .then(response => {
           this.teacherList = response.data;
-          this.currentTeacher = this.teacherList.filter((val) => {
+          this.currentTeacher = this.teacherList.filter(val => {
             if (val.AccountID == this.studentData.TeacherID) {
-              return val
+              return val;
             }
           })[0].Name;
         })
@@ -273,9 +262,9 @@ export default {
         .post(this.api.SubjectService, params)
         .then(response => {
           this.subjectList = response.data;
-          this.studentData.SubjectID = this.subjectList.filter((val) => {
+          this.studentData.SubjectID = this.subjectList.filter(val => {
             if (val.Title == this.studentData.SubjectID) {
-              return val
+              return val;
             }
           })[0].ID;
         })
@@ -292,16 +281,18 @@ export default {
         .post(this.api.GradingPeriodService, params)
         .then(response => {
           this.gradingPeriodList = response.data;
-          this.studentData.GradingPeriod = this.gradingPeriodList.filter((val) => {
-            if (val.Title == this.studentData.GradingPeriod) {
-              return val
+          this.studentData.GradingPeriod = this.gradingPeriodList.filter(
+            val => {
+              if (val.Title == this.studentData.GradingPeriod) {
+                return val;
+              }
             }
-          })[0].ID;
+          )[0].ID;
         })
         .catch(error => {
           console.log(error);
         });
-    },
+    }
   },
   props: {
     showUpdateQuiz: {

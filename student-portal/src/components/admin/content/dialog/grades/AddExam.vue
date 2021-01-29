@@ -22,7 +22,6 @@
       >
         <el-divider content-position="left">Examination Details</el-divider>
         <div class="form-item-account-details">
-
           <el-form-item label="Subject:">
             <el-dropdown trigger="click" @command="selectSubject">
               <el-button type="primary">
@@ -60,19 +59,13 @@
           </el-form-item>
 
           <el-form-item label="Score:" prop="currGrade">
-            <el-input
-              v-model="ruleForm.Score"
-              type="number"
-            ></el-input>
+            <el-input v-model="ruleForm.Score" type="number"></el-input>
           </el-form-item>
 
           <el-form-item label="Over All Items:" prop="currGrade">
-            <el-input
-              v-model="ruleForm.OverAllItems"
-              type="number"
-            ></el-input>
+            <el-input v-model="ruleForm.OverAllItems" type="number"></el-input>
           </el-form-item>
-          
+
           <!-- <el-form-item label="Teacher:">
             <el-dropdown trigger="click" @command="selectTeacher">
               <el-button type="primary">
@@ -113,31 +106,31 @@ export default {
     };
     return {
       rules: {
-        currGrade: [{ validator: validateCurrentGrade, trigger: "blur" }],
+        currGrade: [{ validator: validateCurrentGrade, trigger: "blur" }]
       },
       ruleForm: {
-        StudentID: '',
-        SubjectID: '',
-        GradingPeriodID: '',
-        Score: '',
-        OverAllItems: '',
-        Remarks: '',
+        StudentID: "",
+        SubjectID: "",
+        GradingPeriodID: "",
+        Score: "",
+        OverAllItems: "",
+        Remarks: ""
         // TeacherID: '',
       },
-      currentTeacher: '---Select---',
-      currentSubject: '---Select---',
-      currentGradingPeriod: '---Select---',
-      currentGrade: '',
+      currentTeacher: "---Select---",
+      currentSubject: "---Select---",
+      currentGradingPeriod: "---Select---",
+      currentGrade: "",
       teacherList: [],
       subjectList: [],
-      gradingPeriodList: [],
+      gradingPeriodList: []
     };
   },
   methods: {
     closeDialog() {
-      this.currentGradingPeriod = '---Select---';
+      this.currentGradingPeriod = "---Select---";
       // this.currentTeacher = '---Select---';
-      this.currentSubject = '---Select---';
+      this.currentSubject = "---Select---";
       this.$emit("closeAddExam", false);
       this.$emit("updateData");
       this.$refs.ruleForm.resetFields();
@@ -155,23 +148,23 @@ export default {
       this.ruleForm.GradingPeriodID = val.ID;
     },
     save() {
-      if (this.ruleForm.SubjectID == '') {
+      if (this.ruleForm.SubjectID == "") {
         this.$message({
           type: "warning",
           message: "Select Subject!"
         });
-      } else if (this.ruleForm.GradingPeriodID == '') {
+      } else if (this.ruleForm.GradingPeriodID == "") {
         this.$message({
           type: "warning",
           message: "Select Grading Period!"
         });
-      } else if (this.ruleForm.Score == '') {
-          this.$message({
+      } else if (this.ruleForm.Score == "") {
+        this.$message({
           type: "warning",
           message: "Enter Score!"
         });
-      } else if (this.ruleForm.OverAllItems == '') {
-          this.$message({
+      } else if (this.ruleForm.OverAllItems == "") {
+        this.$message({
           type: "warning",
           message: "Enter Over All Items!"
         });
@@ -184,7 +177,7 @@ export default {
             GradingPeriodID: this.ruleForm.GradingPeriodID,
             Score: this.ruleForm.Score,
             OverAllItems: this.ruleForm.OverAllItems,
-            Remarks: this.computeRemarks(this.ruleForm),
+            Remarks: this.computeRemarks(this.ruleForm)
             // TeacherID: this.ruleForm.TeacherID,
           }
         };
@@ -209,14 +202,13 @@ export default {
             console.log(error);
           });
       }
-
     },
     computeRemarks(obj) {
       var Score = Number(obj.Score);
       var OverAllItems = Number(obj.OverAllItems) / 2;
-      return Score >= OverAllItems ? 'Passed' : 'Failed';
+      return Score >= OverAllItems ? "Passed" : "Failed";
     },
-    
+
     getAllTeacher() {
       let params = {
         request: 1,
@@ -260,16 +252,16 @@ export default {
         });
     },
     resetFields() {
-      this.currentGradingPeriod = '---Select---';
+      this.currentGradingPeriod = "---Select---";
       // this.currentTeacher = '---Select---';
-      this.currentSubject = '---Select---';
-      this.ruleForm.SubjectID = '';
-      this.ruleForm.GradingPeriodID = '';
+      this.currentSubject = "---Select---";
+      this.ruleForm.SubjectID = "";
+      this.ruleForm.GradingPeriodID = "";
       // this.ruleForm.Title = '';
       // this.ruleForm.Description = '';
-      this.ruleForm.Score = '';
-      this.ruleForm.OverAllItems = '';
-      this.ruleForm.Remarks = '';
+      this.ruleForm.Score = "";
+      this.ruleForm.OverAllItems = "";
+      this.ruleForm.Remarks = "";
       // this.ruleForm.TeacherID = '';
     }
   },
@@ -280,7 +272,7 @@ export default {
     },
     studentID: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   async created() {

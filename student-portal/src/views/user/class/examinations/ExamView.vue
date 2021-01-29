@@ -12,7 +12,9 @@
             <van-tag class="tag" color="#7232dd" type="danger"></van-tag
             >{{ examItem.SubjectID }}
           </div>
-          <div class="right">{{ examItem.Score + '/' + examItem.OverAllItems }}</div>
+          <div class="right">
+            {{ examItem.Score + "/" + examItem.OverAllItems }}
+          </div>
         </div>
       </div>
     </div>
@@ -44,7 +46,7 @@ export default {
         data: {
           StudentID: val,
           GradingPeriodID: periodID
-        },
+        }
       };
       this.http
         .post(this.api.AdminExamService, params)
@@ -54,14 +56,14 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    },
+    }
   },
   created() {
     this.userDetails = JSON.parse(localStorage.getItem("user"));
   },
   mounted() {
     this.getStudentQuizData(this.userDetails.ID, this.$route.params.periodid);
-    this.pageTitle = this.$route.params.period + ' Grading Period';
+    this.pageTitle = this.$route.params.period + " Grading Period";
   }
 };
 </script>

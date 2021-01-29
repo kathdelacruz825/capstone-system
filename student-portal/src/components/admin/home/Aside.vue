@@ -16,7 +16,9 @@
         @click="selectTabContent(tabItem.name)"
       >
         <i :class="tabItem.icon"></i>
-        <span>{{ tabItem.name == 'Grades' ? 'Student Record' : tabItem.name }}</span>
+        <span>{{
+          tabItem.name == "Grades" ? "Student Record" : tabItem.name
+        }}</span>
       </el-menu-item>
     </el-menu>
   </el-col>

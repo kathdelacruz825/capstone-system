@@ -28,7 +28,7 @@ const tableProps = [
     propName: "Remarks",
     propLabel: "Remarks",
     width: "120"
-  },
+  }
 ];
 
 export { tableProps };

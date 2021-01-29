@@ -1,8 +1,17 @@
 <template>
   <div class="exam-view">
-    <Nav :title="'Quizzes('+pageTitle+')'" :isLeftArrow="true" :isRightText="false" />
+    <Nav
+      :title="'Quizzes(' + pageTitle + ')'"
+      :isLeftArrow="true"
+      :isRightText="false"
+    />
     <div class="exam-view-content">
-      <van-tabs v-model="active" animate v-if="periodData.length > 0" @click="changeTab">
+      <van-tabs
+        v-model="active"
+        animate
+        v-if="periodData.length > 0"
+        @click="changeTab"
+      >
         <van-tab
           v-for="(periodItem, periodKEy) in periodData"
           :key="periodKEy"
@@ -18,12 +27,13 @@
                 <van-tag class="tag" color="#7232dd" type="danger"></van-tag
                 >{{ examItem.Title }}
               </div>
-              <div class="right">{{ examItem.Score +'/' + examItem.OverAllItems }}</div>
+              <div class="right">
+                {{ examItem.Score + "/" + examItem.OverAllItems }}
+              </div>
             </div>
           </div>
         </van-tab>
       </van-tabs>
-
     </div>
     <Footer :activeItem="1" />
   </div>
@@ -55,7 +65,7 @@ export default {
           StudentID: val,
           SubjectID: subId,
           GradingPeriod: period
-        },
+        }
       };
       this.http
         .post(this.api.AdminQuizService, params)
@@ -83,7 +93,11 @@ export default {
     },
     changeTab(val) {
       console.log(val);
-      this.getQuizDataBySubject(this.userDetails.ID, this.$route.params.subjectid, this.periodData[val].ID);
+      this.getQuizDataBySubject(
+        this.userDetails.ID,
+        this.$route.params.subjectid,
+        this.periodData[val].ID
+      );
     }
   },
   created() {
@@ -91,7 +105,11 @@ export default {
     this.getAllGradingPeriod();
   },
   mounted() {
-    this.getQuizDataBySubject(this.userDetails.ID, this.$route.params.subjectid, 1);
+    this.getQuizDataBySubject(
+      this.userDetails.ID,
+      this.$route.params.subjectid,
+      1
+    );
     this.pageTitle = this.$route.params.subject;
   }
 };

@@ -55,12 +55,15 @@ export default {
         });
     },
     goPage(subject, subjectid) {
-      this.$router.push({ name: 'QuizView', params: { subject: subject, subjectid: subjectid }})
+      this.$router.push({
+        name: "QuizView",
+        params: { subject: subject, subjectid: subjectid }
+      });
     }
   },
   created() {
     this.getAllSubject();
-  },
+  }
 };
 </script>
 <style lang="scss">

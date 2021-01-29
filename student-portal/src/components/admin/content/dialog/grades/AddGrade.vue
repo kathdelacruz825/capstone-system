@@ -22,7 +22,6 @@
       >
         <el-divider content-position="left">Grade Details</el-divider>
         <div class="form-item-account-details">
-
           <el-form-item label="Subject:">
             <el-dropdown trigger="click" @command="selectSubject">
               <el-button type="primary">
@@ -60,10 +59,7 @@
           </el-form-item>
 
           <el-form-item label="Grade:" prop="currGrade">
-            <el-input
-              v-model="ruleForm.Grade"
-              type="number"
-            ></el-input>
+            <el-input v-model="ruleForm.Grade" type="number"></el-input>
           </el-form-item>
 
           <el-form-item label="Teacher:">
@@ -106,35 +102,35 @@ export default {
     };
     return {
       rules: {
-        currGrade: [{ validator: validateCurrentGrade, trigger: "blur" }],
+        currGrade: [{ validator: validateCurrentGrade, trigger: "blur" }]
       },
       ruleForm: {
-        StudentID: '',
-        SubjectID: '',
-        Quarter: '',
-        Grade: '',
-        FirstGrade: '',
-        SecondGrade: '',
-        ThirdGrade: '',
-        FourthGrade: '',
-        OverAllGrade: '',
-        Remarks: '',
-        TeacherID: '',
+        StudentID: "",
+        SubjectID: "",
+        Quarter: "",
+        Grade: "",
+        FirstGrade: "",
+        SecondGrade: "",
+        ThirdGrade: "",
+        FourthGrade: "",
+        OverAllGrade: "",
+        Remarks: "",
+        TeacherID: ""
       },
-      currentTeacher: '---Select---',
-      currentSubject: '---Select---',
-      currentGradingPeriod: '---Select---',
-      currentGrade: '',
+      currentTeacher: "---Select---",
+      currentSubject: "---Select---",
+      currentGradingPeriod: "---Select---",
+      currentGrade: "",
       teacherList: [],
       subjectList: [],
-      gradingPeriodList: [],
+      gradingPeriodList: []
     };
   },
   methods: {
     closeDialog() {
-      this.currentGradingPeriod = '---Select---';
-      this.currentTeacher = '---Select---';
-      this.currentSubject = '---Select---';
+      this.currentGradingPeriod = "---Select---";
+      this.currentTeacher = "---Select---";
+      this.currentSubject = "---Select---";
       this.$emit("closeAddGrade", false);
       this.$emit("updateData");
       this.$refs.ruleForm.resetFields();
@@ -152,60 +148,68 @@ export default {
       this.ruleForm.Quarter = val.Title;
     },
     save() {
-      if (this.ruleForm.SubjectID == '') {
+      if (this.ruleForm.SubjectID == "") {
         this.$message({
           type: "warning",
           message: "Select Subject!"
         });
-      } else if (this.ruleForm.Quarter == '') {
+      } else if (this.ruleForm.Quarter == "") {
         this.$message({
           type: "warning",
           message: "Select Grading Period!"
         });
-      } else if (this.ruleForm.Grade == '') {
-          this.$message({
+      } else if (this.ruleForm.Grade == "") {
+        this.$message({
           type: "warning",
           message: "Enter Grade!"
         });
-      } else if (this.ruleForm.TeacherID == '') {
-          this.$message({
+      } else if (this.ruleForm.TeacherID == "") {
+        this.$message({
           type: "warning",
           message: "Select Teacher!"
         });
       } else {
-        if (this.ruleForm.Quarter == 'First') {
+        if (this.ruleForm.Quarter == "First") {
           this.ruleForm.FirstGrade = this.ruleForm.Grade;
-          this.ruleForm.SecondGrade = '';
-          this.ruleForm.ThirdGrade = '';
-          this.ruleForm.FourthGrade = '';
-        } else if (this.ruleForm.Quarter == 'Second') {
+          this.ruleForm.SecondGrade = "";
+          this.ruleForm.ThirdGrade = "";
+          this.ruleForm.FourthGrade = "";
+        } else if (this.ruleForm.Quarter == "Second") {
           this.ruleForm.SecondGrade = this.ruleForm.Grade;
-          this.ruleForm.FirstGrade = '';
-          this.ruleForm.ThirdGrade = '';
-          this.ruleForm.FourthGrade = '';
-        } else if (this.ruleForm.Quarter == 'Third') {
+          this.ruleForm.FirstGrade = "";
+          this.ruleForm.ThirdGrade = "";
+          this.ruleForm.FourthGrade = "";
+        } else if (this.ruleForm.Quarter == "Third") {
           this.ruleForm.ThirdGrade = this.ruleForm.Grade;
-          this.ruleForm.FirstGrade = '';
-          this.ruleForm.SecondGrade = '';
-          this.ruleForm.FourthGrade = '';
+          this.ruleForm.FirstGrade = "";
+          this.ruleForm.SecondGrade = "";
+          this.ruleForm.FourthGrade = "";
         } else {
           this.ruleForm.FourthGrade = this.ruleForm.Grade;
-          this.ruleForm.FirstGrade = '';
-          this.ruleForm.SecondGrade = '';
-          this.ruleForm.ThirdGrade = '';
+          this.ruleForm.FirstGrade = "";
+          this.ruleForm.SecondGrade = "";
+          this.ruleForm.ThirdGrade = "";
         }
         let params = {
           request: 2,
           data: {
             StudentID: this.ruleForm.StudentID,
             SubjectID: this.ruleForm.SubjectID,
-            FirstGrade: Number(this.ruleForm.FirstGrade ? this.ruleForm.FirstGrade : 0),
-            SecondGrade: Number(this.ruleForm.SecondGrade ? this.ruleForm.SecondGrade : 0),
-            ThirdGrade: Number(this.ruleForm.ThirdGrade ? this.ruleForm.ThirdGrade : 0),
-            FourthGrade: Number(this.ruleForm.FourthGrade ? this.ruleForm.FourthGrade : 0),
+            FirstGrade: Number(
+              this.ruleForm.FirstGrade ? this.ruleForm.FirstGrade : 0
+            ),
+            SecondGrade: Number(
+              this.ruleForm.SecondGrade ? this.ruleForm.SecondGrade : 0
+            ),
+            ThirdGrade: Number(
+              this.ruleForm.ThirdGrade ? this.ruleForm.ThirdGrade : 0
+            ),
+            FourthGrade: Number(
+              this.ruleForm.FourthGrade ? this.ruleForm.FourthGrade : 0
+            ),
             OverAllGrade: this.computeOverALL(this.ruleForm),
             Remarks: this.computeRemarks(this.ruleForm),
-            TeacherID: this.ruleForm.TeacherID,
+            TeacherID: this.ruleForm.TeacherID
           }
         };
         this.http
@@ -229,7 +233,6 @@ export default {
             console.log(error);
           });
       }
-
     },
     computeOverALL(obj) {
       let first = Number(obj.FirstGrade ? obj.FirstGrade : 0);
@@ -245,9 +248,9 @@ export default {
       let third = Number(obj.ThirdGrade ? obj.ThirdGrade : 0);
       let fourth = Number(obj.FourthGrade ? obj.FourthGrade : 0);
       let overAll = (first + second + third + fourth) / 4;
-      return overAll >=75 ? 'Passed' : 'Failed';
+      return overAll >= 75 ? "Passed" : "Failed";
     },
-    
+
     getAllTeacher() {
       let params = {
         request: 1,
@@ -291,20 +294,20 @@ export default {
         });
     },
     resetFields() {
-      this.currentGradingPeriod = '---Select---';
-      this.currentTeacher = '---Select---';
-      this.currentSubject = '---Select---';
-      this.ruleForm.StudentID = '';
-      this.ruleForm.SubjectID = '';
-      this.ruleForm.Quarter = '';
-      this.ruleForm.Grade = '';
-      this.ruleForm.FirstGrade = '';
-      this.ruleForm.SecondGrade = '';
-      this.ruleForm.ThirdGrade = '';
-      this.ruleForm.FourthGrade = '';
-      this.ruleForm.OverAllGrade = '';
-      this.ruleForm.Remarks = '';
-      this.ruleForm.TeacherID = '';
+      this.currentGradingPeriod = "---Select---";
+      this.currentTeacher = "---Select---";
+      this.currentSubject = "---Select---";
+      this.ruleForm.StudentID = "";
+      this.ruleForm.SubjectID = "";
+      this.ruleForm.Quarter = "";
+      this.ruleForm.Grade = "";
+      this.ruleForm.FirstGrade = "";
+      this.ruleForm.SecondGrade = "";
+      this.ruleForm.ThirdGrade = "";
+      this.ruleForm.FourthGrade = "";
+      this.ruleForm.OverAllGrade = "";
+      this.ruleForm.Remarks = "";
+      this.ruleForm.TeacherID = "";
     }
   },
   props: {
@@ -314,7 +317,7 @@ export default {
     },
     studentID: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   async created() {

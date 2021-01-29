@@ -3,51 +3,84 @@
     <div class="top-panel">
       <el-row :gutter="20">
         <el-col :span="5">
-
-            <div class="search-box">
-              <!-- <div class="title-box">
+          <div class="search-box">
+            <!-- <div class="title-box">
                 <span>Search</span>
               </div> -->
-              <el-input placeholder="Input name to search" v-model="searchText" @change="getStudentList" class="input-with-select">
-                <el-button slot="append" icon="el-icon-search" @click="getStudentList()"></el-button>
-              </el-input>
-              <div class="list">
-                <div class="list-wrapper">
-                  <div
-                    class="list-item"
-                    v-for="(item, key) in studentList"
-                    :key="key"
-                    @click="selectStudent(item)">
-                    {{ item.LastName + ' ' + item.FirstName + ', ' + item.MiddleName.split('')[0] }}
-                  </div>
+            <el-input
+              placeholder="Input name to search"
+              v-model="searchText"
+              @change="getStudentList"
+              class="input-with-select"
+            >
+              <el-button
+                slot="append"
+                icon="el-icon-search"
+                @click="getStudentList()"
+              ></el-button>
+            </el-input>
+            <div class="list">
+              <div class="list-wrapper">
+                <div
+                  class="list-item"
+                  v-for="(item, key) in studentList"
+                  :key="key"
+                  @click="selectStudent(item)"
+                >
+                  {{
+                    item.LastName +
+                      " " +
+                      item.FirstName +
+                      ", " +
+                      item.MiddleName.split("")[0]
+                  }}
                 </div>
               </div>
             </div>
-            <div class="bottom-box"></div>
+          </div>
+          <div class="bottom-box"></div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple">
             <el-divider content-position="left">Student Info</el-divider>
             <div class="student-info-box">
               <div class="left">
-                <img v-if="studentData != null" :src="studentData.Icon" alt="">
+                <img
+                  v-if="studentData != null"
+                  :src="studentData.Icon"
+                  alt=""
+                />
               </div>
               <div class="right">
                 <div class="top-info">
                   <small>Student Name</small>
                   <h3 v-if="studentData != null">
-                    {{ studentData.LastName 
-                        + ' ' + 
-                        studentData.FirstName 
-                        + ', ' + 
-                        studentData.MiddleName.split('')[0] 
+                    {{
+                      studentData.LastName +
+                        " " +
+                        studentData.FirstName +
+                        ", " +
+                        studentData.MiddleName.split("")[0]
                     }}
                   </h3>
                 </div>
                 <div class="bottom-info">
-                  <div><small>Student ID:</small> <b v-if="studentData != null">{{ studentData.AccountID }}</b></div>
-                  <div><small>Course:</small> <b v-if="studentData != null">{{ studentData.Course }}</b></div>
-                  <div><small>Year:</small> <b v-if="studentData != null">{{ studentData.YearLevel }}</b></div>
+                  <div>
+                    <small>Student ID:</small>
+                    <b v-if="studentData != null">{{
+                      studentData.AccountID
+                    }}</b>
+                  </div>
+                  <div>
+                    <small>Course:</small>
+                    <b v-if="studentData != null">{{ studentData.Course }}</b>
+                  </div>
+                  <div>
+                    <small>Year:</small>
+                    <b v-if="studentData != null">{{
+                      studentData.YearLevel
+                    }}</b>
+                  </div>
                 </div>
               </div>
             </div>
@@ -55,28 +88,56 @@
             <div class="record-box">
               <div class="record-box-wrapper">
                 <div class="record-header">
-                  <div class="item-header"
+                  <div
+                    class="item-header"
                     v-for="(item, key) in itemClass"
                     :key="key"
                     @click="selectItemClass(key)"
-                    :class="activeItemClass == key ? 'selected' : null">
+                    :class="activeItemClass == key ? 'selected' : null"
+                  >
                     {{ item.name }}
                   </div>
                 </div>
                 <div class="record-body">
                   <div class="action">
                     <el-row>
-                      <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 0" @click="showAddGradeF()"></el-button>
-                      <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 1" @click="showAddQuizF()"></el-button>
-                      <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 2" @click="showAddExamF()"></el-button>
-                      <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 3" @click="showAddGradeF()"></el-button>
-                      <el-button type="success" icon="el-icon-circle-plus" v-if="activeItemClass === 4" @click="showAddGradeF()"></el-button>
+                      <el-button
+                        type="success"
+                        icon="el-icon-circle-plus"
+                        v-if="activeItemClass === 0"
+                        @click="showAddGradeF()"
+                      ></el-button>
+                      <el-button
+                        type="success"
+                        icon="el-icon-circle-plus"
+                        v-if="activeItemClass === 1"
+                        @click="showAddQuizF()"
+                      ></el-button>
+                      <el-button
+                        type="success"
+                        icon="el-icon-circle-plus"
+                        v-if="activeItemClass === 2"
+                        @click="showAddExamF()"
+                      ></el-button>
+                      <el-button
+                        type="success"
+                        icon="el-icon-circle-plus"
+                        v-if="activeItemClass === 3"
+                        @click="showAddGradeF()"
+                      ></el-button>
+                      <el-button
+                        type="success"
+                        icon="el-icon-circle-plus"
+                        v-if="activeItemClass === 4"
+                        @click="showAddGradeF()"
+                      ></el-button>
                     </el-row>
                   </div>
                   <component
                     :is="itemClass[activeItemClass].link"
                     @updateData="updateData"
-                    :tableData="tableData"></component>
+                    :tableData="tableData"
+                  ></component>
                 </div>
               </div>
             </div>
@@ -89,29 +150,31 @@
       :studentID="studentData.ID"
       @updateData="updateData"
       @closeAddGrade="closeAddGrade($event)"
-      :showAddGrade="showAddGrade"/>
+      :showAddGrade="showAddGrade"
+    />
 
     <AddQuiz
       v-if="showAddQuiz"
       :studentID="studentData.ID"
       @updateData="updateData"
       @closeAddQuiz="closeAddQuiz($event)"
-      :showAddQuiz="showAddQuiz" />
+      :showAddQuiz="showAddQuiz"
+    />
 
     <AddExam
       v-if="showAddExam"
       :studentID="studentData.ID"
       @updateData="updateData"
       @closeAddExam="closeAddExam($event)"
-      :showAddExam="showAddExam" />
-
+      :showAddExam="showAddExam"
+    />
   </div>
 </template>
 
 <script>
-import AddGrade from '@/components/admin/content/dialog/grades/AddGrade.vue'
-import AddQuiz from '@/components/admin/content/dialog/grades/AddQuiz.vue'
-import AddExam from '@/components/admin/content/dialog/grades/AddExam.vue'
+import AddGrade from "@/components/admin/content/dialog/grades/AddGrade.vue";
+import AddQuiz from "@/components/admin/content/dialog/grades/AddQuiz.vue";
+import AddExam from "@/components/admin/content/dialog/grades/AddExam.vue";
 
 export default {
   components: {
@@ -126,15 +189,15 @@ export default {
     },
     TableExam: resolve => {
       require(["@/components/admin/content/grades/TableExam.vue"], resolve);
-    },
+    }
   },
   data() {
     return {
       showAddGrade: false,
       showAddQuiz: false,
       showAddExam: false,
-      searchText: '',
-      select: 'Account ID',
+      searchText: "",
+      select: "Account ID",
       tableData: [],
       studentList: [],
       itemClass: [
@@ -161,11 +224,11 @@ export default {
       ],
       activeItemClass: 0,
       classActions: [
-        { title: 'Add' , icon: '' },
-        { title: 'Edit' , icon: '' },
-        { title: 'Delete' , icon: '' },
+        { title: "Add", icon: "" },
+        { title: "Edit", icon: "" },
+        { title: "Delete", icon: "" }
       ],
-      studentData: null,
+      studentData: null
     };
   },
   methods: {
@@ -178,8 +241,8 @@ export default {
         var params = {
           request: 13,
           data: {
-            searchText: this.searchText,
-          },
+            searchText: this.searchText
+          }
         };
         await this.http
           .post(this.api.AdminService, params)
@@ -198,8 +261,8 @@ export default {
       var params = {
         request: 1,
         data: {
-          StudentID: val,
-        },
+          StudentID: val
+        }
       };
       this.http
         .post(this.api.AdminGradingService, params)
@@ -214,8 +277,8 @@ export default {
       var params = {
         request: 1,
         data: {
-          StudentID: val,
-        },
+          StudentID: val
+        }
       };
       this.http
         .post(this.api.AdminQuizService, params)
@@ -230,8 +293,8 @@ export default {
       var params = {
         request: 1,
         data: {
-          StudentID: val,
-        },
+          StudentID: val
+        }
       };
       this.http
         .post(this.api.AdminExamService, params)
@@ -244,7 +307,7 @@ export default {
     },
     updateData() {
       if (this.activeItemClass === 0) {
-        this.getStudentGradeData(this.studentData.ID)
+        this.getStudentGradeData(this.studentData.ID);
       } else if (this.activeItemClass === 1) {
         this.getStudentQuizData(this.studentData.ID);
       } else if (this.activeItemClass === 2) {
@@ -263,7 +326,7 @@ export default {
     selectStudent(val) {
       this.studentData = val;
       if (this.activeItemClass === 0) {
-        this.getStudentGradeData(val.ID)
+        this.getStudentGradeData(val.ID);
       } else if (this.activeItemClass === 1) {
         this.getStudentQuizData(val.ID);
       } else if (this.activeItemClass === 2) {
@@ -298,7 +361,7 @@ export default {
   .top-panel {
     margin-bottom: 20px;
   }
-  
+
   .el-col {
     // border: 1px solid #ccc;
     // box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.25);
@@ -343,7 +406,7 @@ export default {
         text-align: left;
         padding: 5px 10px;
         font-size: 14px;
-        border-bottom: 1px solid #EBEEF5;
+        border-bottom: 1px solid #ebeef5;
         cursor: pointer;
       }
       // .list-wrapper .list-item:not(:last-child) {
@@ -391,7 +454,7 @@ export default {
     }
     .right .bottom-info {
       display: flex;
-      &>div {
+      & > div {
         flex: 1;
       }
     }
@@ -405,12 +468,12 @@ export default {
     .record-box-wrapper .record-header {
       display: flex;
       .item-header.selected {
-        background: #DCDFE6;
+        background: #dcdfe6;
         color: #333;
       }
       .item-header {
         padding: 5px 10px;
-        background: #409EFF;
+        background: #409eff;
         color: #fff;
         border-top-right-radius: 8px;
         border-top-left-radius: 8px;
@@ -438,6 +501,5 @@ export default {
       align-items: center;
     }
   }
-
 }
 </style>

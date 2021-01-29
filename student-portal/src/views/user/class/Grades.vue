@@ -4,7 +4,9 @@
     <div class="grades-content">
       <div class="general-average">
         <div>General Average</div>
-        <div class="color" :class="{red: generalAverage <= '74'}">{{ generalAverage.toFixed(2) }}</div>
+        <div class="color" :class="{ red: generalAverage <= '74' }">
+          {{ generalAverage.toFixed(2) }}
+        </div>
       </div>
       <div class="grade-items">
         <van-collapse v-model="activeNames">
@@ -15,32 +17,57 @@
           >
             <template #title>
               <div class="left">{{ gradeItem.SubjectID }}</div>
-              <div class="right" :class="{red: gradeItem.OverAllGrade <= '74'}">{{ gradeItem.OverAllGrade }}</div>
+              <div
+                class="right"
+                :class="{ red: gradeItem.OverAllGrade <= '74' }"
+              >
+                {{ gradeItem.OverAllGrade }}
+              </div>
             </template>
             <template #default>
               <div>Teacher: {{ gradeItem.TeacherID }}</div>
-              <div>First Grading:
-                <span class="color" :class="{red: gradeItem.FirstGrade <= '74'}">
+              <div>
+                First Grading:
+                <span
+                  class="color"
+                  :class="{ red: gradeItem.FirstGrade <= '74' }"
+                >
                   {{ gradeItem.FirstGrade }}
                 </span>
               </div>
-              <div>Secord Grading: 
-                <span class="color" :class="{red: gradeItem.ThirdGrade <= '74'}">
+              <div>
+                Secord Grading:
+                <span
+                  class="color"
+                  :class="{ red: gradeItem.ThirdGrade <= '74' }"
+                >
                   {{ gradeItem.ThirdGrade }}
                 </span>
               </div>
-              <div>Third Grading: 
-                <span class="color" :class="{red: gradeItem.FourthGrade <= '74'}">
+              <div>
+                Third Grading:
+                <span
+                  class="color"
+                  :class="{ red: gradeItem.FourthGrade <= '74' }"
+                >
                   {{ gradeItem.FourthGrade }}
                 </span>
               </div>
-              <div>Fourth Grading: 
-                <span class="color" :class="{red: gradeItem.FourthGrade <= '74'}">
+              <div>
+                Fourth Grading:
+                <span
+                  class="color"
+                  :class="{ red: gradeItem.FourthGrade <= '74' }"
+                >
                   {{ gradeItem.FourthGrade }}
                 </span>
               </div>
-              <div>Remarks: 
-                <span class="color" :class="{red: gradeItem.Remarks == 'Failed'}">
+              <div>
+                Remarks:
+                <span
+                  class="color"
+                  :class="{ red: gradeItem.Remarks == 'Failed' }"
+                >
                   {{ gradeItem.Remarks }}
                 </span>
               </div>
@@ -77,8 +104,8 @@ export default {
       var params = {
         request: 1,
         data: {
-          StudentID: val,
-        },
+          StudentID: val
+        }
       };
       this.http
         .post(this.api.AdminGradingService, params)
@@ -94,14 +121,14 @@ export default {
     },
     computeGenAve(arr) {
       var tempVal = 0;
-      for(var i = 0; i < arr.length; i++) {
+      for (var i = 0; i < arr.length; i++) {
         var currGrade = Number(arr[i].OverAllGrade);
         tempVal = currGrade + tempVal;
       }
-      this.generalAverage = tempVal / arr.length
+      this.generalAverage = tempVal / arr.length;
     }
   },
-  created(){
+  created() {
     this.userDetails = JSON.parse(localStorage.getItem("user"));
   },
   mounted() {

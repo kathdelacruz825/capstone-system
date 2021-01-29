@@ -14,7 +14,9 @@
           >
             <template #title>
               <van-tag class="tag" color="#7232dd" type="danger"></van-tag>
-              <span class="custom-title">{{ examItem.Title +' Grading Period' }}</span>
+              <span class="custom-title">{{
+                examItem.Title + " Grading Period"
+              }}</span>
             </template>
           </van-cell>
         </van-cell-group>
@@ -42,7 +44,10 @@ export default {
   },
   methods: {
     goPage(period, periodid) {
-      this.$router.push({ name: "ExamView", params: { period: period, periodid: periodid } });
+      this.$router.push({
+        name: "ExamView",
+        params: { period: period, periodid: periodid }
+      });
     },
     getAllGradingPeriod() {
       let params = {
@@ -57,7 +62,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    },
+    }
   },
   created() {
     this.getAllGradingPeriod();
