@@ -35,7 +35,12 @@ if ($params) {
     // delete data
       $data = new AdminAnnouncementData($conn);
       echo json_encode($data->getAnnouncementType());
-      break; 
+      break;
+    case 7:
+      // select all
+        $data = new AdminAnnouncementData($conn);
+        echo json_encode($data->getAnnouncementDataBy());
+        break;
     default:
       echo "Invalid Request";
   }

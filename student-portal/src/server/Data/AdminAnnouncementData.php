@@ -42,35 +42,34 @@ class AdminAnnouncementData {
     return $this->response;
   }
   
-  function getExamDataBy($params) {
-    $StudentID = $params['StudentID'];
-    $GradingPeriodID = $params['GradingPeriodID'];
-
+  function getAnnouncementDataBy() {
     $query = "Select 
-              `tbl_record_exam`.`ID`,
-              `tbl_subject`.`Title`,
-              `tbl_grading_period`.`Title`,
-              `tbl_record_exam`.`Score`,
-              `tbl_record_exam`.`OverAllItems`,
-              `tbl_record_exam`.`Remarks`,
-              `tbl_record_exam`.`StudentID`
-              from ((`tbl_record_exam`
-              Inner Join `tbl_subject` ON `tbl_record_exam`.`SubjectID` = `tbl_subject`.`ID`)
-              Inner Join `tbl_grading_period` ON `tbl_record_exam`.`GradingPeriodID` = `tbl_grading_period`.`ID`)
-              Where `tbl_record_exam`.`StudentID`='$StudentID'
-              And `tbl_record_exam`.`GradingPeriodID`='$GradingPeriodID'";
+              `tbl_announcement`.`ID`,
+              `tbl_announcement_type`.`Type`,
+              `tbl_announcement`.`Title`,
+              `tbl_announcement`.`Description`,
+              `tbl_announcement`.`OnDate`,
+              `tbl_accounts_admin`.`AccountName`,
+              `tbl_announcement_status`.`Status`,
+              `tbl_announcement`.`CreatedTime`
+              from (((`tbl_announcement`
+              Inner Join `tbl_announcement_type` On `tbl_announcement`.`Type` = `tbl_announcement_type`.`ID`)
+              Inner Join `tbl_accounts_admin` On `tbl_announcement`.`CreatedBy` = `tbl_accounts_admin`.`ID`)
+              Inner Join `tbl_announcement_status` On `tbl_announcement`.`Status` = `tbl_announcement_status`.`ID`)
+              Where `tbl_announcement`.`Status` = 1";
 
     $result = $this->link->query($query);
 
     while ($row = mysqli_fetch_row($result)) {
       if (count($row) > 0) {
         $this->tempData["ID"] = $row[0];
-        $this->tempData["SubjectID"] = $row[1];
-        $this->tempData["GradingPeriodID"] = $row[2];
-        $this->tempData["Score"] = $row[3];
-        $this->tempData["OverAllItems"] = $row[4];
-        $this->tempData["Remarks"] = $row[5];
-        $this->tempData["StudentID"] = $row[6];
+        $this->tempData["Type"] = $row[1];
+        $this->tempData["Title"] = $row[2];
+        $this->tempData["Description"] = $row[3];
+        $this->tempData["OnDate"] = $row[4];
+        $this->tempData["CreatedBy"] = $row[5];
+        $this->tempData["Status"] = $row[6];
+        $this->tempData["CreatedTime"] = $row[7];
         $this->response[] = $this->tempData;
       }
     }

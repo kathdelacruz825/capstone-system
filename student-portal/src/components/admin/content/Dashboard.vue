@@ -35,8 +35,33 @@
       <div class="bottom-panel">
         <el-row :gutter="20">
           <el-col :span="18"
-            ><div class="grid-content bg-purple" style="border-radius: 3px;">
-              List for recent activities
+            ><div
+              class="grid-content bg-purple list-cont"
+              style="border-radius: 3px;"
+            >
+              <b>Recent Announcements</b>
+              <div class="list">
+                <ul>
+                  <li
+                    v-for="(notifItem, notifKey) in notifData"
+                    :key="notifKey"
+                  >
+                    <div class="body-panel">
+                      <div class="activty-type">
+                        <van-icon name="newspaper-o" size="30" />
+                        {{ notifItem.Type }}
+                      </div>
+                      <div class="activity-name">{{ notifItem.Title }}</div>
+                      <div class="activity-content">
+                        <p>{{ notifItem.Description }}</p>
+                      </div>
+                      <small class="activity-schedule">{{
+                        notifItem.OnDate
+                      }}</small>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div></el-col
           >
           <el-col :span="6">
@@ -96,7 +121,8 @@ export default {
       teacherCount: "0",
       time: "",
       currUser: "Administrator",
-      timeLog: ""
+      timeLog: "",
+      notifData: []
     };
   },
   methods: {
@@ -170,6 +196,20 @@ export default {
           console.log(error);
         });
     },
+    getAnnouncementData() {
+      var params = {
+        request: 7,
+        data: {}
+      };
+      this.http
+        .post(this.api.AdminAnnouncementService, params)
+        .then(response => {
+          this.notifData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     getCurrentDateTime() {
       let today = new Date();
       let currdate =
@@ -205,6 +245,7 @@ export default {
     await this.getSchoolYearData();
     await this.getGradingPeriodData();
     await this.getTeacherData();
+    await this.getAnnouncementData();
   }
 };
 </script>
@@ -297,6 +338,42 @@ export default {
           display: block;
           text-align: left;
         }
+      }
+    }
+  }
+
+  .list-cont {
+    overflow: hidden;
+    height: 100%;
+    padding: 10px;
+  }
+
+  .list {
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .list ul {
+    overflow-y: auto;
+    height: 100%;
+    li {
+      border-bottom: 1px solid #dcdfe6;
+    }
+    .body-panel {
+      text-align: left;
+      display: block;
+      padding: 5px;
+      .activty-type {
+        display: flex;
+        align-items: center;
+      }
+      .activity-name,
+      .activity-content {
+        text-indent: 30px;
+      }
+
+      .activity-schedule {
+        padding-left: 30px;
       }
     }
   }

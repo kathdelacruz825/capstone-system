@@ -234,7 +234,9 @@ export default {
   methods: {
     selectItemClass(index) {
       this.activeItemClass = index;
-      this.updateData();
+      if (this.studentData != null) {
+        this.updateData();
+      }
     },
     async getStudentList() {
       if (this.searchText) {
