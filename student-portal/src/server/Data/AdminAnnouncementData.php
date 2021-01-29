@@ -22,7 +22,7 @@ class AdminAnnouncementData {
               from (((`tbl_announcement`
               Inner Join `tbl_announcement_type` On `tbl_announcement`.`Type` = `tbl_announcement_type`.`ID`)
               Inner Join `tbl_accounts_admin` On `tbl_announcement`.`CreatedBy` = `tbl_accounts_admin`.`ID`)
-              Inner Join `tbl_announcement_status` On `tbl_announcement`.`CreatedBy` = `tbl_announcement_status`.`ID`)";
+              Inner Join `tbl_announcement_status` On `tbl_announcement`.`Status` = `tbl_announcement_status`.`ID`)";
 
     $result = $this->link->query($query);
 
@@ -127,18 +127,14 @@ class AdminAnnouncementData {
     $Title = $params['Title'];
     $Description = $params['Description'];
     $OnDate = $params['OnDate'];
-    $CreatedBy = $params['CreatedBy'];
     $Status = $params['Status'];
-    $CreatedTime = $params['CreatedTime'];
 
     $query = "Update `tbl_announcement` SET
               `Type`='$Type',
               `Title`='$Title',
               `Description`='$Description',
               `OnDate`='$OnDate',
-              `CreatedBy`='$CreatedBy',
-              `Status`='$Status',
-              `CreatedTime`='$CreatedTime'
+              `Status`='$Status'
               where ID=$ID";
 
     if ($this->link->query($query) === TRUE) {

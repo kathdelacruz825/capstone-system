@@ -53,14 +53,24 @@
       </span>
     </el-dialog>
   
+    <UpdateAnnounce
+      v-if="showAnnouncementUpdate"
+      @updateData="updateData"
+      @closeUpdateAnnounce="closeUpdateAnnounce($event)"
+      :showAnnouncementUpdate="showAnnouncementUpdate"
+      :announceData="announceData"/>
   </div>
 </template>
 
 <script>
+import UpdateAnnounce from "@/components/admin/content/dialog/announcements/UpdateAnnounce.vue";
+
 import { tableProps } from "@/components/admin/content/announcements/tableProps_TableAnnounce.js";
 
 export default {
-  components: {},
+  components: {
+    UpdateAnnounce
+  },
   data() {
     return {
       tableProps: tableProps,
@@ -110,6 +120,13 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    closeUpdateAnnounce(val) {
+      this.showAnnouncementUpdate = val;
+      this.$emit("updateData");
+    },
+    updateData() {
+      this.$emit("updateData");
     }
   },
   props: {

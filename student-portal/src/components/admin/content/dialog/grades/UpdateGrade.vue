@@ -100,7 +100,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">Cancel</el-button>
-      <el-button type="primary" @click="save()">Save</el-button>
+      <el-button type="primary" @click="save()">Update</el-button>
     </span>
   </el-dialog>
 </template>
@@ -153,11 +153,11 @@ export default {
     },
     selectTeacher(val) {
       this.currentTeacher = val.Name;
-      this.studentData.TeacherID = val.AccountID;
+      // this.studentData.TeacherID = val.AccountID;
     },
     selectSubject(val) {
       this.currentSubject = val.Title;
-      this.studentData.SubjectID = val.ID;
+      // this.studentData.SubjectID = val.ID;
     },
     selectGradingPeriod(val) {
       this.currentGradingPeriod = val.Title;
@@ -169,7 +169,7 @@ export default {
         data: {
           ID: this.studentData.ID,
           StudentID: this.studentData.StudentID,
-          SubjectID: this.studentData.SubjectID,
+          SubjectID: this.parseSubject(this.currentSubject),
           FirstGrade: Number(
             this.studentData.FirstGrade ? this.studentData.FirstGrade : 0
           ),
@@ -184,7 +184,7 @@ export default {
           ),
           OverAllGrade: this.computeOverALL(this.studentData),
           Remarks: this.computeRemarks(this.studentData),
-          TeacherID: this.studentData.TeacherID
+          TeacherID: this.parseTeacher(this.currentTeacher)//this.studentData.TeacherID
         }
       };
       this.http
@@ -206,6 +206,22 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    parseSubject(item) {
+      var newItem =  this.subjectList.filter(val => {
+        if (val.Title == item) {
+          return val;
+        }
+      })[0].ID;
+      return newItem;
+    },
+    parseTeacher(item) {
+      var newItem =  this.teacherList.filter(val => {
+        if (val.Name == item) {
+          return val;
+        }
+      })[0].AccountID;
+      return newItem;
     },
     computeOverALL(obj) {
       let first = Number(obj.FirstGrade ? obj.FirstGrade : 0);
@@ -233,11 +249,11 @@ export default {
         .post(this.api.TeacherService, params)
         .then(response => {
           this.teacherList = response.data;
-          this.currentTeacher = this.teacherList.filter(val => {
-            if (val.AccountID == this.studentData.TeacherID) {
-              return val;
-            }
-          })[0].Name;
+          // this.currentTeacher = this.teacherList.filter(val => {
+          //   if (val.AccountID == this.studentData.TeacherID) {
+          //     return val;
+          //   }
+          // })[0].Name;
         })
         .catch(error => {
           console.log(error);
@@ -252,11 +268,11 @@ export default {
         .post(this.api.SubjectService, params)
         .then(response => {
           this.subjectList = response.data;
-          this.studentData.SubjectID = this.subjectList.filter(val => {
-            if (val.Title == this.studentData.SubjectID) {
-              return val;
-            }
-          })[0].ID;
+          // this.studentData.SubjectID = this.subjectList.filter(val => {
+          //   if (val.Title == this.studentData.SubjectID) {
+          //     return val;
+          //   }
+          // })[0].ID;
         })
         .catch(error => {
           console.log(error);
@@ -280,7 +296,9 @@ export default {
     await this.getAllSubject();
   },
   mounted() {
+    console.log(this.studentData);
     this.currentSubject = this.studentData.SubjectID;
+    this.currentTeacher = this.studentData.TeacherID;
   }
 };
 </script>
