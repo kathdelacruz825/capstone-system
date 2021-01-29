@@ -7,7 +7,7 @@ const tableProps = [
   {
     propName: "Type",
     propLabel: "Type",
-    width: "120"
+    width: "150"
   },
   {
     propName: "Title",

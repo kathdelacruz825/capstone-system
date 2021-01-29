@@ -172,5 +172,20 @@ class AdminAnnouncementData {
     }
   }
 
+  function getAnnouncementType() {
+    $query = "Select * from `tbl_announcement_type`";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["Type"] = $row[1];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+
 }
 ?>

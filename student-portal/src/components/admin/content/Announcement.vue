@@ -21,8 +21,10 @@
       </div>
     </div>
     <TableAnnounce
+      @updateData="updateData"
       :tableData="tableData"/>
     <AddAnnounce
+      v-if="showAddAnnounce"
       :showAddAnnounce="showAddAnnounce"
       @closeAddAnnounce="closeAddAnnounce($event)"
       @updateData="updateData"/>

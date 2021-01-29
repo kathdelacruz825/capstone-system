@@ -30,6 +30,11 @@ if ($params) {
     // delete data
       $data = new AdminAnnouncementData($conn);
       echo json_encode($data->deleteAnnouncementData($params['data']));
+      break;
+    case 6:
+    // delete data
+      $data = new AdminAnnouncementData($conn);
+      echo json_encode($data->getAnnouncementType());
       break; 
     default:
       echo "Invalid Request";

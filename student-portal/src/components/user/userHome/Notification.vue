@@ -23,10 +23,10 @@
             {{ notifData.Type }}
           </div>
           <div class="activity-name">{{ notifData.Title }}</div>
-          <div class="activity-schedule">{{ notifData.OnDate }}</div>
           <div class="activity-content">
             <p>{{ notifData.Description }}</p>
           </div>
+          <small class="activity-schedule">{{ notifData.OnDate }}</small>
         </div>
       </div>
     </div>

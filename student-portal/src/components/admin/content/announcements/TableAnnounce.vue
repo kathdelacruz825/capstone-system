@@ -94,8 +94,8 @@ export default {
         .post(this.api.AdminAnnouncementService, params)
         .then(response => {
           if (response.data.State == 1) {
-            this.getAnnouncementData();
             this.showAnnouncement = false;
+            this.$emit("updateData");
             this.$message({
               type: "success",
               message: response.data.Message
