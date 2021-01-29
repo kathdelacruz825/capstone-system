@@ -11,21 +11,21 @@
               src="https://img.yzcdn.cn/vant/cat.jpeg"
             />
           </div>
-          <div class="name">
-            <span>{{ "Pepito Manalastas" }}</span>
-            <span>{{ "Teacher" }}</span>
-            <span>{{ "Dec 05, 3:00 PM" }}</span>
+          <div style="padding: 3px 0px;" class="name">
+            <span>{{ notifData.CreatedBy }}</span>
+            <span style="margin-bottom: 7px;">{{ " " }}</span>
+            <span>{{ notifData.CreatedTime }}</span>
           </div>
         </div>
         <div class="body-panel">
           <div class="activty-type">
             <van-icon name="newspaper-o" />
-            {{ "Quiz" }}
+            {{ notifData.Type }}
           </div>
-          <div class="activity-name">First Quiz</div>
-          <div class="activity-schedule">{{ "December 7, 2020 7:00AM" }}</div>
+          <div class="activity-name">{{ notifData.Title }}</div>
+          <div class="activity-schedule">{{ notifData.OnDate }}</div>
           <div class="activity-content">
-            <p>HTML How to make lumpi</p>
+            <p>{{ notifData.Description }}</p>
           </div>
         </div>
       </div>
@@ -38,6 +38,14 @@ export default {
   name: "Notification",
   data() {
     return {};
+  },
+  props: {
+    notifData: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    }
   }
 };
 </script>

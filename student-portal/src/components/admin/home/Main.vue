@@ -16,8 +16,8 @@ export default {
     Parents: resolve => {
       require(["@/components/admin/content/Parents.vue"], resolve);
     },
-    Schedule: resolve => {
-      require(["@/components/admin/content/Schedule.vue"], resolve);
+    Announcements: resolve => {
+      require(["@/components/admin/content/Announcement.vue"], resolve);
     },
     Grades: resolve => {
       require(["@/components/admin/content/Grades.vue"], resolve);

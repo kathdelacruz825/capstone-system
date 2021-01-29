@@ -45,7 +45,7 @@ export default {
           icon: "el-icon-s-custom"
         },
         {
-          name: "Schedule",
+          name: "Announcements",
           icon: "el-icon-date"
         },
         {

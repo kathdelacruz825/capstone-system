@@ -23,8 +23,9 @@
                 @load="onLoad"
               >
                 <Notification
-                  v-for="(notifItem, notifKey) in 5"
+                  v-for="(notifItem, notifKey) in notifData"
                   :key="notifKey"
+                  :notifData="notifItem"
                 />
               </van-list>
             </van-pull-refresh>
@@ -57,7 +58,8 @@ export default {
       finished: false,
       refreshing: false,
       active: 0,
-      tabOptions: ["Notification"]
+      tabOptions: ["Notification"],
+      notifData: []
     };
   },
   methods: {
@@ -82,6 +84,20 @@ export default {
       this.finished = false;
       this.loading = true;
       this.onLoad();
+    },
+    getAnnouncementData() {
+      var params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.AdminAnnouncementService, params)
+        .then(response => {
+          this.notifData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   computed: {
@@ -89,7 +105,9 @@ export default {
       return this.$store.state.userDetails;
     }
   },
-  mounted() {}
+  mounted() {
+    this.getAnnouncementData();
+  }
 };
 </script>
 
