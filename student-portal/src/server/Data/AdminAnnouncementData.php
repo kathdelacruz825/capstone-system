@@ -77,31 +77,35 @@ class AdminAnnouncementData {
     return $this->response;
   }
 
-  function setStudentExamData($params) {
-    $SubjectID = $params['SubjectID'];
-    $GradingPeriodID = $params['GradingPeriodID'];
-    $Score = $params['Score'];
-    $OverAllItems = $params['OverAllItems'];
-    $Remarks = $params['Remarks'];
-    $StudentID = $params['StudentID'];
+  function setAnnouncementData($params) {
+    $Type = $params['Type'];
+    $Title = $params['Title'];
+    $Description = $params['Description'];
+    $OnDate = $params['OnDate'];
+    $CreatedBy = $params['CreatedBy'];
+    $Status = $params['Status'];
+    $CreatedTime = $params['CreatedTime'];
 
-    $query = "Insert into `tbl_record_exam`
+
+    $query = "Insert into `tbl_announcement`
               (
-                `SubjectID`,
-                `GradingPeriodID`,
-                `Score`,
-                `OverAllItems`,
-                `Remarks`,
-                `StudentID`
+                `Type`,
+                `Title`,
+                `Description`,
+                `OnDate`,
+                `CreatedBy`,
+                `Status`,
+                `CreatedTime`
               ) 
               values 
               (
-                '$SubjectID',
-                '$GradingPeriodID',
-                '$Score',
-                '$OverAllItems',
-                '$Remarks',
-                '$StudentID'
+                '$Type',
+                '$Title',
+                '$Description',
+                '$OnDate',
+                '$CreatedBy',
+                '$Status',
+                '$CreatedTime'
               )";
     
     if ($this->link->query($query) === TRUE) {
@@ -116,39 +120,25 @@ class AdminAnnouncementData {
       return $this->response[0];
     }
   }
- 
-  function setActiveCourseData($params) {
+
+  function updateAnnouncementData($params) {
     $ID = $params['ID'];
+    $Type = $params['Type'];
+    $Title = $params['Title'];
+    $Description = $params['Description'];
+    $OnDate = $params['OnDate'];
+    $CreatedBy = $params['CreatedBy'];
+    $Status = $params['Status'];
+    $CreatedTime = $params['CreatedTime'];
 
-    $query = "Update `tbl_course` SET `CourseStatus`=1 where ID=$ID";
-
-    if ($this->link->query($query) === TRUE) {
-      $this->successTemp["State"] = 1;
-      $this->successTemp["Message"] = "Record successfully updated!";
-      $this->response[] = $this->successTemp;
-      return $this->response[0];
-    } else {
-      $this->successTemp["Message"] = "Error updating record!";
-      $this->response[] = $this->successTemp;
-      return $this->response[0];
-    }
-  }
-
-  function updateStudentExamData($params) {
-    $ID = $params['ID'];
-    $SubjectID = $params['SubjectID'];
-    $GradingPeriodID = $params['GradingPeriodID'];
-    $Score = $params['Score'];
-    $OverAllItems = $params['OverAllItems'];
-    $Remarks = $params['Remarks'];
-    // $StudentID = $params['StudentID'];
-
-    $query = "Update `tbl_record_exam` SET
-              `SubjectID`='$SubjectID',
-              `GradingPeriodID`='$GradingPeriodID',
-              `Score`='$Score',
-              `OverAllItems`='$OverAllItems',
-              `Remarks`='$Remarks'
+    $query = "Update `tbl_announcement` SET
+              `Type`='$Type',
+              `Title`='$Title',
+              `Description`='$Description',
+              `OnDate`='$OnDate',
+              `CreatedBy`='$CreatedBy',
+              `Status`='$Status',
+              `CreatedTime`='$CreatedTime'
               where ID=$ID";
 
     if ($this->link->query($query) === TRUE) {
@@ -164,29 +154,11 @@ class AdminAnnouncementData {
     }
   }
 
-  function setInActiveCourseData($params) {
-    $ID = $params['ID'];
-
-    $query = "Update `tbl_course` SET `CourseStatus`=2 where ID=$ID";
-
-    if ($this->link->query($query) === TRUE) {
-      $this->successTemp["State"] = 1;
-      $this->successTemp["Message"] = "Record successfully updated!";
-      $this->response[] = $this->successTemp;
-      return $this->response[0];
-    } else {
-      $this->successTemp["State"] = 0;
-      $this->successTemp["Message"] = "Error updating record!";
-      $this->response[] = $this->successTemp;
-      return $this->response[0];
-    }
-  }
-
   
-  function deleteStudentQuizData($params) {
+  function deleteAnnouncementData($params) {
     $id = $params['ID'];
     
-    $query = "Delete from `tbl_record_exam` where id=$id";
+    $query = "Delete from `tbl_announcement` where id=$id";
     if ($this->link->query($query) === TRUE) {
       $this->successTemp["State"] = 1;
       $this->successTemp["Message"] = "Record successfully deleted";

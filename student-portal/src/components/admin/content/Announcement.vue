@@ -1,7 +1,7 @@
 <template>
-  <div class="schedule students">
+  <div class="schedule">
     <div class="button-options">
-      <el-button icon="el-icon-plus" @click="showAddStudent = true">
+      <el-button icon="el-icon-plus" @click="showAddAnnounce = true">
         Add Announcement
       </el-button>
     </div>
@@ -20,27 +20,74 @@
         </div>
       </div>
     </div>
-    <TableAnnounce />
+    <TableAnnounce
+      :tableData="tableData"/>
+    <AddAnnounce
+      :showAddAnnounce="showAddAnnounce"
+      @closeAddAnnounce="closeAddAnnounce($event)"
+      @updateData="updateData"/>
   </div>
 </template>
 
 <script>
 import TableAnnounce from "@/components/admin/content/announcements/TableAnnounce";
+import AddAnnounce from "@/components/admin/content/dialog/announcements/AddAnnounce.vue";
+
 export default {
   components: {
-    TableAnnounce
+    TableAnnounce,
+    AddAnnounce
   },
   data() {
     return {
-      search: ""
+      search: "",
+      showAddAnnounce: false,
+      tableData: [],
     };
   },
   methods: {
     changeVal(val) {
       console.log(val);
+    },
+    closeAddAnnounce(val) {
+      this.showAddAnnounce = val;
+    },
+    getAnnouncementData() {
+      var params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.AdminAnnouncementService, params)
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    updateData() {
+      this.getAnnouncementData();
     }
   },
   props: {},
-  created() {}
+  created() {
+    this.getAnnouncementData();
+  }
 };
 </script>
+<style lang="scss">
+.schedule {
+  .button-options {
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+
+    .el-button {
+      padding: 10px;
+    }
+  }
+}
+</style>

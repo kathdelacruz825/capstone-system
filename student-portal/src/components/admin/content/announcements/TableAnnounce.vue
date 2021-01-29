@@ -36,6 +36,23 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <el-dialog
+      title="Delete Announcement"
+      :visible.sync="showAnnouncement"
+      width="20%"
+      :show-close="false"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      top="50px"
+    >
+      <span>Are you sure you want to delete?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="showAnnouncement = false">Cancel</el-button>
+        <el-button type="primary" @click="deleteData()">Delete</el-button>
+      </span>
+    </el-dialog>
+  
   </div>
 </template>
 
@@ -47,28 +64,62 @@ export default {
   data() {
     return {
       tableProps: tableProps,
-      tableData: []
+      showAnnouncement: false,
+      showAnnouncementUpdate: false,
+      announceData: {},
     };
   },
   methods: {
-    getAnnouncementData() {
-      var params = {
-        request: 1,
-        data: {}
+    operationAction(name, itemData) {
+      this.announceData = itemData;
+      switch (name) {
+        case "Update":
+          this.showAnnouncementUpdate = true;
+          break;
+        case "Delete":
+          this.showAnnouncement = true;
+          break;
+        default:
+          console.log("Invalid Option");
+      }
+    },
+    deleteData() {
+      let params = {
+        request: 5,
+        data: {
+          ID: this.announceData.ID
+        }
       };
       this.http
         .post(this.api.AdminAnnouncementService, params)
         .then(response => {
-          this.tableData = response.data;
+          if (response.data.State == 1) {
+            this.getAnnouncementData();
+            this.showAnnouncement = false;
+            this.$message({
+              type: "success",
+              message: response.data.Message
+            });
+          } else {
+            this.$message({
+              type: "warning",
+              message: response.data.Message
+            });
+          }
         })
         .catch(error => {
           console.log(error);
         });
     }
   },
-  props: {},
-  created() {
-    this.getAnnouncementData();
-  }
+  props: {
+    tableData: {
+      type: Array,
+      default: () => {
+        return [];
+      }
+    },
+  },
+  created() {}
 };
 </script>

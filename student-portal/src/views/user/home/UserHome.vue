@@ -66,18 +66,12 @@ export default {
     onLoad() {
       setTimeout(() => {
         if (this.refreshing) {
-          this.list = [];
+          this.notifData = [];
           this.refreshing = false;
         }
 
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        this.loading = false;
+        this.getAnnouncementData();
 
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
       }, 1000);
     },
     onRefresh() {
@@ -94,6 +88,8 @@ export default {
         .post(this.api.AdminAnnouncementService, params)
         .then(response => {
           this.notifData = response.data;
+          this.loading = false;
+          this.finished = true;
         })
         .catch(error => {
           console.log(error);

@@ -157,6 +157,7 @@ export default {
 <style lang="scss">
 .students {
   .button-options {
+    text-align: left;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
