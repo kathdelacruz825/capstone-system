@@ -47,6 +47,22 @@ const routes = [
     }
   },
   {
+    path: "/settings/parentinfo",
+    name: "ParentInfo",
+    component: () => import("../views/user/settings/ParentInfo.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/settings/parentinfo/view",
+    name: "ParentInfoView",
+    component: () => import("../views/user/settings/ParentInfoView.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/settings/about",
     name: "About",
     component: () => import("../views/user/settings/About.vue"),

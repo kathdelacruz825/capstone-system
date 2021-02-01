@@ -154,6 +154,68 @@ class ParentData {
     return $this->response;
   }
 
+  function getParentByStudentID($params) {
+    $AccountStatus = strval($params['AccountStatus']);
+    $AccountPending = strval($params['AccountPending']);
+    $StudentID = strval($params['StudentID']);
+
+
+    $query = "Select 
+              `tbl_accounts_parent`.`ID`,
+              `tbl_account_type`.`AccountType`,
+              `tbl_account_status`.`AccountStatus`,
+              `tbl_account_pending`.`AccountPending`,
+              `tbl_accounts_parent`.`AccountOnlineState`,
+              `tbl_accounts_parent`.`AccountID`,
+              `tbl_accounts_parent`.`AccountPassword`,
+              `tbl_accounts_parent`.`LastName`,
+              `tbl_accounts_parent`.`FirstName`,
+              `tbl_accounts_parent`.`MiddleName`,
+              `tbl_accounts_parent`.`ExtName`,
+              `tbl_accounts_parent`.`PhoneNumber`,
+              `tbl_accounts_parent`.`Email`,
+              `tbl_accounts_parent`.`Icon`,
+              `tbl_accounts_parent`.`StudentID`,
+              `tbl_accounts_parent`.`CreateTime`,
+              `tbl_accounts_parent`.`UpdateTime`
+              from (((`tbl_accounts_parent`
+              Inner Join `tbl_account_type` on `tbl_accounts_parent`.`AccountType`=`tbl_account_type`.`id`)
+              Inner Join `tbl_account_status` on `tbl_accounts_parent`.`AccountStatus`=`tbl_account_status`.`ID`)
+              Inner Join `tbl_account_pending` on `tbl_accounts_parent`.`AccountPending`=`tbl_account_pending`.`ID`)
+              Where
+              `tbl_accounts_parent`.`AccountStatus`=$AccountStatus
+              And
+              `tbl_accounts_parent`.`AccountPending`=$AccountPending
+              And
+              `tbl_accounts_parent`.`StudentID`=$StudentID";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["AccountType"] = $row[1];
+        $this->tempData["AccountStatus"] = $row[2];
+        $this->tempData["AccountPending"] = $row[3];
+        $this->tempData["AccountOnlineState"] = $row[4];
+        $this->tempData["AccountID"] = $row[5];
+        $this->tempData["AccountPassword"] = $row[6];
+        $this->tempData["LastName"] = $row[7];
+        $this->tempData["FirstName"] = $row[8];
+        $this->tempData["MiddleName"] = $row[9];
+        $this->tempData["ExtName"] = $row[10];
+        $this->tempData["PhoneNumber"] = $row[11];
+        $this->tempData["Email"] = $row[12];
+        $this->tempData["Icon"] = $row[13];
+        $this->tempData["StudentID"] = $row[14];
+        $this->tempData["CreateTime"] = $row[15];
+        $this->tempData["UpdateTime"] = $row[16];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+
   function updateParentPassword($params) {
     $id = $params['ID'];
     $currPassword = $params['currPassword'];
