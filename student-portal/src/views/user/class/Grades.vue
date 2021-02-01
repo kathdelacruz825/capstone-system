@@ -119,6 +119,25 @@ export default {
           console.log(error);
         });
     },
+    getStudentGradeDataBy(val) {
+      var params = {
+        request: 6,
+        data: {
+          StudentID: val
+        }
+      };
+      this.http
+        .post(this.api.AdminGradingService, params)
+        .then(response => {
+          this.gradeData = response.data;
+          if (this.gradeData.length > 0) {
+            this.computeGenAve(this.gradeData);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     computeGenAve(arr) {
       var tempVal = 0;
       for (var i = 0; i < arr.length; i++) {
@@ -132,7 +151,11 @@ export default {
     this.userDetails = JSON.parse(localStorage.getItem("user"));
   },
   mounted() {
-    this.getStudentGradeData(this.userDetails.ID);
+    if (this.userDetails == "1") {
+      this.getStudentGradeData(this.userDetails.ID);
+    } else {
+      this.getStudentGradeDataBy(this.userDetails.StudentID);
+    }
   }
 };
 </script>

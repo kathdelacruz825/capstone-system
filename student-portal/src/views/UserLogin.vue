@@ -83,7 +83,7 @@ export default {
       };
       await this.http
         .post(
-          this.activeUser == 0
+          this.currentUserType == "Student"
             ? this.api.StudentService
             : this.api.ParentService,
           params

@@ -31,6 +31,11 @@ if ($params) {
       $data = new AdminGradingData($conn);
       echo json_encode($data->deleteStudentGradeData($params['data']));
       break;
+    case 6:
+      // delete data
+        $data = new AdminGradingData($conn);
+        echo json_encode($data->getStudentGradeDataBy($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }

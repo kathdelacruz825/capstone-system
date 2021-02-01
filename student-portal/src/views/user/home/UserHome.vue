@@ -80,7 +80,7 @@ export default {
     },
     getAnnouncementData() {
       var params = {
-        request: 1,
+        request: 7,
         data: {}
       };
       this.http

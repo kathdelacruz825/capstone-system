@@ -88,6 +88,8 @@ export default {
         text-align: left;
         display: flex;
         align-items: center;
+        flex: 5;
+        line-height: 20px;
         .tag {
           height: 20px;
           width: 20px;
