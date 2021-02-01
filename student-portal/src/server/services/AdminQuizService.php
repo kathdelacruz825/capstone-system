@@ -36,6 +36,11 @@ if ($params) {
         $data = new AdminQuizData($conn);
         echo json_encode($data->getQuizDataBySubject($params['data']));
         break;
+    case 7:
+      // select by subject
+        $data = new AdminQuizData($conn);
+        echo json_encode($data->getQuizDataBySubjectBy($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }

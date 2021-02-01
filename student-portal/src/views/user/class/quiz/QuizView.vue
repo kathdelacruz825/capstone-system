@@ -71,7 +71,24 @@ export default {
         .post(this.api.AdminQuizService, params)
         .then(response => {
           this.examData = response.data;
-          console.log(this.examData);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getQuizDataBySubjectBy(val, subId, period) {
+      var params = {
+        request: 7,
+        data: {
+          StudentID: val,
+          SubjectID: subId,
+          GradingPeriod: period
+        }
+      };
+      this.http
+        .post(this.api.AdminQuizService, params)
+        .then(response => {
+          this.examData = response.data;
         })
         .catch(error => {
           console.log(error);
@@ -92,25 +109,40 @@ export default {
         });
     },
     changeTab(val) {
-      console.log(val);
+      if (this.userDetails.AccountType == "1") {
+        this.getQuizDataBySubject(
+          this.userDetails.ID,
+          this.$route.params.subjectid,
+          this.periodData[val].ID
+        );
+      } else {
+        this.getQuizDataBySubjectBy(
+          this.userDetails.StudentID,
+          this.$route.params.subjectid,
+          this.periodData[val].ID
+        );
+      }
+    }
+  },
+  async created() {
+    this.userDetails = JSON.parse(localStorage.getItem("user"));
+    await this.getAllGradingPeriod();
+  },
+  mounted() {
+    this.pageTitle = this.$route.params.subject;
+    if (this.userDetails.AccountType == "1") {
       this.getQuizDataBySubject(
         this.userDetails.ID,
         this.$route.params.subjectid,
-        this.periodData[val].ID
+        1
+      );
+    } else {
+      this.getQuizDataBySubjectBy(
+        this.userDetails.StudentID,
+        this.$route.params.subjectid,
+        1
       );
     }
-  },
-  created() {
-    this.userDetails = JSON.parse(localStorage.getItem("user"));
-    this.getAllGradingPeriod();
-  },
-  mounted() {
-    this.getQuizDataBySubject(
-      this.userDetails.ID,
-      this.$route.params.subjectid,
-      1
-    );
-    this.pageTitle = this.$route.params.subject;
   }
 };
 </script>

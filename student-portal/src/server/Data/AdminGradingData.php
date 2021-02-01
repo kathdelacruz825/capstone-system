@@ -59,7 +59,6 @@ class AdminGradingData {
   }
   
   function getStudentGradeDataBy($params) {
-    $tempStudentData = array();
     $StudentID = $params['StudentID'];
 
     $query = "Select * From `tbl_accounts_student` Where `tbl_accounts_student`.`AccountID`='$StudentID'";

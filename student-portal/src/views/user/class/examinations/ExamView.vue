@@ -40,9 +40,26 @@ export default {
     };
   },
   methods: {
-    getStudentQuizData(val, periodID) {
+    getStudentExamData(val, periodID) {
       var params = {
         request: 6,
+        data: {
+          StudentID: val,
+          GradingPeriodID: periodID
+        }
+      };
+      this.http
+        .post(this.api.AdminExamService, params)
+        .then(response => {
+          this.examData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getStudentExamDataBy(val, periodID) {
+      var params = {
+        request: 7,
         data: {
           StudentID: val,
           GradingPeriodID: periodID
@@ -62,8 +79,15 @@ export default {
     this.userDetails = JSON.parse(localStorage.getItem("user"));
   },
   mounted() {
-    this.getStudentQuizData(this.userDetails.ID, this.$route.params.periodid);
     this.pageTitle = this.$route.params.period + " Grading Period";
+    if (this.userDetails.AccountType == "1") {
+      this.getStudentExamData(this.userDetails.ID, this.$route.params.periodid);
+    } else {
+      this.getStudentExamDataBy(
+        this.userDetails.StudentID,
+        this.$route.params.periodid
+      );
+    }
   }
 };
 </script>

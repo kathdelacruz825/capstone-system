@@ -90,6 +90,62 @@ class AdminQuizData {
     return $this->response;
   }
 
+  function getQuizDataBySubjectBy($params) {
+    $StudentID = $params['StudentID'];
+    $SubjectID = $params['SubjectID'];
+    $GradingPeriod = $params['GradingPeriod'];
+
+    $query = "Select * From `tbl_accounts_student` Where `tbl_accounts_student`.`AccountID`='$StudentID'";
+    $result = $this->link->query($query);
+    $row = mysqli_fetch_row($result);
+
+    if ($row != null) {
+      $rowStudentID = $row[0];
+      $query = "Select 
+      `tbl_record_quiz`.`ID`,
+      `tbl_subject`.`Title`,
+      `tbl_grading_period`.`Title`,
+      `tbl_record_quiz`.`Title`,
+      `tbl_record_quiz`.`Description`,
+      `tbl_record_quiz`.`Score`,
+      `tbl_record_quiz`.`OverAllItems`,
+      `tbl_record_quiz`.`Remarks`,
+      `tbl_record_quiz`.`TeacherID`,
+      `tbl_record_quiz`.`StudentID`
+      from ((`tbl_record_quiz`
+      Inner Join `tbl_subject` ON `tbl_record_quiz`.`SubjectID` = `tbl_subject`.`ID`)
+      Inner Join `tbl_grading_period` ON `tbl_record_quiz`.`GradingPeriod` = `tbl_grading_period`.`ID`)
+      Where `tbl_record_quiz`.`StudentID`='$rowStudentID'
+      And `tbl_record_quiz`.`SubjectID`='$SubjectID'
+      And `tbl_record_quiz`.`GradingPeriod`='$GradingPeriod'";
+
+      $result = $this->link->query($query);
+
+      while ($row = mysqli_fetch_row($result)) {
+        if (count($row) > 0) {
+          $this->tempData["ID"] = $row[0];
+          $this->tempData["SubjectID"] = $row[1];
+          $this->tempData["GradingPeriod"] = $row[2];
+          $this->tempData["Title"] = $row[3];
+          $this->tempData["Description"] = $row[4];
+          $this->tempData["Score"] = $row[5];
+          $this->tempData["OverAllItems"] = $row[6];
+          $this->tempData["Remarks"] = $row[7];
+          $this->tempData["TeacherID"] = $row[8];
+          $this->tempData["StudentID"] = $row[9];
+          $this->response[] = $this->tempData;
+        }
+      }
+      return $this->response;
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Account ID not exist!";
+      $this->response[] = $this->successTemp;
+      return $this->response;
+    }
+
+  }
+
   function setStudentQuizData($params) {
     $SubjectID = $params['SubjectID'];
     $GradingPeriod = $params['GradingPeriod'];

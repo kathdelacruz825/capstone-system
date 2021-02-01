@@ -151,7 +151,7 @@ export default {
     this.userDetails = JSON.parse(localStorage.getItem("user"));
   },
   mounted() {
-    if (this.userDetails == "1") {
+    if (this.userDetails.AccountType == "1") {
       this.getStudentGradeData(this.userDetails.ID);
     } else {
       this.getStudentGradeDataBy(this.userDetails.StudentID);

@@ -35,7 +35,12 @@ if ($params) {
       // select all by
         $data = new AdminExamData($conn);
         echo json_encode($data->getExamDataBy($params['data']));
-        break;  
+        break;
+    case 7:
+      // select all by
+        $data = new AdminExamData($conn);
+        echo json_encode($data->getStudentExamDataBy($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }
