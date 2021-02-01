@@ -50,6 +50,7 @@
 import Nav from "@/components/user/common/Nav.vue";
 // import Footer from "@/components/user/common/Footer.vue";
 import { Dialog } from "vant";
+import { Toast } from "vant";
 
 export default {
   name: "ChangePassword",
@@ -67,16 +68,45 @@ export default {
     };
   },
   methods: {
-    changPassword() {
-      Dialog.alert({
-        title: "Change Password",
-        message: "Your Password has been changed! Please login again.",
-        confirmButtonText: "Confirm"
-      }).then(() => {
-        this.$store.dispatch("setLogin", false);
-        localStorage.removeItem("user");
-        this.$router.push({ name: "UserLogin" });
-      });
+    async changPassword() {
+      if (this.newPass == this.confirmPass) {
+        let params = {
+          request: this.userDetails.AccountType == "1" ? 9 : 11,
+          data: {
+            ID: this.userDetails.AccountID,
+            currPassword: this.currPass,
+            newPass: this.newPass
+          }
+        };
+        await this.http
+          .post(
+            this.userDetails.AccountType == "1"
+              ? this.api.StudentService
+              : this.api.ParentService,
+            params
+          )
+          .then(response => {
+            if (response.data.State == 1) {
+              Dialog.alert({
+                title: "Change Password",
+                message: response.data.Message,
+                confirmButtonText: "Confirm"
+              }).then(() => {
+                this.$store.dispatch("setLogin", false);
+                localStorage.removeItem("user");
+                this.$router.push({ name: "UserLogin" });
+              });
+            } else {
+              Toast(response.data.Message);
+            }
+          })
+          .catch(error => {
+            Toast("Connection Error");
+            console.log(error);
+          });
+      } else {
+        Toast("New password and confirm password does not match.");
+      }
     }
   },
   computed: {},

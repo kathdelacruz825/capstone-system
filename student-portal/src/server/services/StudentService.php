@@ -45,6 +45,11 @@ if ($params) {
         $data = new StudentData($conn);
         echo json_encode($data->countStudent($params['data']));
         break;
+      case 9:
+        // count student
+        $data = new StudentData($conn);
+        echo json_encode($data->updateStudentPassword($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }

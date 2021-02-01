@@ -154,6 +154,43 @@ class ParentData {
     return $this->response;
   }
 
+  function updateParentPassword($params) {
+    $id = $params['ID'];
+    $currPassword = $params['currPassword'];
+    $newPass = $params['newPass'];
+
+    $query = "Select * From `tbl_accounts_parent`
+              Where `tbl_accounts_parent`.`AccountID`='$id'
+              And `tbl_accounts_parent`.`AccountPassword`='$currPassword'";
+    $result = $this->link->query($query);
+    $row = mysqli_fetch_row($result);
+
+    if ($row != null) {
+      $rowStudentID = $row[0];
+
+      $query = "Update `tbl_accounts_parent` SET `tbl_accounts_parent`.`AccountPassword`='$newPass'
+      where `id`=$rowStudentID";
+
+      if ($this->link->query($query) === TRUE) {
+        $this->successTemp["State"] = 1;
+        $this->successTemp["Message"] = "Password successfully changed, please log in again.";
+        $this->response[] = $this->successTemp;
+        return $this->response[0];
+      } else {
+        $this->successTemp["State"] = 0;
+        $this->successTemp["Message"] = "Error updating password.";
+        $this->response[] = $this->successTemp;
+        return $this->response[0];
+      }
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Incorrect current password.";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    }
+
+  }
+
   function setParentData($params) {
     $AccountType = intval($params['AccountType']);
     $AccountStatus = intval($params['AccountStatus']);

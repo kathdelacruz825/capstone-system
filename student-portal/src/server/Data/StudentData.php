@@ -223,6 +223,43 @@ class StudentData {
     }
   }
 
+  function updateStudentPassword($params) {
+    $id = $params['ID'];
+    $currPassword = $params['currPassword'];
+    $newPass = $params['newPass'];
+
+    $query = "Select * From `tbl_accounts_student`
+              Where `tbl_accounts_student`.`AccountID`='$id'
+              And `AccountPassword`='$currPassword'";
+    $result = $this->link->query($query);
+    $row = mysqli_fetch_row($result);
+
+    if ($row != null) {
+      $rowStudentID = $row[0];
+
+      $query = "Update `tbl_accounts_student` SET `AccountPassword`='$newPass'
+      where `id`=$rowStudentID";
+
+      if ($this->link->query($query) === TRUE) {
+        $this->successTemp["State"] = 1;
+        $this->successTemp["Message"] = "Password successfully changed, please log in again.";
+        $this->response[] = $this->successTemp;
+        return $this->response[0];
+      } else {
+        $this->successTemp["State"] = 0;
+        $this->successTemp["Message"] = "Error updating password.";
+        $this->response[] = $this->successTemp;
+        return $this->response[0];
+      }
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Incorrect current password.";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    }
+
+  }
+
   function countStudent($params) {
     $countData = array(
       "count" => "",
