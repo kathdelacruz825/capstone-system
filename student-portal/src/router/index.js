@@ -39,6 +39,22 @@ const routes = [
     }
   },
   {
+    path: "/settings/changepassword",
+    name: "ChangePassword",
+    component: () => import("../views/user/settings/ChangePassword.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/settings/about",
+    name: "About",
+    component: () => import("../views/user/settings/About.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/messagelist",
     name: "MessageList",
     component: () => import("../views/user/message/MessageList.vue"),

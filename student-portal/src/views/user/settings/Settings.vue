@@ -52,9 +52,19 @@
         <van-cell-group v-if="userDetails.AccountType == 1">
           <van-cell icon="todo-list-o" title="View Records" is-link />
           <van-cell icon="manager-o" title="View Parent Information" is-link />
-          <van-cell icon="service-o" title="Student Service" is-link />
           <van-cell icon="edit" title="Edit Information" is-link />
-          <van-cell icon="records" title="Change Password" is-link />
+          <van-cell
+            icon="records"
+            title="Change Password"
+            is-link
+            :to="{ name: 'ChangePassword' }"
+          />
+          <van-cell
+            icon="info-o"
+            title="About"
+            is-link
+            :to="{ name: 'About' }"
+          />
         </van-cell-group>
         <van-cell-group v-if="userDetails.AccountType == 2">
           <van-cell
@@ -64,7 +74,18 @@
           />
           <van-cell icon="service-o" title="Parent Service" is-link />
           <van-cell icon="edit" title="Edit Information" is-link />
-          <van-cell icon="records" title="Change Password" is-link />
+          <van-cell
+            icon="records"
+            title="Change Password"
+            is-link
+            :to="{ name: 'ChangePassword' }"
+          />
+          <van-cell
+            icon="info-o"
+            title="About"
+            is-link
+            :to="{ name: 'About' }"
+          />
         </van-cell-group>
       </div>
       <div class="logout-btn">
