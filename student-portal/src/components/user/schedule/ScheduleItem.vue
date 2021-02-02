@@ -10,9 +10,13 @@
           <van-tag class="tag" color="#7232dd" type="danger"></van-tag>
         </div>
         <div class="right">
-          <span class="subject-name">{{ scheduleItem.subjectName }}</span>
+          <span class="subject-name">{{ scheduleItem.ScheduleDayID }}</span>
           <span class="start-end-time">
-            {{ scheduleItem.start + " - " + scheduleItem.end }}
+            {{
+              scheduleItem.ScheduleTimeStart +
+                " - " +
+                scheduleItem.ScheduleTimeEnd
+            }}
           </span>
         </div>
       </div>
@@ -37,7 +41,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.scheduleData);
+    // console.log(this.scheduleData);
   }
 };
 </script>

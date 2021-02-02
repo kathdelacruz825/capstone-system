@@ -2,14 +2,13 @@
   <div class="schedule">
     <Nav :title="pageTitle" :isLeftArrow="true" :isRightText="false" />
     <div class="schedule-content">
-      <van-tabs v-model="active" animated>
+      <van-tabs v-model="active" animated @click="changeTab">
         <van-tab
           v-for="(dayItem, dayKey) in dayItems"
           :key="dayKey"
-          :title="dayItem"
-          :name="dayItem"
+          :title="dayItem.Day"
         >
-          <ScheduleItem :scheduleData="scheduleData[dayItem]" />
+          <ScheduleItem :scheduleData="scheduleData" />
         </van-tab>
       </van-tabs>
     </div>
@@ -21,6 +20,7 @@
 import Nav from "@/components/user/common/Nav.vue";
 import Footer from "@/components/user/common/Footer.vue";
 import ScheduleItem from "@/components/user/schedule/ScheduleItem.vue";
+import { Toast } from "vant";
 
 export default {
   name: "Schedule",
@@ -32,73 +32,60 @@ export default {
   data() {
     return {
       pageTitle: "Schedule",
-      active: "Monday",
-      dayItems: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      scheduleData: {
-        Monday: [
-          {
-            subjectName: "Biology",
-            start: "7:00am",
-            end: "8:30am"
-          },
-          {
-            subjectName: "Filipino",
-            start: "8:30am",
-            end: "10:00am"
-          }
-        ],
-        Tuesday: [
-          {
-            subjectName: "Biology",
-            start: "7:00am",
-            end: "8:30am"
-          },
-          {
-            subjectName: "Filipino",
-            start: "8:30am",
-            end: "10:00am"
-          }
-        ],
-        Wednesday: [
-          {
-            subjectName: "Biology",
-            start: "7:00am",
-            end: "8:30am"
-          },
-          {
-            subjectName: "Filipino",
-            start: "8:30am",
-            end: "10:00am"
-          }
-        ],
-        Thursday: [
-          {
-            subjectName: "Biology",
-            start: "7:00am",
-            end: "8:30am"
-          },
-          {
-            subjectName: "Filipino",
-            start: "8:30am",
-            end: "10:00am"
-          }
-        ],
-        Friday: [
-          {
-            subjectName: "Biology",
-            start: "7:00am",
-            end: "8:30am"
-          },
-          {
-            subjectName: "Filipino",
-            start: "8:30am",
-            end: "10:00am"
-          }
-        ]
-      }
+      userDetails: {},
+      active: 0,
+      dayItems: [],
+      scheduleData: []
     };
   },
-  methods: {}
+  methods: {
+    async getDay() {
+      let params = {
+        request: 2,
+        data: {}
+      };
+      await this.http
+        .post(this.api.ScheduleService, params)
+        .then(response => {
+          this.dayItems = response.data;
+          this.getSchedule(this.active);
+        })
+        .catch(error => {
+          Toast("Connection Error");
+          console.log(error);
+        });
+    },
+    async getSchedule(ScheduleDayID) {
+      let params = {
+        request: 6,
+        data: {
+          AccountID:
+            this.userDetails.AccountType == "1"
+              ? this.userDetails.AccountID
+              : this.userDetails.StudentID,
+          ScheduleDayID: ScheduleDayID + 1
+        }
+      };
+      await this.http
+        .post(this.api.ScheduleService, params)
+        .then(response => {
+          this.scheduleData = response.data;
+        })
+        .catch(error => {
+          Toast("Connection Error");
+          console.log(error);
+        });
+    },
+    changeTab(val) {
+      this.getSchedule(val);
+    }
+  },
+  created() {
+    this.userDetails = JSON.parse(localStorage.getItem("user"));
+  },
+  mounted() {
+    this.getDay();
+  }
 };
 </script>
 <style lang="scss">
