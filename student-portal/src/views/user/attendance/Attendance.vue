@@ -9,31 +9,36 @@
         is-link
       />
       <div class="list">
-        <table>
+        <table v-if="data.length > 0">
           <tr>
             <th>Subject</th>
             <th>Time</th>
             <th>Remarks</th>
           </tr>
           <tr v-for="(item, index) in data" :key="index">
-            <td>{{ item.Subject }}</td>
-            <td>{{ item.Time }}</td>
+            <td>{{ item.Code }}</td>
+            <td>{{ item.ScheduleTimeStart + "-" + item.ScheduleTimeEnd }}</td>
             <td
               :class="
-                item.Remarks == 'Present'
+                item.RemarksID == 'Present'
                   ? 'green'
-                  : item.Remarks == 'Absent'
+                  : item.RemarksID == 'Absent'
                   ? 'red'
                   : 'yellow'
               "
             >
-              {{ item.Remarks }}
+              {{ item.RemarksID }}
             </td>
           </tr>
         </table>
       </div>
     </div>
-    <van-calendar v-model="show" :min-date="minDate" :max-date="maxDate" />
+    <van-calendar
+      v-model="show"
+      :min-date="minDate"
+      :max-date="maxDate"
+      @confirm="selectDate"
+    />
     <Footer :activeItem="1" />
   </div>
 </template>
@@ -41,6 +46,7 @@
 <script>
 import Nav from "@/components/user/common/Nav.vue";
 import Footer from "@/components/user/common/Footer.vue";
+import { Toast } from "vant";
 
 export default {
   name: "Attendance",
@@ -54,27 +60,54 @@ export default {
       selectedDate: new Date().toISOString().substr(0, 10),
       show: false,
       minDate: new Date(2020, 0, 1),
-      maxDate: new Date(2021, 0, 31),
-      data: [
-        {
-          Subject: "English",
-          Time: "08:00 AM - 10:00 AM",
-          Remarks: "Absent"
-        },
-        {
-          Subject: "Science",
-          Time: "10:00 AM - 12:00 PM",
-          Remarks: "Present"
-        },
-        {
-          Subject: "Filipino",
-          Time: "12:00 AM - 01:00 PM",
-          Remarks: "Late"
-        }
-      ]
+      maxDate: new Date(),
+      userDetails: {},
+      data: []
     };
   },
-  methods: {}
+  methods: {
+    async getAttendance(dt) {
+      let params = {
+        request: 2,
+        data: {
+          AttendanceDate: dt,
+          AccountID:
+            this.userDetails.AccountType == "1"
+              ? this.userDetails.AccountID
+              : this.userDetails.StudentID
+        }
+      };
+      await this.http
+        .post(this.api.AttendanceService, params)
+        .then(response => {
+          this.data = response.data;
+        })
+        .catch(error => {
+          Toast("Connection Error");
+          console.log(error);
+        });
+    },
+    formatDate(date) {
+      let yyyy = date.getFullYear();
+      let mm =
+        date.getMonth() + 1 > 10
+          ? date.getMonth() + 1
+          : "0" + (date.getMonth() + 1);
+      let dd = date.getDate() > 10 ? date.getDate() : "0" + date.getDate();
+      return `${yyyy}-${mm}-${dd}`;
+    },
+    selectDate(val) {
+      this.selectedDate = this.formatDate(val);
+      this.getAttendance(this.selectedDate);
+      this.show = false;
+    }
+  },
+  created() {
+    this.userDetails = JSON.parse(localStorage.getItem("user"));
+  },
+  mounted() {
+    this.getAttendance(this.selectedDate);
+  }
 };
 </script>
 <style lang="scss">
