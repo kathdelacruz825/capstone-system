@@ -7,7 +7,17 @@
         class="item"
       >
         <div class="left">
-          <van-tag class="tag" color="#7232dd" type="danger"></van-tag>
+          <van-tag
+            class="tag"
+            :color="
+              colors[
+                Number(scheduleItem.SubjectID) > 0
+                  ? Number(scheduleItem.SubjectID)
+                  : Number(scheduleItem.SubjectID) - 1
+              ]
+            "
+            type="danger"
+          ></van-tag>
         </div>
         <div class="right">
           <span class="subject-name">{{ scheduleItem.ScheduleDayID }}</span>
@@ -29,7 +39,17 @@ export default {
   name: "ScheduleItem",
   components: {},
   data() {
-    return {};
+    return {
+      colors: [
+        "#8B00FF",
+        "#2E2B5F",
+        "#0000FF",
+        "#00FF00",
+        "#FFFF00",
+        "#FF7F00",
+        "#FF0000"
+      ]
+    };
   },
   methods: {},
   props: {

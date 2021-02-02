@@ -13,7 +13,17 @@
             @click="goPage(examItem.Title, examItem.ID)"
           >
             <template #title>
-              <van-tag class="tag" color="#7232dd" type="danger"></van-tag>
+              <van-tag
+                class="tag"
+                :color="
+                  colors[
+                    Number(examItem.ID) > 0
+                      ? Number(examItem.ID)
+                      : Number(examItem.ID) - 1
+                  ]
+                "
+                type="danger"
+              ></van-tag>
               <span class="custom-title">{{
                 examItem.Title + " Grading Period"
               }}</span>
@@ -39,7 +49,16 @@ export default {
   data() {
     return {
       pageTitle: "Examinations",
-      examinationsItem: []
+      examinationsItem: [],
+      colors: [
+        "#8B00FF",
+        "#2E2B5F",
+        "#0000FF",
+        "#00FF00",
+        "#FFFF00",
+        "#FF7F00",
+        "#FF0000"
+      ]
     };
   },
   methods: {

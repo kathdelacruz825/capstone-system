@@ -12,7 +12,17 @@
             @click="goPage(quizItem.Code, quizItem.ID)"
           >
             <template #title>
-              <van-tag class="tag" color="#7232dd" type="danger"></van-tag>
+              <van-tag
+                class="tag"
+                :color="
+                  colors[
+                    Number(quizItem.ID) > 0
+                      ? Number(quizItem.ID)
+                      : Number(quizItem.ID) - 1
+                  ]
+                "
+                type="danger"
+              ></van-tag>
               <span class="custom-title">{{ quizItem.Title }}</span>
             </template>
           </van-cell>
@@ -36,7 +46,16 @@ export default {
   data() {
     return {
       pageTitle: "Quizzes",
-      quizItems: []
+      quizItems: [],
+      colors: [
+        "#8B00FF",
+        "#2E2B5F",
+        "#0000FF",
+        "#00FF00",
+        "#FFFF00",
+        "#FF7F00",
+        "#FF0000"
+      ]
     };
   },
   methods: {
