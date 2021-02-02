@@ -9,13 +9,14 @@
       <van-tabs
         v-model="active"
         animate
+        :swipe-threshold="3"
         v-if="periodData.length > 0"
         @click="changeTab"
       >
         <van-tab
           v-for="(periodItem, periodKEy) in periodData"
           :key="periodKEy"
-          :title="periodItem.Title"
+          :title="periodItem.Title + ' Grading'"
         >
           <div class="exam-list">
             <div
@@ -179,6 +180,10 @@ export default {
     }
     .exam-item:not(:last-child) {
       margin-bottom: 5px;
+    }
+
+    .van-tab__text {
+      width: 120px;
     }
   }
 }

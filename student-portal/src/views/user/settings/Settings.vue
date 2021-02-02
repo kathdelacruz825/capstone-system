@@ -72,12 +72,8 @@
           />
         </van-cell-group>
         <van-cell-group v-if="userDetails.AccountType == 2">
-          <van-cell
-            icon="manager-o"
-            title="View Child School Information"
-            is-link
-          />
-          <van-cell icon="service-o" title="Parent Service" is-link />
+          <van-cell icon="manager-o" title="View Child Information" is-link />
+          <!-- <van-cell icon="service-o" title="Parent Service" is-link /> -->
           <van-cell icon="edit" title="Edit Information" is-link />
           <van-cell
             icon="records"
