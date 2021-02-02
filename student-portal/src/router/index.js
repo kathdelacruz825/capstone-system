@@ -79,6 +79,14 @@ const routes = [
     }
   },
   {
+    path: "/settings/editinfo",
+    name: "EditInfo",
+    component: () => import("../views/user/settings/EditInfo.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/messagelist",
     name: "MessageList",
     component: () => import("../views/user/message/MessageList.vue"),

@@ -96,6 +96,39 @@ class ParentData {
     return $this->response;
   }
 
+  function getParentByIDD($params) {
+    $ID = strval($params['ID']);
+
+    $query = "Select * From `tbl_accounts_parent`
+              Where `tbl_accounts_parent`.`ID`='$ID'";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["AccountType"] = $row[1];
+        $this->tempData["AccountStatus"] = $row[2];
+        $this->tempData["AccountPending"] = $row[3];
+        $this->tempData["AccountOnlineState"] = $row[4];
+        $this->tempData["AccountID"] = $row[5];
+        $this->tempData["AccountPassword"] = $row[6];
+        $this->tempData["LastName"] = $row[7];
+        $this->tempData["FirstName"] = $row[8];
+        $this->tempData["MiddleName"] = $row[9];
+        $this->tempData["ExtName"] = $row[10];
+        $this->tempData["PhoneNumber"] = $row[11];
+        $this->tempData["Email"] = $row[12];
+        $this->tempData["Icon"] = $row[13];
+        $this->tempData["StudentID"] = $row[14];
+        $this->tempData["CreateTime"] = $row[15];
+        $this->tempData["UpdateTime"] = $row[16];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+
   function getParentByStatus($params) {
     $AccountStatus = strval($params['AccountStatus']);
     $AccountPending = strval($params['AccountPending']);

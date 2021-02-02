@@ -61,6 +61,11 @@ if ($params) {
         $data = new ParentData($conn);
         echo json_encode($data->getParentByStudentID($params['data']));
         break;
+      case 13:
+        // count student
+        $data = new ParentData($conn);
+        echo json_encode($data->getParentByIDD($params['data']));
+        break; 
     default:
       echo "Invalid Request";
   }

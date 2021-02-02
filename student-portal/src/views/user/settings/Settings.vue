@@ -57,7 +57,12 @@
             is-link
             :to="{ name: 'ParentInfo' }"
           />
-          <van-cell icon="edit" title="Edit Information" is-link />
+          <van-cell
+            icon="edit"
+            title="Edit Information"
+            is-link
+            :to="{ name: 'EditInfo' }"
+          />
           <van-cell
             icon="records"
             title="Change Password"
@@ -79,7 +84,12 @@
             :to="{ name: 'ChildInfoView' }"
           />
           <!-- <van-cell icon="service-o" title="Parent Service" is-link /> -->
-          <van-cell icon="edit" title="Edit Information" is-link />
+          <van-cell
+            icon="edit"
+            title="Edit Information"
+            is-link
+            :to="{ name: 'EditInfo' }"
+          />
           <van-cell
             icon="records"
             title="Change Password"
