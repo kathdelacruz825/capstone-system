@@ -130,6 +130,69 @@ class StudentData {
     return $this->response;
   }
 
+  function getStudentByStudentID($params) {
+    $ID = strval($params['ID']);
+
+    $query = "Select
+              `tbl_accounts_student`.`ID`,
+              `tbl_accounts_student`.`AccountType`,
+              `tbl_accounts_student`.`AccountStatus`,
+              `tbl_accounts_student`.`AccountPending`,
+              `tbl_accounts_student`.`AccountOnlineState`,
+              `tbl_accounts_student`.`AccountID`,
+              `tbl_accounts_student`.`AccountPassword`,
+              `tbl_accounts_student`.`LastName`,
+              `tbl_accounts_student`.`FirstName`,
+              `tbl_accounts_student`.`MiddleName`,
+              `tbl_accounts_student`.`ExtName`,
+              `tbl_accounts_student`.`PhoneNumber`,
+              `tbl_accounts_student`.`Email`,
+              `tbl_accounts_student`.`Icon`,
+              `tbl_yearlevel`.`YearLevel`, 
+              `tbl_course`.`CourseID`,
+              `tbl_accounts_student`.`ParentID`,
+              `tbl_accounts_student`.`CreateTime`,
+              `tbl_accounts_student`.`UpdateTime`
+              From ((`tbl_accounts_student`
+              Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel` = `tbl_yearlevel`.`ID`)
+              Inner Join `tbl_course` on `tbl_accounts_student`.`Course` = `tbl_course`.`ID`)
+              Where `tbl_accounts_student`.`ID`='$ID'
+              And `tbl_accounts_student`.`AccountPending`=1
+              And `tbl_accounts_student`.`AccountStatus`=1";
+
+    // $query = "Select * From `tbl_accounts_student`
+    //           Where `tbl_accounts_student`.`AccountID`='$AccountID'
+    //           And `tbl_accounts_student`.`AccountPassword`='$AccountPassword'";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["AccountType"] = $row[1];
+        $this->tempData["AccountStatus"] = $row[2];
+        $this->tempData["AccountPending"] = $row[3];
+        $this->tempData["AccountOnlineState"] = $row[4];
+        $this->tempData["AccountID"] = $row[5];
+        $this->tempData["AccountPassword"] = $row[6];
+        $this->tempData["LastName"] = $row[7];
+        $this->tempData["FirstName"] = $row[8];
+        $this->tempData["MiddleName"] = $row[9];
+        $this->tempData["ExtName"] = $row[10];
+        $this->tempData["PhoneNumber"] = $row[11];
+        $this->tempData["Email"] = $row[12];
+        $this->tempData["Icon"] = $row[13];
+        $this->tempData["YearLevel"] = $row[14];
+        $this->tempData["Course"] = $row[15];
+        $this->tempData["ParentID"] = $row[16];
+        $this->tempData["CreateTime"] = $row[17];
+        $this->tempData["UpdateTime"] = $row[18];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+
   function getStudentByID($params) {
     $AccountID = strval($params['AccountID']);
 

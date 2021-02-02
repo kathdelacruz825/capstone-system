@@ -63,6 +63,14 @@ const routes = [
     }
   },
   {
+    path: "/settings/childinfo/view",
+    name: "ChildInfoView",
+    component: () => import("../views/user/settings/ChildInfoView.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/settings/about",
     name: "About",
     component: () => import("../views/user/settings/About.vue"),
