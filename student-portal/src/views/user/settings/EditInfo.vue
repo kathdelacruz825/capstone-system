@@ -187,14 +187,14 @@ export default {
             temp.status = val.CourseStatus;
             this.courseActions.push(temp);
           });
-          this.userDetails.Course = response.data.filter((val) => {
-            if (val.CourseID == this.userDetails.Course ) {
-              return val
+          this.userDetails.Course = response.data.filter(val => {
+            if (val.CourseID == this.userDetails.Course) {
+              return val;
             }
           })[0].ID;
-          this.currentCourse = response.data.filter((val) => {
-            if (val.ID == this.userDetails.Course ) {
-              return val
+          this.currentCourse = response.data.filter(val => {
+            if (val.ID == this.userDetails.Course) {
+              return val;
             }
           })[0].CourseID;
         })
@@ -217,17 +217,16 @@ export default {
             temp.status = val.YearLevelStatus;
             this.yearLevelActions.push(temp);
           });
-          this.userDetails.YearLevel = response.data.filter((val) => {
+          this.userDetails.YearLevel = response.data.filter(val => {
             if (val.YearLevel == this.userDetails.YearLevel) {
               return val;
             }
           })[0].ID;
-          this.currentYearLevel = response.data.filter((val) => {
+          this.currentYearLevel = response.data.filter(val => {
             if (val.ID == this.userDetails.YearLevel) {
               return val;
             }
           })[0].YearLevel;
-
         })
         .catch(error => {
           console.log(error);

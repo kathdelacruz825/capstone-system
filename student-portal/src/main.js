@@ -9,6 +9,11 @@ import Vant from "vant";
 import "vant/lib/index.css";
 import "./assets/css/main.scss";
 
+import { Locale } from "vant";
+import enUS from "vant/es/locale/lang/en-US";
+
+Locale.use("en-US", enUS);
+
 import http from "./lib/http-common";
 import { api } from "./utils/api";
 Vue.prototype.http = http;

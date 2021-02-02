@@ -50,7 +50,12 @@
       </div>
       <div class="links">
         <van-cell-group v-if="userDetails.AccountType == 1">
-          <van-cell icon="todo-list-o" title="View Records" is-link />
+          <van-cell
+            icon="todo-list-o"
+            title="View Records"
+            is-link
+            :to="{ name: 'ViewRecords' }"
+          />
           <van-cell
             icon="manager-o"
             title="View Parent Information"

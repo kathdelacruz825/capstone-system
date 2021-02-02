@@ -87,6 +87,14 @@ const routes = [
     }
   },
   {
+    path: "/settings/viewrecord",
+    name: "ViewRecords",
+    component: () => import("../views/user/settings/ViewRecords.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/messagelist",
     name: "MessageList",
     component: () => import("../views/user/message/MessageList.vue"),
