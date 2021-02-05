@@ -136,21 +136,25 @@ class AttendanceData {
     return $this->response;
   }
 
-  function setCourseData($params) {
-    $CourseID = $params['CourseID'];
-    $CourseDescription = $params['CourseDescription'];
-    $CourseStatus = intval($params['CourseStatus']);
-    $query = "Insert into `tbl_course`
+  function setAttendanceData($params) {
+    $ScheduleID = $params['ScheduleID'];
+    $RemarksID = $params['RemarksID'];
+    $AttendanceDate = $params['AttendanceDate'];
+    $AccountID = $params['AccountID'];
+
+    $query = "Insert into `tbl_attendance`
               (
-                `CourseID`,
-                `CourseDescription`,
-                `CourseStatus`
+                `ScheduleID`,
+                `RemarksID`,
+                `AttendanceDate`,
+                `AccountID`
               ) 
               values 
               (
-                '$CourseID',
-                '$CourseDescription',
-                $CourseStatus
+                '$ScheduleID',
+                '$RemarksID',
+                '$AttendanceDate',
+                '$AccountID'
               )";
     
     if ($this->link->query($query) === TRUE) {
@@ -253,6 +257,21 @@ class AttendanceData {
       $this->response[] = $this->successTemp;
       return $this->response[0];
     }
+  }
+
+  function getRemarks() {
+    $query = "Select * from `tbl_attendance_remarks`";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["Remarks"] = $row[1];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
   }
 
 }

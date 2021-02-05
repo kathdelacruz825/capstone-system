@@ -36,6 +36,11 @@ if ($params) {
         $data = new AttendanceData($conn);
         echo json_encode($data->getAttendanceByStudID($params['data']));
         break;  
+    case 8:
+      // select remakrs
+        $data = new AttendanceData($conn);
+        echo json_encode($data->getRemarks());
+        break;  
     default:
       echo "Invalid Request";
   }

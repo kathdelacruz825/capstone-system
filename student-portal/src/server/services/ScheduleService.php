@@ -46,6 +46,11 @@ if ($params) {
         $data = new ScheduleData($conn);
         echo json_encode($data->getScheduleByschedID($params['data']));
         break;    
+    case 9:
+      // select day by id
+        $data = new ScheduleData($conn);
+        echo json_encode($data->getDayBy($params['data']));
+        break; 
     default:
       echo "Invalid Request";
   }

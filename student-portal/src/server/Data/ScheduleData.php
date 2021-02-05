@@ -145,6 +145,22 @@ class ScheduleData {
     return $this->response;
   }
   
+  function getDayBy($params) {
+    $ID = $params['ID'];
+    $query = "Select * from `tbl_scheduleday` where ID='$ID'";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["id"] = $row[0];
+        $this->tempData["Day"] = $row[1];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+
   function setScheduleData($params) {
     $ScheduleDayID = $params['ScheduleDayID'];
     $SubjectID = $params['SubjectID'];
