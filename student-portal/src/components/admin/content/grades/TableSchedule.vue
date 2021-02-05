@@ -32,8 +32,8 @@
     </el-table>
 
     <el-dialog
-      title="Delete Attendance"
-      :visible.sync="showDeleteAttendance"
+      title="Delete Schedule"
+      :visible.sync="showDeleteSchedule"
       width="20%"
       :show-close="false"
       :close-on-press-escape="false"
@@ -42,7 +42,7 @@
     >
       <span>Are you sure you want to delete?</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="showDeleteAttendance = false">Cancel</el-button>
+        <el-button @click="showDeleteSchedule = false">Cancel</el-button>
         <el-button type="primary" @click="deleteData()">Delete</el-button>
       </span>
     </el-dialog>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { tableProps } from "@/components/admin/content/grades/tableProps_TableAttendance.js";
+import { tableProps } from "@/components/admin/content/grades/tableProps_TableSchedule.js";
 import UpdateAttendance from "@/components/admin/content/dialog/grades/UpdateAttendance.vue";
 
 export default {
@@ -69,7 +69,7 @@ export default {
     return {
       tableProps: tableProps,
       studentData: {},
-      showDeleteAttendance: false,
+      showDeleteSchedule: false,
       showUpdateAttendance: false
     };
   },
@@ -82,7 +82,7 @@ export default {
           this.showUpdateAttendance = true;
           break;
         case "Delete":
-          this.showDeleteAttendance = true;
+          this.showDeleteSchedule = true;
           break;
         default:
           console.log("Invalid Option");
@@ -96,10 +96,10 @@ export default {
         }
       };
       this.http
-        .post(this.api.AttendanceService, params)
+        .post(this.api.ScheduleService, params)
         .then(response => {
           if (response.data.State == 1) {
-            this.showDeleteAttendance = false;
+            this.showDeleteSchedule = false;
             this.$emit("updateData");
             this.$message({
               type: "success",

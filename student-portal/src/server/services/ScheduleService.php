@@ -29,13 +29,18 @@ if ($params) {
     case 5:
     // delete data
       $data = new ScheduleData($conn);
-      echo json_encode($data->deleteSampleData($params['data']));
+      echo json_encode($data->deleteStudentScheduleData($params['data']));
       break;
     case 6:
       // select data by student id
         $data = new ScheduleData($conn);
         echo json_encode($data->getSchedule($params['data']));
         break;  
+    case 7:
+      // select data by student id
+        $data = new ScheduleData($conn);
+        echo json_encode($data->getScheduleByStudID($params['data']));
+        break; 
     default:
       echo "Invalid Request";
   }

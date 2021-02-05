@@ -66,6 +66,37 @@ class ScheduleData {
     return $this->response;
   }
 
+  function getScheduleByStudID($params) {
+    $AccountID = $params['AccountID'];
+
+    $query = "Select 
+              `tbl_schedule`.`ID`,
+              `tbl_scheduleday`.`Day`,
+              `tbl_subject`.`Code`,
+              `tbl_schedule`.`ScheduleTimeStart`,
+              `tbl_schedule`.`ScheduleTimeEnd`,
+              `tbl_schedule`.`AccountID`
+              from `tbl_schedule`
+              Inner Join `tbl_subject` ON `tbl_schedule`.`SubjectID`=`tbl_subject`.`ID`
+              Inner Join `tbl_scheduleday` On `tbl_schedule`.`ScheduleDayID`=`tbl_scheduleday`.`ID`
+              Where `tbl_schedule`.`AccountID`='$AccountID'";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["ScheduleDayID"] = $row[1];
+        $this->tempData["SubjectID"] = $row[2];
+        $this->tempData["ScheduleTimeStart"] = $row[3];
+        $this->tempData["ScheduleTimeEnd"] = $row[4];
+        $this->tempData["AccountID"] = $row[5];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+
   function getDay($params) {
     $query = "Select * from `tbl_scheduleday`";
 
@@ -183,14 +214,20 @@ class ScheduleData {
     }
   }
   
-  function deleteSampleData($params) {
-    $id = $params['id'];
+  function deleteStudentScheduleData($params) {
+    $id = $params['ID'];
     
-    $query = "Delete from `tbl_course` where id=$id";
+    $query = "Delete from `tbl_schedule` where id=$id";
     if ($this->link->query($query) === TRUE) {
-      echo "Record successfully deleted";
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully deleted";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     } else {
-      echo "Error deleting record!";
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error deleting record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     }
   }
 
