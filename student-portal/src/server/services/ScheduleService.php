@@ -40,7 +40,12 @@ if ($params) {
       // select data by student id
         $data = new ScheduleData($conn);
         echo json_encode($data->getScheduleByStudID($params['data']));
-        break; 
+        break;
+    case 8:
+      // select data by student id
+        $data = new ScheduleData($conn);
+        echo json_encode($data->getScheduleByschedID($params['data']));
+        break;    
     default:
       echo "Invalid Request";
   }

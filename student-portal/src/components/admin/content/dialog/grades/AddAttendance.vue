@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :visible.sync="showAddSchedule"
+    :visible.sync="showAddAttendance"
     :show-close="false"
     :close-on-press-escape="false"
     :close-on-click-modal="false"
@@ -8,20 +8,32 @@
     width="600px"
   >
     <template #title>
-      Add Schedule
+      Add Attendance
     </template>
     <div class="add-course-content">
       <el-form
         :label-position="'left'"
-        :model="ruleForm"
         class="add-dialog-form"
         label-width="130px"
         status-icon
         ref="ruleForm"
         :rules="rules"
       >
-        <el-divider content-position="left">Schedule Details</el-divider>
+        <el-divider content-position="left">Attendance Details</el-divider>
         <div class="form-item-account-details">
+
+        <el-form-item label="Date:">
+          <el-date-picker
+            v-model="AttendanceDate"
+            type="date"
+            placeholder="Pick a day">
+          </el-date-picker>
+        </el-form-item>
+
+        <el-form-item label="Day:" prop="currGrade">
+          <span>{{ Day }}</span>
+        </el-form-item>
+<!-- 
           <el-form-item label="Day:">
             <el-dropdown trigger="click" @command="selectDay">
               <el-button type="primary">
@@ -38,7 +50,7 @@
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-          </el-form-item>
+          </el-form-item> -->
 
           <el-form-item label="Subject:">
             <el-dropdown trigger="click" @command="selectSubject">
@@ -58,32 +70,6 @@
             </el-dropdown>
           </el-form-item>
 
-          <el-form-item label="Start Time:">
-            <el-time-select
-              placeholder="Start time"
-              v-model="ruleForm.StartTime"
-              :picker-options="{
-                start: '07:30',
-                step: '01:00',
-                end: '18:30'
-              }"
-            >
-            </el-time-select>
-          </el-form-item>
-
-          <el-form-item label="End Time:">
-            <el-time-select
-              placeholder="End time"
-              v-model="ruleForm.EndTime"
-              :picker-options="{
-                start: '07:30',
-                step: '01:00',
-                end: '18:30',
-                minTime: ruleForm.StartTime
-              }"
-            >
-            </el-time-select>
-          </el-form-item>
         </div>
       </el-form>
     </div>
@@ -110,13 +96,11 @@ export default {
       rules: {
         currGrade: [{ validator: validateCurrentGrade, trigger: "blur" }]
       },
-      ruleForm: {
-        StudentID: "",
-        SubjectID: "",
-        DayID: "",
-        StartTime: "",
-        EndTime: ""
-      },
+      ScheduleID: '',
+      RemarksID: '',
+      AttendanceDate: '',
+      AccountID: '',
+      Day: '',
       currentSubject: "---Select---",
       currentDay: "---Select---",
       subjectList: [],
@@ -126,7 +110,7 @@ export default {
   methods: {
     closeDialog() {
       this.currentSubject = "---Select---";
-      this.$emit("closeAddSchedule", false);
+      this.$emit("closeAddAttendance", false);
       this.$emit("updateData");
       this.$refs.ruleForm.resetFields();
     },
@@ -139,63 +123,60 @@ export default {
       this.ruleForm.DayID = val.id;
     },
     save() {
-      if (this.ruleForm.DayID == "") {
+      if (this.ruleForm.AttendanceDate == "") {
         this.$message({
           type: "warning",
-          message: "Select Day!"
-        });
-      } else if (this.ruleForm.SubjectID == "") {
-        this.$message({
-          type: "warning",
-          message: "Select Subject!"
-        });
-      } else if (this.ruleForm.StartTime == "") {
-        this.$message({
-          type: "warning",
-          message: "Select Start Time!"
-        });
-      } else if (this.ruleForm.EndTime == "") {
-        this.$message({
-          type: "warning",
-          message: "Select End Time!"
+          message: "Select Date!"
         });
       } else {
         let params = {
           request: 3,
           data: {
-            ScheduleDayID: this.ruleForm.DayID,
-            SubjectID: this.ruleForm.SubjectID,
-            ScheduleTimeStart: this.parseTime(this.ruleForm.StartTime),
-            ScheduleTimeEnd: this.parseTime(this.ruleForm.EndTime),
+            ScheduleID: this.ruleForm.ScheduleID,
+            RemarksID: this.ruleForm.RemarksID,
+            AttendanceDate: this.formatDate(this.ruleForm.AttendanceDate),
             AccountID: this.studentID
           }
         };
-        this.http
-          .post(this.api.ScheduleService, params)
-          .then(response => {
-            if (response.data.State == 1) {
-              this.resetFields();
-              this.$emit("updateData");
-              this.$message({
-                type: "success",
-                message: response.data.Message
-              });
-            } else {
-              this.$message({
-                type: "warning",
-                message: response.data.Message
-              });
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          });
+        console.log(params);
+        // this.http
+        //   .post(this.api.ScheduleService, params)
+        //   .then(response => {
+        //     if (response.data.State == 1) {
+        //       this.resetFields();
+        //       this.$emit("updateData");
+        //       this.$message({
+        //         type: "success",
+        //         message: response.data.Message
+        //       });
+        //     } else {
+        //       this.$message({
+        //         type: "warning",
+        //         message: response.data.Message
+        //       });
+        //     }
+        //   })
+        //   .catch(error => {
+        //     console.log(error);
+        //   });
       }
     },
     parseTime(time) {
       let newtime = time;
       let splitTime = time.split(":");
       return splitTime[0] > 12 ? newtime + " PM" : newtime + " AM";
+    },
+    formatDate(date) {
+      let yyyy = date.getFullYear();
+      let mm =
+        date.getMonth() + 1 > 10
+          ? date.getMonth() + 1
+          : "0" + (date.getMonth() + 1);
+      let dd = date.getDate() > 10 ? date.getDate() : "0" + date.getDate();
+      return `${yyyy}-${mm}-${dd}`;
+    },
+    selectDate(val) {
+      console.log(val);
     },
     getAllSubject() {
       let params = {
@@ -225,6 +206,24 @@ export default {
           console.log(error);
         });
     },
+    getSchedule(ScheduleDayID) {
+      let params = {
+        request: 8,
+        data: {
+          AccountID: this.studentID,
+          ScheduleDayID: ScheduleDayID,
+        }
+      };
+      this.http
+        .post(this.api.ScheduleService, params)
+        .then(response => {
+          // this.tableData = response.data;
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     resetFields() {
       this.currentSubject = "---Select---";
       this.currentDay = "---Select---";
@@ -234,8 +233,16 @@ export default {
       this.ruleForm.EndTime = "";
     }
   },
+  watch: {
+    AttendanceDate: function(val) {
+      if (val) {
+        let dayNum = val.getDay();
+        this.getSchedule(dayNum);
+      }
+    }
+  },
   props: {
-    showAddSchedule: {
+    showAddAttendance: {
       type: Boolean,
       default: false
     },
@@ -245,11 +252,11 @@ export default {
     }
   },
   async created() {
-    await this.getAllSubject();
-    await this.getDay();
+    // await this.getAllSubject();
+    // await this.getDay();
   },
   mounted() {
-    this.ruleForm.StudentID = this.studentID;
+    // this.ruleForm.StudentID = this.studentID;
   }
 };
 </script>

@@ -97,6 +97,39 @@ class ScheduleData {
     return $this->response;
   }
 
+  function getScheduleByschedID($params) {
+    $AccountID = $params['AccountID'];
+    $ScheduleDayID = $params['ScheduleDayID'];
+
+    $query = "Select 
+              `tbl_schedule`.`ID`,
+              `tbl_scheduleday`.`Day`,
+              `tbl_subject`.`Code`,
+              `tbl_schedule`.`ScheduleTimeStart`,
+              `tbl_schedule`.`ScheduleTimeEnd`,
+              `tbl_schedule`.`AccountID`
+              from `tbl_schedule`
+              Inner Join `tbl_subject` ON `tbl_schedule`.`SubjectID`=`tbl_subject`.`ID`
+              Inner Join `tbl_scheduleday` On `tbl_schedule`.`ScheduleDayID`=`tbl_scheduleday`.`ID`
+              Where `tbl_schedule`.`AccountID`='$AccountID'
+              And `tbl_schedule`.`ScheduleDayID`='$ScheduleDayID'";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["ScheduleDayID"] = $row[1];
+        $this->tempData["SubjectID"] = $row[2];
+        $this->tempData["ScheduleTimeStart"] = $row[3];
+        $this->tempData["ScheduleTimeEnd"] = $row[4];
+        $this->tempData["AccountID"] = $row[5];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+
   function getDay($params) {
     $query = "Select * from `tbl_scheduleday`";
 

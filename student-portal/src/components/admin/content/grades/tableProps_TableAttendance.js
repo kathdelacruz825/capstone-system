@@ -5,6 +5,11 @@ const tableProps = [
   //   width: "50"
   // },
   {
+    propName: "AttendanceDate",
+    propLabel: "Date",
+    width: "120"
+  },
+  {
     propName: "Code",
     propLabel: "Subject",
     width: "200"
@@ -24,11 +29,6 @@ const tableProps = [
     propLabel: "Remarks",
     width: "120"
   },
-  {
-    propName: "AttendanceDate",
-    propLabel: "Date",
-    width: "120"
-  }
 ];
 
 export { tableProps };

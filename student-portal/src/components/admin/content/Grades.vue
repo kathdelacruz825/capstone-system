@@ -169,13 +169,13 @@
       :showAddExam="showAddExam"
     />
 
-    <!-- <AddExam
-      v-if="showAddExam"
+    <AddAttendance
+      v-if="showAddAttendance"
       :studentID="studentData.AccountID"
       @updateData="updateData"
-      @closeAddExam="closeAddExam($event)"
-      :showAddExam="showAddExam"
-    /> -->
+      @closeAddAttendance="closeAddAttendance($event)"
+      :showAddAttendance="showAddAttendance"
+    />
 
     <AddSchedule
       v-if="showAddSchedule"
@@ -192,6 +192,7 @@ import AddGrade from "@/components/admin/content/dialog/grades/AddGrade.vue";
 import AddQuiz from "@/components/admin/content/dialog/grades/AddQuiz.vue";
 import AddExam from "@/components/admin/content/dialog/grades/AddExam.vue";
 import AddSchedule from "@/components/admin/content/dialog/grades/AddSchedule.vue";
+import AddAttendance from "@/components/admin/content/dialog/grades/AddAttendance.vue";
 
 export default {
   components: {
@@ -199,6 +200,7 @@ export default {
     AddQuiz,
     AddExam,
     AddSchedule,
+    AddAttendance,
     TableGrades: resolve => {
       require(["@/components/admin/content/grades/TableGrades.vue"], resolve);
     },
@@ -223,6 +225,7 @@ export default {
       showAddQuiz: false,
       showAddExam: false,
       showAddSchedule: false,
+      showAddAttendance: false,
       searchText: "",
       select: "Account ID",
       tableData: [],
@@ -391,6 +394,9 @@ export default {
     closeAddSchedule(val) {
       this.showAddSchedule = val;
     },
+    closeAddAttendance(val) {
+      this.showAddAttendance = val;
+    },
     selectStudent(val) {
       this.studentData = val;
       if (this.activeItemClass === 0) {
@@ -420,11 +426,11 @@ export default {
         this.showAddExam = true;
       }
     },
-    // showAddAttendanceF() {
-    //   if (this.studentData != null) {
-    //     this.showAddExam = true;
-    //   }
-    // },
+    showAddAttendanceF() {
+      if (this.studentData != null) {
+        this.showAddAttendance = true;
+      }
+    },
     showAddScheduleF() {
       if (this.studentData != null) {
         this.showAddSchedule = true;

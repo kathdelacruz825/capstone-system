@@ -225,27 +225,6 @@ export default {
           console.log(error);
         });
     },
-    getAllGradingPeriod() {
-      let params = {
-        request: 1,
-        data: {}
-      };
-      this.http
-        .post(this.api.GradingPeriodService, params)
-        .then(response => {
-          this.gradingPeriodList = response.data;
-          // this.studentData.GradingPeriodID = this.gradingPeriodList.filter(
-          //   val => {
-          //     if (val.Title == this.studentData.GradingPeriod) {
-          //       return val;
-          //     }
-          //   }
-          // )[0].ID;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
     parseSubject(item) {
       var newItem = this.subjectList.filter(val => {
         if (val.Title == item) {
@@ -286,9 +265,7 @@ export default {
     }
   },
   async created() {
-    // await this.getAllTeacher();
     await this.getAllSubject();
-    await this.getAllGradingPeriod();
   },
   mounted() {
     console.log(this.studentData);
