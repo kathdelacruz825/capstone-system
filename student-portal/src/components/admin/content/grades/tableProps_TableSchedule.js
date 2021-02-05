@@ -23,7 +23,7 @@ const tableProps = [
     propName: "ScheduleTimeEnd",
     propLabel: "Time End",
     width: "200"
-  },
+  }
 ];
 
 export { tableProps };

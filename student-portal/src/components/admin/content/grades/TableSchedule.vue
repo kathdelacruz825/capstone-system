@@ -47,11 +47,11 @@
       </span>
     </el-dialog>
 
-    <UpdateAttendance
+    <UpdateSchedule
       v-if="showUpdateAttendance"
       :studentData="studentData"
       @updateData="updateData"
-      @closeUpdateExam="closeUpdateExam($event)"
+      @closeUpdateAttendance="closeUpdateAttendance($event)"
       :showUpdateAttendance="showUpdateAttendance"
     />
   </div>
@@ -59,11 +59,11 @@
 
 <script>
 import { tableProps } from "@/components/admin/content/grades/tableProps_TableSchedule.js";
-import UpdateAttendance from "@/components/admin/content/dialog/grades/UpdateAttendance.vue";
+import UpdateSchedule from "@/components/admin/content/dialog/grades/UpdateSchedule.vue";
 
 export default {
   components: {
-    UpdateAttendance
+    UpdateSchedule
   },
   data() {
     return {
@@ -119,7 +119,7 @@ export default {
     updateData() {
       this.$emit("updateData");
     },
-    closeUpdateExam(val) {
+    closeUpdateAttendance(val) {
       this.showUpdateAttendance = val;
     }
   },

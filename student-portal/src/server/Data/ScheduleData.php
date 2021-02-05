@@ -112,21 +112,29 @@ class ScheduleData {
     return $this->response;
   }
   
-  function setCourseData($params) {
-    $CourseID = $params['CourseID'];
-    $CourseDescription = $params['CourseDescription'];
-    $CourseStatus = intval($params['CourseStatus']);
-    $query = "Insert into `tbl_course`
+  function setScheduleData($params) {
+    $ScheduleDayID = $params['ScheduleDayID'];
+    $SubjectID = $params['SubjectID'];
+    $ScheduleTimeStart = $params['ScheduleTimeStart'];
+    $ScheduleTimeEnd = $params['ScheduleTimeEnd'];
+    $AccountID = $params['AccountID'];
+
+
+    $query = "Insert into `tbl_schedule`
               (
-                `CourseID`,
-                `CourseDescription`,
-                `CourseStatus`
+                `ScheduleDayID`,
+                `SubjectID`,
+                `ScheduleTimeStart`,
+                `ScheduleTimeEnd`,
+                `AccountID`
               ) 
               values 
               (
-                '$CourseID',
-                '$CourseDescription',
-                $CourseStatus
+                '$ScheduleDayID',
+                '$SubjectID',
+                '$ScheduleTimeStart',
+                '$ScheduleTimeEnd',
+                '$AccountID'
               )";
     
     if ($this->link->query($query) === TRUE) {
@@ -141,35 +149,21 @@ class ScheduleData {
       return $this->response[0];
     }
   }
- 
-  function setActiveCourseData($params) {
+
+  function updateScheduleData($params) {
     $ID = $params['ID'];
+    $ScheduleDayID = $params['ScheduleDayID'];
+    $SubjectID = $params['SubjectID'];
+    $ScheduleTimeStart = $params['ScheduleTimeStart'];
+    $ScheduleTimeEnd = $params['ScheduleTimeEnd'];
+    $AccountID = $params['AccountID'];
 
-    $query = "Update `tbl_course` SET `CourseStatus`=1 where ID=$ID";
-
-    if ($this->link->query($query) === TRUE) {
-      $this->successTemp["State"] = 1;
-      $this->successTemp["Message"] = "Record successfully updated!";
-      $this->response[] = $this->successTemp;
-      return $this->response[0];
-    } else {
-      $this->successTemp["Message"] = "Error updating record!";
-      $this->response[] = $this->successTemp;
-      return $this->response[0];
-    }
-  }
-
-  function updateCourseData($params) {
-    $ID = $params['ID'];
-    $CourseID = $params['CourseID'];
-    $CourseDescription = $params['CourseDescription'];
-    $CourseStatus = $params['CourseStatus'];
-
-    $query = "Update `tbl_course` SET
-              `CourseID`='$CourseID',
-              `CourseDescription`='$CourseDescription',
-              `CourseStatus`=$CourseStatus
-              where ID=$ID";
+    $query = "Update `tbl_schedule` SET
+              `ScheduleDayID`='$ScheduleDayID',
+              `SubjectID`='$SubjectID',
+              `ScheduleTimeStart`='$ScheduleTimeStart',
+              `ScheduleTimeEnd`='$ScheduleTimeEnd'
+              where ID='$ID' and AccountID='$AccountID'";
 
     if ($this->link->query($query) === TRUE) {
       $this->successTemp["State"] = 1;

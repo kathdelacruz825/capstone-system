@@ -123,13 +123,13 @@
                         type="success"
                         icon="el-icon-circle-plus"
                         v-if="activeItemClass === 3"
-                        @click="showAddGradeF()"
+                        @click="showAddAttendanceF()"
                       ></el-button>
                       <el-button
                         type="success"
                         icon="el-icon-circle-plus"
                         v-if="activeItemClass === 4"
-                        @click="showAddGradeF()"
+                        @click="showAddScheduleF()"
                       ></el-button>
                     </el-row>
                   </div>
@@ -168,6 +168,22 @@
       @closeAddExam="closeAddExam($event)"
       :showAddExam="showAddExam"
     />
+
+    <!-- <AddExam
+      v-if="showAddExam"
+      :studentID="studentData.AccountID"
+      @updateData="updateData"
+      @closeAddExam="closeAddExam($event)"
+      :showAddExam="showAddExam"
+    /> -->
+
+    <AddSchedule
+      v-if="showAddSchedule"
+      :studentID="studentData.AccountID"
+      @updateData="updateData"
+      @closeAddSchedule="closeAddSchedule($event)"
+      :showAddSchedule="showAddSchedule"
+    />
   </div>
 </template>
 
@@ -175,12 +191,14 @@
 import AddGrade from "@/components/admin/content/dialog/grades/AddGrade.vue";
 import AddQuiz from "@/components/admin/content/dialog/grades/AddQuiz.vue";
 import AddExam from "@/components/admin/content/dialog/grades/AddExam.vue";
+import AddSchedule from "@/components/admin/content/dialog/grades/AddSchedule.vue";
 
 export default {
   components: {
     AddGrade,
     AddQuiz,
     AddExam,
+    AddSchedule,
     TableGrades: resolve => {
       require(["@/components/admin/content/grades/TableGrades.vue"], resolve);
     },
@@ -191,7 +209,9 @@ export default {
       require(["@/components/admin/content/grades/TableExam.vue"], resolve);
     },
     TableAttendance: resolve => {
-      require(["@/components/admin/content/grades/TableAttendance.vue"], resolve);
+      require([
+        "@/components/admin/content/grades/TableAttendance.vue"
+      ], resolve);
     },
     TableSchedule: resolve => {
       require(["@/components/admin/content/grades/TableSchedule.vue"], resolve);
@@ -202,6 +222,7 @@ export default {
       showAddGrade: false,
       showAddQuiz: false,
       showAddExam: false,
+      showAddSchedule: false,
       searchText: "",
       select: "Account ID",
       tableData: [],
@@ -367,6 +388,9 @@ export default {
     closeAddExam(val) {
       this.showAddExam = val;
     },
+    closeAddSchedule(val) {
+      this.showAddSchedule = val;
+    },
     selectStudent(val) {
       this.studentData = val;
       if (this.activeItemClass === 0) {
@@ -394,6 +418,16 @@ export default {
     showAddExamF() {
       if (this.studentData != null) {
         this.showAddExam = true;
+      }
+    },
+    // showAddAttendanceF() {
+    //   if (this.studentData != null) {
+    //     this.showAddExam = true;
+    //   }
+    // },
+    showAddScheduleF() {
+      if (this.studentData != null) {
+        this.showAddSchedule = true;
       }
     }
   },
