@@ -13,7 +13,6 @@
     <div class="add-course-content">
       <el-form
         :label-position="'left'"
-        :model="ruleForm"
         class="add-dialog-form"
         label-width="130px"
         status-icon
@@ -22,6 +21,19 @@
       >
         <el-divider content-position="left">Attendance Details</el-divider>
         <div class="form-item-account-details">
+          <el-form-item label="Date:">
+            <el-date-picker
+              v-model="AttendanceDate"
+              type="date"
+              placeholder="Pick a day"
+            >
+            </el-date-picker>
+          </el-form-item>
+
+          <el-form-item label="Day:" prop="currGrade">
+            <span>{{ Day }}</span>
+          </el-form-item>
+
           <el-form-item label="Subject:">
             <el-dropdown trigger="click" @command="selectSubject">
               <el-button type="primary">
@@ -34,39 +46,36 @@
                   :key="subjectKey"
                   :command="subjectItem"
                 >
-                  {{ subjectItem.Title }}
+                  {{ subjectItem.SubjectID }}
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-form-item>
 
-          <el-form-item label="Grading Period:">
-            <el-dropdown trigger="click" @command="selectGradingPeriod">
+          <el-form-item label="Start Time:" prop="currGrade">
+            <span>{{ StartTime }}</span>
+          </el-form-item>
+
+          <el-form-item label="End Time:" prop="currGrade">
+            <span>{{ EndTime }}</span>
+          </el-form-item>
+
+          <el-form-item label="Remarks:">
+            <el-dropdown trigger="click" @command="selectRemark">
               <el-button type="primary">
-                {{ currentGradingPeriod }}
+                {{ currentRemark }}
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item
-                  v-for="(gradingItem, gradingKey) in gradingPeriodList"
-                  :key="gradingKey"
-                  :command="gradingItem"
+                  v-for="(remarkItem, remarkKey) in remarkList"
+                  :key="remarkKey"
+                  :command="remarkItem"
                 >
-                  {{ gradingItem.Title }}
+                  {{ remarkItem.Remarks }}
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-          </el-form-item>
-
-          <el-form-item label="Score:" prop="currGrade">
-            <el-input v-model="studentData.Score" type="number"></el-input>
-          </el-form-item>
-
-          <el-form-item label="Over All Items:" prop="currGrade">
-            <el-input
-              v-model="studentData.OverAllItems"
-              type="number"
-            ></el-input>
           </el-form-item>
         </div>
       </el-form>
@@ -90,83 +99,72 @@ export default {
       }
     };
     return {
+      value1: [new Date(), new Date()],
       rules: {
         currGrade: [{ validator: validateCurrentGrade, trigger: "blur" }]
       },
-      ruleForm: {
-        StudentID: "",
-        SubjectID: "",
-        GradingPeriodID: "",
-        Score: "",
-        OverAllItems: "",
-        Remarks: ""
-      },
-      currentTeacher: "---Select---",
+      ScheduleID: "",
+      RemarksID: "",
+      AttendanceDate: "",
+      Day: "",
+      StartTime: "",
+      EndTime: "",
       currentSubject: "---Select---",
-      currentGradingPeriod: "---Select---",
-      currentGrade: "",
-      teacherList: [],
+      currentRemark: "---Select---",
       subjectList: [],
-      gradingPeriodList: []
+      dayList: [],
+      remarkList: []
     };
   },
   methods: {
     closeDialog() {
-      this.currentGradingPeriod = "---Select---";
       this.currentSubject = "---Select---";
-      this.$emit("closeUpdateExam", false);
+      this.currentRemark = "---Select---";
+      this.$emit("closeUpdateAttendance", false);
       this.$emit("updateData");
-      this.$refs.ruleForm.resetFields();
-    },
-    selectTeacher(val) {
-      this.currentTeacher = val.Name;
-      // this.studentData.TeacherID = val.AccountID;
     },
     selectSubject(val) {
-      this.currentSubject = val.Title;
-      // this.studentData.SubjectID = val.ID;
+      this.currentSubject = val.SubjectID;
+      this.ScheduleID = val.ID;
+      this.StartTime = val.ScheduleTimeStart;
+      this.EndTime = val.ScheduleTimeEnd;
     },
-    selectGradingPeriod(val) {
-      this.currentGradingPeriod = val.Title;
-      // this.studentData.GradingPeriodID = val.ID;
+    selectRemark(val) {
+      this.currentRemark = val.Remarks;
+      this.RemarksID = val.ID;
     },
     save() {
-      if (this.studentData.SubjectID == "") {
+      if (this.studentData.AttendanceDate == "") {
+        this.$message({
+          type: "warning",
+          message: "Select Date!"
+        });
+      } else if (this.studentData.ScheduleID == "") {
         this.$message({
           type: "warning",
           message: "Select Subject!"
         });
-      } else if (this.studentData.GradingPeriodID == "") {
+      } else if (this.studentData.RemarksID == "") {
         this.$message({
           type: "warning",
-          message: "Select Grading Period!"
-        });
-      } else if (this.studentData.Score == "") {
-        this.$message({
-          type: "warning",
-          message: "Enter Score!"
-        });
-      } else if (this.studentData.OverAllItems == "") {
-        this.$message({
-          type: "warning",
-          message: "Enter Over All Items!"
+          message: "Select Remarks!"
         });
       } else {
         let params = {
           request: 4,
           data: {
             ID: this.studentData.ID,
-            StudentID: this.studentData.StudentID,
-            SubjectID: this.parseSubject(this.currentSubject), //this.studentData.SubjectID,
-            GradingPeriodID: this.parseGrading(this.currentGradingPeriod), //this.studentData.GradingPeriodID,
-            Score: this.studentData.Score,
-            OverAllItems: this.studentData.OverAllItems,
-            Remarks: this.computeRemarks(this.ruleForm)
-            // TeacherID: this.ruleForm.TeacherID,
+            ScheduleID: this.ScheduleID,
+            RemarksID: this.parseRemarks(this.currentRemark),
+            AttendanceDate:
+              this.AttendanceDate.length === undefined
+                ? this.formatDate(this.AttendanceDate)
+                : this.AttendanceDate,
+            AccountID: this.studentData.AccountID
           }
         };
         this.http
-          .post(this.api.AdminExamService, params)
+          .post(this.api.AttendanceService, params)
           .then(response => {
             if (response.data.State == 1) {
               this.$emit("updateData");
@@ -186,70 +184,97 @@ export default {
           });
       }
     },
-    computeRemarks(obj) {
-      var Score = Number(obj.Score);
-      var OverAllItems = Number(obj.OverAllItems) / 2;
-      return Score >= OverAllItems ? "Passed" : "Failed";
+    parseRemarks(item) {
+      var newItem = this.remarkList.filter(val => {
+        if (val.Remarks == item) {
+          return val;
+        }
+      })[0].ID;
+      return newItem;
     },
-
-    getAllTeacher() {
+    parseTime(time) {
+      let newtime = time;
+      let splitTime = time.split(":");
+      return splitTime[0] > 12 ? newtime + " PM" : newtime + " AM";
+    },
+    formatDate(date) {
+      let yyyy = date.getFullYear();
+      let mm =
+        date.getMonth() + 1 > 10
+          ? date.getMonth() + 1
+          : "0" + (date.getMonth() + 1);
+      let dd = date.getDate() > 10 ? date.getDate() : "0" + date.getDate();
+      return `${yyyy}-${mm}-${dd}`;
+    },
+    getDay(id) {
       let params = {
-        request: 1,
-        data: {}
+        request: 9,
+        data: {
+          ID: id
+        }
       };
       this.http
-        .post(this.api.TeacherService, params)
+        .post(this.api.ScheduleService, params)
         .then(response => {
-          this.teacherList = response.data;
+          this.dayList = response.data;
+          this.Day = this.dayList[0].Day;
         })
         .catch(error => {
           console.log(error);
         });
     },
-    getAllSubject() {
+    getSchedule(ScheduleDayID) {
       let params = {
-        request: 1,
-        data: {}
+        request: 8,
+        data: {
+          AccountID: this.studentData.AccountID,
+          ScheduleDayID: ScheduleDayID
+        }
       };
       this.http
-        .post(this.api.SubjectService, params)
+        .post(this.api.ScheduleService, params)
         .then(response => {
           this.subjectList = response.data;
-          // this.studentData.SubjectID = this.subjectList.filter(val => {
-          //   if (val.Title == this.studentData.SubjectID) {
-          //     return val;
-          //   }
-          // })[0].ID;
         })
         .catch(error => {
           console.log(error);
         });
     },
-    parseSubject(item) {
-      var newItem = this.subjectList.filter(val => {
-        if (val.Title == item) {
-          return val;
-        }
-      })[0].ID;
-      return newItem;
-    },
-    parseGrading(item) {
-      var newItem = this.gradingPeriodList.filter(val => {
-        if (val.Title == item) {
-          return val;
-        }
-      })[0].ID;
-      return newItem;
+    getRemarks() {
+      let params = {
+        request: 8,
+        data: {}
+      };
+      this.http
+        .post(this.api.AttendanceService, params)
+        .then(response => {
+          this.remarkList = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     resetFields() {
-      this.currentGradingPeriod = "---Select---";
+      this.ScheduleID = "";
+      this.RemarksID = "";
+      this.AttendanceDate = "";
+      this.Day = "";
+      this.StartTime = "";
+      this.EndTime = "";
       this.currentSubject = "---Select---";
-      this.ruleForm.StudentID = "";
-      this.ruleForm.SubjectID = "";
-      this.ruleForm.GradingPeriodID = "";
-      this.ruleForm.Score = "";
-      this.ruleForm.OverAllItems = "";
-      this.ruleForm.Remarks = "";
+      this.currentRemark = "---Select---";
+    }
+  },
+  watch: {
+    AttendanceDate: function(val) {
+      if (val && val.length == undefined) {
+        let dayNum = val.getDay();
+        this.getDay(dayNum);
+        this.getSchedule(dayNum);
+        this.StartTime = "";
+        this.EndTime = "";
+        this.currentSubject = "---Select---";
+      }
     }
   },
   props: {
@@ -265,12 +290,17 @@ export default {
     }
   },
   async created() {
-    await this.getAllSubject();
+    await this.getRemarks();
   },
   mounted() {
+    this.currentRemark = this.studentData.RemarksID;
+    this.currentSubject = this.studentData.Code;
+    this.AttendanceDate = this.studentData.AttendanceDate;
+    this.StartTime = this.studentData.ScheduleTimeStart;
+    this.EndTime = this.studentData.ScheduleTimeEnd;
+    this.getDay(this.studentData.ScheduleDayID);
+    this.getSchedule(this.studentData.ScheduleDayID);
     console.log(this.studentData);
-    this.currentSubject = this.studentData.SubjectID;
-    this.currentGradingPeriod = this.studentData.GradingPeriodID;
   }
 };
 </script>
@@ -280,5 +310,9 @@ export default {
   .el-form-item__content {
     text-align: left;
   }
+}
+
+.el-date-editor .el-range-separator {
+  width: 10%;
 }
 </style>

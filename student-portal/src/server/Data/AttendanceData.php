@@ -112,7 +112,8 @@ class AttendanceData {
                 `tbl_schedule`.`ScheduleTimeEnd`,
                 `tbl_attendance_remarks`.`Remarks`,
                 `tbl_attendance`.`AttendanceDate`,
-                `tbl_attendance`.`AccountID`
+                `tbl_attendance`.`AccountID`,
+                `tbl_schedule`.`ScheduleDayID`
                 FROM (((`tbl_attendance`
                 INNER JOIN `tbl_attendance_remarks` ON `tbl_attendance`.`RemarksID`=`tbl_attendance_remarks`.`ID`)
                 INNER JOIN `tbl_schedule` ON `tbl_attendance`.`ScheduleID`=`tbl_schedule`.`ID`)
@@ -130,6 +131,7 @@ class AttendanceData {
         $this->tempData["RemarksID"] = $row[4];
         $this->tempData["AttendanceDate"] = $row[5];
         $this->tempData["AccountID"] = $row[6];
+        $this->tempData["ScheduleDayID"] = $row[7];
         $this->response[] = $this->tempData;
       }
     }
@@ -187,17 +189,18 @@ class AttendanceData {
     }
   }
 
-  function updateCourseData($params) {
+  function updateAttendanceData($params) {
     $ID = $params['ID'];
-    $CourseID = $params['CourseID'];
-    $CourseDescription = $params['CourseDescription'];
-    $CourseStatus = $params['CourseStatus'];
+    $ScheduleID = $params['ScheduleID'];
+    $RemarksID = $params['RemarksID'];
+    $AttendanceDate = $params['AttendanceDate'];
+    $AccountID = $params['AccountID'];
 
-    $query = "Update `tbl_course` SET
-              `CourseID`='$CourseID',
-              `CourseDescription`='$CourseDescription',
-              `CourseStatus`=$CourseStatus
-              where ID=$ID";
+    $query = "Update `tbl_attendance` SET
+              `ScheduleID`='$ScheduleID',
+              `RemarksID`='$RemarksID',
+              `AttendanceDate`='$AttendanceDate'
+              where ID=$ID and AccountID='$AccountID'";
 
     if ($this->link->query($query) === TRUE) {
       $this->successTemp["State"] = 1;

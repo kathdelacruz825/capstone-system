@@ -51,7 +51,7 @@
       v-if="showUpdateAttendance"
       :studentData="studentData"
       @updateData="updateData"
-      @closeUpdateExam="closeUpdateExam($event)"
+      @closeUpdateAttendance="closeUpdateAttendance($event)"
       :showUpdateAttendance="showUpdateAttendance"
     />
   </div>
@@ -119,7 +119,7 @@ export default {
     updateData() {
       this.$emit("updateData");
     },
-    closeUpdateExam(val) {
+    closeUpdateAttendance(val) {
       this.showUpdateAttendance = val;
     }
   },
