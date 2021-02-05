@@ -2,7 +2,24 @@
   <div class="message-list">
     <Nav :title="pageTitle" :isLeftArrow="false" :isRightText="false" />
     <div class="message-list-content">
-      message-list
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text=""
+        @load="onLoad"
+      >
+        <van-cell
+          v-for="(item, key) in teacherList"
+          :key="key"
+          icon="contact"
+          :title="item.Name"
+          is-link
+          :to="{
+            name: 'Message',
+            params: { teacherid: item.AccountID, name: item.Name }
+          }"
+        />
+      </van-list>
     </div>
     <Footer :activeItem="2" />
   </div>
@@ -21,9 +38,41 @@ export default {
   },
   data() {
     return {
-      pageTitle: "Message"
+      pageTitle: "Message",
+      teacherList: [],
+      loading: false,
+      finished: false
     };
   },
-  methods: {}
+  methods: {
+    getAllTeacher() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.TeacherService, params)
+        .then(response => {
+          this.teacherList = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    onLoad() {
+      setTimeout(() => {
+        this.getAllTeacher();
+        this.loading = false;
+        this.finished = true;
+      }, 1000);
+    }
+  },
+  created() {}
 };
 </script>
+
+<style>
+.message-list .van-cell__title {
+  text-align: left;
+}
+</style>

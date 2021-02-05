@@ -32,7 +32,11 @@ export default {
     isRightText: {
       type: Boolean,
       default: false
-    }
+    },
+    showRefresh: {
+      type: Boolean,
+      default: false
+    },
   },
   methods: {
     onClickLeft() {
@@ -41,6 +45,9 @@ export default {
     logout() {
       this.$router.push({ name: "UserLogin" });
       // Toast('Button');
+    },
+    refresh() {
+      console.log("test");
     }
   }
 };

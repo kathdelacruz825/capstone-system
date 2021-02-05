@@ -7,19 +7,35 @@
     >
       <div class="chat-wrapper">
         <div class="chat-time-start">
-          <span>{{ "2020-01-21  17:12:22" }}</span>
+          <!-- <span>{{ "2020-01-21  17:12:22" }}</span> -->
         </div>
-        <div v-for="(item, key) in dataMessage" :key="key" class="chat-item">
+        <div
+          v-for="(item, key) in messages"
+          :key="key"
+          class="chat-item"
+          :class="messagePosition(item)"
+        >
           <div class="icon">
             <van-image width="33" height="33" src="" />
           </div>
           <div class="message">
-            <p>{{ item.message }}</p>
+            <p>{{ item.Message }}</p>
+            <div class="dt">
+              <span>{{ item.TimeStamp.split(" ")[0] }}</span>
+              <span>{{
+                item.TimeStamp.split(" ")[1] +
+                  " " +
+                  item.TimeStamp.split(" ")[2]
+              }}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <MessageFooter />
+    <MessageFooter
+      @updateData="getAllMessageBy"
+      @calcFooterHeight="calcFooterHeight($event)"
+    />
   </div>
 </template>
 
@@ -36,7 +52,10 @@ export default {
   },
   data() {
     return {
-      pageTitle: "Message",
+      pageTitle: "",
+      userDetails: {},
+      messages: [],
+      message: "",
       contentLessHeight: 96,
       dataMessage: [
         {
@@ -47,7 +66,53 @@ export default {
       ]
     };
   },
-  methods: {}
+  methods: {
+    getAllMessageBy() {
+      let params = {
+        request: 2,
+        data: {
+          ToUserID: this.$route.params.teacherid,
+          FromUserID: this.userDetails.ID
+        }
+      };
+      this.http
+        .post(this.api.MessageService, params)
+        .then(response => {
+          this.messages = response.data;
+          this.scrollToBottom();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    scrollToBottom() {
+      var container = document.querySelector(".chat-wrapper");
+      var scrollHeight = container.scrollHeight;
+      container.scrollTop = scrollHeight;
+    },
+    calcFooterHeight(val) {
+      let navHeight = 46; // DOM navigation height
+      this.contentLessHeight = navHeight + val;
+    },
+    messagePosition(item) {
+      if (item.FromUserID == this.userDetails.ID) {
+        return "pos-right";
+      } else {
+        return "pos-left";
+      }
+    }
+  },
+  created() {
+    this.userDetails = JSON.parse(localStorage.getItem("user"));
+  },
+  mounted() {
+    this.getAllMessageBy();
+    this.scrollToBottom();
+    this.pageTitle = this.$route.params.name;
+  },
+  updated() {
+    this.scrollToBottom();
+  }
 };
 </script>
 
@@ -60,6 +125,12 @@ div#app {
   overflow: hidden;
 }
 
+.dt span {
+  display: block;
+  font-size: 10px;
+  line-height: 1.2;
+  text-align: right;
+}
 .chat-wrapper {
   height: 100%;
   overflow-y: auto;
@@ -67,7 +138,7 @@ div#app {
 }
 
 .chat-wrapper .chat-time-start {
-  padding: 10px 0px 25px;
+  padding: 0px 0px 25px;
 }
 
 .chat-wrapper .chat-time-start span {
@@ -125,6 +196,9 @@ div#app {
   flex-direction: row-reverse;
 }
 
+.chat-wrapper .chat-item.pos-left .dt span {
+  text-align: left;
+}
 .chat-wrapper .chat-item.pos-right .icon {
   margin-right: 0px;
   margin-left: 10px;

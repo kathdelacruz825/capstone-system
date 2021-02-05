@@ -103,7 +103,7 @@ const routes = [
     }
   },
   {
-    path: "/message",
+    path: "/message/:teacherid?/:name?",
     name: "Message",
     component: () => import("../views/user/message/Message.vue"),
     meta: {
