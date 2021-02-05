@@ -189,6 +189,9 @@ export default {
     },
     TableExam: resolve => {
       require(["@/components/admin/content/grades/TableExam.vue"], resolve);
+    },
+    TableAttendance: resolve => {
+      require(["@/components/admin/content/grades/TableAttendance.vue"], resolve);
     }
   },
   data() {
@@ -215,7 +218,7 @@ export default {
         },
         {
           name: "Attendance",
-          link: "Attendance"
+          link: "TableAttendance"
         },
         {
           name: "Schedule",
@@ -307,6 +310,22 @@ export default {
           console.log(error);
         });
     },
+    getAttendance(val) {
+      let params = {
+        request: 6,
+        data: {
+          AccountID: val
+        }
+      };
+      this.http
+        .post(this.api.AttendanceService, params)
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     updateData() {
       if (this.activeItemClass === 0) {
         this.getStudentGradeData(this.studentData.ID);
@@ -314,6 +333,8 @@ export default {
         this.getStudentQuizData(this.studentData.ID);
       } else if (this.activeItemClass === 2) {
         this.getStudentExamData(this.studentData.ID);
+      } else if (this.activeItemClass === 3) {
+        this.getAttendance(this.studentData.AccountID);
       }
     },
     closeAddGrade(val) {
@@ -333,6 +354,8 @@ export default {
         this.getStudentQuizData(val.ID);
       } else if (this.activeItemClass === 2) {
         this.getStudentExamData(val.ID);
+      } else if (this.activeItemClass === 3) {
+        this.getAttendance(val.AccountID);
       }
     },
     showAddGradeF() {

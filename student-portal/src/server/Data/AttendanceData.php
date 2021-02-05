@@ -102,6 +102,40 @@ class AttendanceData {
     return $this->response;
   }
   
+  function getAttendanceByStudID($params) {
+    $AccountID = $params['AccountID'];
+
+    $query = "SELECT 
+                `tbl_attendance`.`ID`,
+                `tbl_subject`.`Code`,
+                `tbl_schedule`.`ScheduleTimeStart`,
+                `tbl_schedule`.`ScheduleTimeEnd`,
+                `tbl_attendance_remarks`.`Remarks`,
+                `tbl_attendance`.`AttendanceDate`,
+                `tbl_attendance`.`AccountID`
+                FROM (((`tbl_attendance`
+                INNER JOIN `tbl_attendance_remarks` ON `tbl_attendance`.`RemarksID`=`tbl_attendance_remarks`.`ID`)
+                INNER JOIN `tbl_schedule` ON `tbl_attendance`.`ScheduleID`=`tbl_schedule`.`ID`)
+                INNER JOIN `tbl_subject` ON `tbl_schedule`.`SubjectID`=`tbl_subject`.`ID`)
+                Where `tbl_attendance`.`AccountID`='$AccountID'";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["Code"] = $row[1];
+        $this->tempData["ScheduleTimeStart"] = $row[2];
+        $this->tempData["ScheduleTimeEnd"] = $row[3];
+        $this->tempData["RemarksID"] = $row[4];
+        $this->tempData["AttendanceDate"] = $row[5];
+        $this->tempData["AccountID"] = $row[6];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+
   function setCourseData($params) {
     $CourseID = $params['CourseID'];
     $CourseDescription = $params['CourseDescription'];
@@ -204,14 +238,20 @@ class AttendanceData {
     }
   }
   
-  function deleteSampleData($params) {
-    $id = $params['id'];
+  function deleteStudentAttendanceData($params) {
+    $id = $params['ID'];
     
-    $query = "Delete from `tbl_course` where id=$id";
+    $query = "Delete from `tbl_attendance` where id=$id";
     if ($this->link->query($query) === TRUE) {
-      echo "Record successfully deleted";
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully deleted";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     } else {
-      echo "Error deleting record!";
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error deleting record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
     }
   }
 
