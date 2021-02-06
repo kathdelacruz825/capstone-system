@@ -18,7 +18,7 @@
               <van-list
                 v-model="loading"
                 :finished="finished"
-                finished-text="Finished"
+                finished-text=""
                 loading-text="Loading..."
                 @load="onLoad"
               >
@@ -122,7 +122,7 @@ export default {
   }
 
   .van-list {
-    height: 100%;
+    height: calc(100vh - 96px - 44px);
     padding: 10px 10px 0px;
     overflow-y: auto;
     .notification {

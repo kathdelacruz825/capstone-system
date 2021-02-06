@@ -65,7 +65,12 @@ if ($params) {
         // count student
         $data = new ParentData($conn);
         echo json_encode($data->getParentByIDD($params['data']));
-        break; 
+        break;
+        case 14:
+          // update user image
+          $data = new ParentData($conn);
+          echo json_encode($data->updateUserImage($params['data']));
+          break;
     default:
       echo "Invalid Request";
   }

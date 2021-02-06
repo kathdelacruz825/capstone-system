@@ -61,6 +61,24 @@ class ParentData {
     return $this->response;
   }
 
+  function updateUserImage($params) {
+    $id = $params['ID'];
+    $Icon = $params['Icon'];
+
+    $query = "Update `tbl_accounts_parent` SET `Icon`='$Icon' where id=$id";
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "The picture is uploaded successfully, please log in again to see the effect.";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    }
+  }
+
   function getParentByID($params) {
     $AccountID = strval($params['AccountID']);
     $AccountPassword = strval($params['AccountPassword']);

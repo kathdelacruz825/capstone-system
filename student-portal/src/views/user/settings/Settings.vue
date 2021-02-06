@@ -168,7 +168,7 @@ export default {
     },
     async uploadImage(file) {
       let params = {
-        request: 7,
+        request: this.userDetails.AccountType == "1" ? 7 : 14,
         data: {
           ID: this.userDetails.ID,
           Icon: file.content
@@ -182,9 +182,40 @@ export default {
           params
         )
         .then(response => {
+          console.log(response);
           this.showUpload = false;
-          if (response.State == 1) {
-            Toast(response.Message);
+          if (response.data.State == 1) {
+            // Toast(response.data.Message);
+            this.login();
+          }
+        })
+        .catch(error => {
+          Toast("Connection Error");
+          console.log(error);
+        });
+    },
+    async login() {
+      var params = {
+        request: 2,
+        data: {
+          AccountID: this.userDetails.AccountID,
+          AccountPassword: this.userDetails.AccountPassword
+        }
+      };
+      await this.http
+        .post(
+          this.userDetails.AccountType == "1"
+            ? this.api.StudentService
+            : this.api.ParentService,
+          params
+        )
+        .then(response => {
+          if (response.data.length > 0) {
+            this.$store.dispatch("setUserDetails", response.data[0]);
+            localStorage.setItem("user", JSON.stringify(response.data[0]));
+            this.userDetails = JSON.parse(localStorage.getItem("user"));
+          } else {
+            Toast("Connection Error");
           }
         })
         .catch(error => {
