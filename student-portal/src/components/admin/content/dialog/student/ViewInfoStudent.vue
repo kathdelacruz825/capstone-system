@@ -194,7 +194,6 @@ export default {
 
 <style lang="scss">
 .el-dialog__body {
-
   .avatar {
     object-fit: fill;
   }

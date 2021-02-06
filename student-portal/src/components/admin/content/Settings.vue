@@ -58,7 +58,7 @@ export default {
       activeTabName: "Course",
       userDetails: {},
       tabItems: {
-        '1': [
+        "1": [
           { name: "Course", component: "Course" },
           { name: "Subject", component: "Subject" },
           { name: "Year Level", component: "YearLevel" },
@@ -68,7 +68,7 @@ export default {
           { name: "Users", component: "Users" }
           // { name: "System", component: "System" }
         ],
-        '2': [
+        "2": [
           { name: "Course", component: "Course" },
           { name: "Subject", component: "Subject" },
           { name: "Year Level", component: "YearLevel" },

@@ -30,7 +30,6 @@
                 :show-file-list="false"
                 list-type="picture-card"
                 :on-change="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
               >
                 <img
                   v-if="ruleForm.Icon"
@@ -43,23 +42,22 @@
               </el-upload>
             </div>
             <div class="radio">
-
               <el-form-item label="Role:">
-                  <el-dropdown trigger="click" @command="selectAccType">
-                    <el-button type="primary">
-                      {{ currType }}
-                      <i class="el-icon-arrow-down el-icon--right"></i>
-                    </el-button>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item
-                        v-for="(typeItem, typeKey) in typeList"
-                        :key="typeKey"
-                        :command="typeItem"
-                      >
-                        {{ typeItem.Role }}
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
+                <el-dropdown trigger="click" @command="selectAccType">
+                  <el-button type="primary">
+                    {{ currType }}
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                  </el-button>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item
+                      v-for="(typeItem, typeKey) in typeList"
+                      :key="typeKey"
+                      :command="typeItem"
+                    >
+                      {{ typeItem.Role }}
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
               </el-form-item>
 
               <el-form-item label="Account Status">
@@ -68,11 +66,9 @@
                   <el-radio :label="2" border>Inactive</el-radio>
                 </el-radio-group>
               </el-form-item>
-
             </div>
           </div>
           <div class="detail-row2">
-
             <el-form-item label="Account ID:" prop="AccountID">
               <el-input v-model="ruleForm.AccountID" type="text"></el-input>
             </el-form-item>
@@ -82,7 +78,10 @@
             </el-form-item>
 
             <el-form-item label="Password:" prop="AccountPassword">
-              <el-input v-model="ruleForm.AccountPassword" type="password"></el-input>
+              <el-input
+                v-model="ruleForm.AccountPassword"
+                type="password"
+              ></el-input>
             </el-form-item>
 
             <el-form-item label="Last Name:" prop="LastName">
@@ -100,7 +99,6 @@
             <el-form-item label="Extension Name:" prop="ExtName">
               <el-input v-model="ruleForm.ExtName" type="text"></el-input>
             </el-form-item>
-
           </div>
         </div>
       </el-form>
@@ -165,23 +163,23 @@ export default {
         AccountPassword: [{ validator: validatePass, trigger: "blur" }],
         LastName: [{ validator: validateLastName, trigger: "blur" }],
         FirstName: [{ validator: validateFirstName, trigger: "blur" }],
-        MiddleName: [{ validator: validateMiddleName, trigger: "blur" }],
+        MiddleName: [{ validator: validateMiddleName, trigger: "blur" }]
       },
       ruleForm: {
-        AccountID: '',
-        AccountName: '',
-        AccountPassword: '',
-        LastName: '',
+        AccountID: "",
+        AccountName: "",
+        AccountPassword: "",
+        LastName: "",
         FirstName: "",
         MiddleName: "",
         ExtName: "",
         Role: "",
         AccountStatus: 1,
-        Icon: "",
+        Icon: ""
       },
       fileList: [],
       typeList: [],
-      currType: '---Select---',
+      currType: "---Select---"
     };
   },
   methods: {
@@ -192,11 +190,11 @@ export default {
       this.$refs.upload.submit();
     },
     save() {
-      if (this.ruleForm.Role == '') {
-      this.$message({
-        type: "warning",
-        message: "Please select role!"
-      });
+      if (this.ruleForm.Role == "") {
+        this.$message({
+          type: "warning",
+          message: "Please select role!"
+        });
       } else {
         this.$refs.ruleForm.validate(valid => {
           if (valid) {
@@ -212,7 +210,7 @@ export default {
                 ExtName: this.ruleForm.ExtName,
                 Role: this.ruleForm.Role,
                 AccountStatus: this.ruleForm.AccountStatus,
-                Icon: this.ruleForm.Icon,
+                Icon: this.ruleForm.Icon
               }
             };
             this.http
@@ -231,7 +229,6 @@ export default {
                     message: response.data.Message
                   });
                 }
-
               })
               .catch(error => {
                 this.$message({
@@ -266,20 +263,25 @@ export default {
       this.currType = val.Role;
     },
     handleAvatarSuccess(file) {
-      console.log(file);
-      // this.ruleForm.Icon = URL.createObjectURL(file.raw);
+      this.getBase64(file.raw).then(res => {
+        this.ruleForm.Icon = res;
+      });
     },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error("Avatar picture must be JPG format!");
-      }
-      if (!isLt2M) {
-        this.$message.error("Avatar picture size can not exceed 2MB!");
-      }
-      return isJPG && isLt2M;
+    getBase64(file) {
+      return new Promise(function(resolve, reject) {
+        let reader = new FileReader();
+        let imgResult = "";
+        reader.readAsDataURL(file);
+        reader.onload = function() {
+          imgResult = reader.result;
+        };
+        reader.onerror = function(error) {
+          reject(error);
+        };
+        reader.onloadend = function() {
+          resolve(imgResult);
+        };
+      });
     },
     updateData() {
       this.$emit("updateData");
@@ -297,8 +299,8 @@ export default {
       this.ruleForm.Icon = "";
       this.ruleForm.Role = "";
       this.ruleForm.AccountStatus = 1;
-      this.currType = '---Select---';
-    },
+      this.currType = "---Select---";
+    }
   },
   props: {
     showAddUser: {
@@ -315,7 +317,9 @@ export default {
 <style lang="scss">
 .el-dialog__body {
   padding: 0px 15px 15px;
-
+  .avatar {
+    object-fit: cover;
+  }
   .el-form {
     .form-item-account-details .detail-row1 {
       display: flex;

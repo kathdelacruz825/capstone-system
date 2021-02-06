@@ -28,7 +28,7 @@ const tableProps = [
     propName: "Status",
     propLabel: "Status",
     width: "120"
-  },
+  }
   // {
   //   propName: "CreatedTime",
   //   propLabel: "Time Created",

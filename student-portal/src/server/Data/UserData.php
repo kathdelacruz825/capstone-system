@@ -26,7 +26,8 @@ class UserData {
               From `tbl_accounts_admin`
               Inner Join `tbl_admin_role` On `tbl_accounts_admin`.`Role`=`tbl_admin_role`.`ID`
               Inner Join `tbl_admin_status` On `tbl_accounts_admin`.`AccountStatus`=`tbl_admin_status`.`ID`
-              Where `tbl_accounts_admin`.`AccountID`!='$myID'";
+              Where `tbl_accounts_admin`.`AccountID`!='$myID'
+              Order by `tbl_accounts_admin`.`ID` ASC";
 
     $result = $this->link->query($query);
 

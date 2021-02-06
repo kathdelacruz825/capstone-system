@@ -273,20 +273,25 @@ export default {
       });
     },
     handleAvatarSuccess(file) {
-      console.log(file);
-      // this.ruleForm.Icon = URL.createObjectURL(file.raw);
+      this.getBase64(file.raw).then(res => {
+        this.ruleForm.Icon = res;
+      });
     },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error("Avatar picture must be JPG format!");
-      }
-      if (!isLt2M) {
-        this.$message.error("Avatar picture size can not exceed 2MB!");
-      }
-      return isJPG && isLt2M;
+    getBase64(file) {
+      return new Promise(function(resolve, reject) {
+        let reader = new FileReader();
+        let imgResult = "";
+        reader.readAsDataURL(file);
+        reader.onload = function() {
+          imgResult = reader.result;
+        };
+        reader.onerror = function(error) {
+          reject(error);
+        };
+        reader.onloadend = function() {
+          resolve(imgResult);
+        };
+      });
     },
     updateData() {
       this.$emit("updateData");
@@ -343,6 +348,7 @@ export default {
       this.ruleForm.ExtName = "";
       this.ruleForm.PhoneNumber = "";
       this.ruleForm.Email = "";
+      this.ruleForm.Icon = "";
     },
     createTime() {
       let today = new Date();
@@ -388,7 +394,9 @@ export default {
 <style lang="scss">
 .el-dialog__body {
   padding: 0px 15px 15px;
-
+  .avatar {
+    object-fit: cover;
+  }
   .el-form {
     .form-item-account-details .detail-row1 {
       display: flex;

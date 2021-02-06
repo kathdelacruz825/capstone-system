@@ -48,7 +48,7 @@ const tableProps = [
     propName: "AccountStatus",
     propLabel: "Status",
     width: "120"
-  },
+  }
   // {
   //   propName: "Icon",
   //   propLabel: "Icon",

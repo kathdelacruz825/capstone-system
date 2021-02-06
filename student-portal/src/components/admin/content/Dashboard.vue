@@ -123,7 +123,7 @@ export default {
       currUser: "Administrator",
       timeLog: "",
       notifData: [],
-      userDetails: {},
+      userDetails: {}
     };
   },
   methods: {

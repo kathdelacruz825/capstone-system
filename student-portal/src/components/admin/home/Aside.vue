@@ -32,7 +32,7 @@ export default {
     return {
       activeTab: "0",
       tabItems: {
-        '1': [
+        "1": [
           {
             name: "Dashboard",
             icon: "el-icon-data-analysis"
@@ -62,7 +62,7 @@ export default {
             icon: "el-icon-setting"
           }
         ],
-        '2': [
+        "2": [
           {
             name: "Dashboard",
             icon: "el-icon-data-analysis"
@@ -92,7 +92,7 @@ export default {
             icon: "el-icon-setting"
           }
         ],
-        '3': [
+        "3": [
           {
             name: "Dashboard",
             icon: "el-icon-data-analysis"
@@ -116,7 +116,7 @@ export default {
           {
             name: "Messages",
             icon: "el-icon-message"
-          },
+          }
           // {
           //   name: "Settings",
           //   icon: "el-icon-setting"

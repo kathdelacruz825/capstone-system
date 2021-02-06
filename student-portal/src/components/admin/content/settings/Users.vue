@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import AddUser from '@/components/admin/content/dialog/settings/user/AddUser1.vue';
+import AddUser from "@/components/admin/content/dialog/settings/user/AddUser1.vue";
 import ViewInfoTeacher from "@/components/admin/content/dialog/settings/teacher/ViewInfoTeacher.vue";
 import UpdateTeacher from "@/components/admin/content/dialog/settings/teacher/UpdateTeacher.vue";
 
@@ -124,7 +124,7 @@ export default {
       let params = {
         request: 1,
         data: {
-          myID: this.userDetails.AccountID,
+          myID: this.userDetails.AccountID
         }
       };
       this.http

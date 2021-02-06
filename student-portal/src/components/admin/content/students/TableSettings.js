@@ -78,7 +78,7 @@ const tableProps = [
     propName: "Course",
     propLabel: "Course",
     width: "120"
-  },
+  }
   // {
   //   propName: "Parent ID",
   //   propLabel: "Parent ID",

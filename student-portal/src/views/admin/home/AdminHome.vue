@@ -70,7 +70,7 @@ export default {
     padding: 5px 0px;
   }
 
-  .el-tabs--border-card>.el-tabs__content {
+  .el-tabs--border-card > .el-tabs__content {
     padding: 0px 10px 10px;
   }
 }

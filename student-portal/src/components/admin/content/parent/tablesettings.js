@@ -63,7 +63,7 @@ const tableProps = [
     propName: "Email",
     propLabel: "Email",
     width: "120"
-  },
+  }
   // {
   //   propName: "Icon",
   //   propLabel: "Icon",
