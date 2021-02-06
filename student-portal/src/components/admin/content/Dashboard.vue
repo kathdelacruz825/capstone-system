@@ -236,7 +236,7 @@ export default {
   },
   props: {},
   async created() {
-    this.timeLog = this.getCurrentDateTime().currTime;
+    this.timeLog = JSON.parse(localStorage.getItem("LoggedTime"));
     setInterval(() => {
       this.time = this.getCurrentDateTime();
     }, 1000);

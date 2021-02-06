@@ -40,12 +40,16 @@
             </div>
             <div class="body-message-wrapper">
               <div class="messages-list">
-                <ul v-if="messages.length > 0">
+                <ul v-if="messages.length > 0" class="chat-wrapper">
                   <li
                     v-for="(item, key) in messages"
                     :key="key"
                     class="messages-item"
-                    :class="item.ToUserID == 1 ? 'pos-left' : 'pos-right'"
+                    :class="
+                      item.ToUserID == userDetails.AccountID
+                        ? 'pos-left'
+                        : 'pos-right'
+                    "
                   >
                     <div class="messages-item-wrapper">
                       <p>{{ item.Message }}</p>
@@ -106,7 +110,7 @@ export default {
       let params = {
         request: 6,
         data: {
-          ToUserID: 1 //temporary id
+          ToUserID: this.userDetails.AccountID //temporary id
         }
       };
       this.http
@@ -125,7 +129,7 @@ export default {
       let params = {
         request: 2,
         data: {
-          ToUserID: 1, //temporary id
+          ToUserID: this.userDetails.AccountID, //temporary id
           FromUserID: fromUserID
         }
       };
@@ -133,7 +137,9 @@ export default {
         .post(this.api.MessageService, params)
         .then(response => {
           this.messages = response.data;
-          // this.scrollToBottom();
+          if (this.messages.length > 0) {
+            this.scrollToBottom();
+          }
         })
         .catch(error => {
           console.log(error);
@@ -144,7 +150,7 @@ export default {
       let params = {
         request: 2,
         data: {
-          ToUserID: 1, //temporary id
+          ToUserID: this.userDetails.AccountID, //temporary id
           FromUserID: fromUserID
         }
       };
@@ -152,7 +158,9 @@ export default {
         .post(this.api.MessageService, params)
         .then(response => {
           this.messages = response.data;
-          // this.scrollToBottom();
+          if (this.messages.length > 0) {
+            this.scrollToBottom();
+          }
         })
         .catch(error => {
           console.log(error);
@@ -164,7 +172,7 @@ export default {
           request: 3,
           data: {
             ToUserID: this.messageFromID,
-            FromUserID: 1,
+            FromUserID: this.userDetails.AccountID,
             Message: this.message,
             TimeStamp: this.createTime(),
             Status: 1
@@ -182,6 +190,11 @@ export default {
             console.log(error);
           });
       }
+    },
+    scrollToBottom() {
+      var container = document.querySelector(".chat-wrapper");
+      var scrollHeight = container.scrollHeight;
+      container.scrollTop = scrollHeight;
     },
     createTime() {
       let today = new Date();
@@ -214,8 +227,14 @@ export default {
     }
   },
   props: {},
+  updated() {
+    if (this.messages.length > 0) {
+      this.scrollToBottom();
+    }
+  },
   created() {
     this.userDetails = JSON.parse(localStorage.getItem("user"));
+    console.log(this.userDetails);
   },
   mounted() {
     this.getMessageFrom();

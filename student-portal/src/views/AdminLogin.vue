@@ -10,10 +10,10 @@
             label-width="100px"
             :model="formLabelAlign"
           >
-            <el-form-item label="Username">
+            <el-form-item label="Account:">
               <el-input v-model="ruleForm.user" type="text"></el-input>
             </el-form-item>
-            <el-form-item label="Password">
+            <el-form-item label="Password:">
               <el-input v-model="ruleForm.pass" type="password"></el-input>
             </el-form-item>
             <el-button size="medium" type="success" @click="login()"
@@ -48,7 +48,61 @@ export default {
   },
   methods: {
     login() {
-      this.$router.push({ name: "AdminHome" });
+      if (this.ruleForm.user == "") {
+        this.$message({
+          type: "warning",
+          message: "Enter Account!"
+        });
+      } else if (this.ruleForm.pass == "") {
+        this.$message({
+          type: "warning",
+          message: "Enter Password!"
+        });
+      } else {
+        var params = {
+          request: 1,
+          data: {
+            AccountName: this.ruleForm.user,
+            AccountPassword: this.ruleForm.pass
+          }
+        };
+        console.log(params);
+        this.http
+          .post(this.api.LoginService, params)
+          .then(response => {
+            if (response.data.length > 0) {
+              this.$store.dispatch("setUserDetails", response.data[0]);
+              localStorage.setItem("user", JSON.stringify(response.data[0]));
+              localStorage.setItem(
+                "LoggedTime",
+                JSON.stringify(this.createTime())
+              );
+              this.$store.dispatch("setLogin", true);
+              this.$router.push({ name: "AdminHome" });
+            } else {
+              this.$message({
+                type: "danger",
+                message: "Invalid Account!"
+              });
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
+    createTime() {
+      let today = new Date();
+      let currHour =
+        today.getHours() < 10 ? "0" + today.getHours() : today.getHours();
+      let currMinutes =
+        today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes();
+      let currSeconds =
+        today.getSeconds() < 10 ? "0" + today.getSeconds() : today.getSeconds();
+      let timePeriod = today.getHours() < 13 ? "AM" : "PM";
+      let currtime =
+        currHour + ":" + currMinutes + ":" + currSeconds + " " + timePeriod;
+      return currtime;
     }
   }
 };
