@@ -7,13 +7,13 @@
             <div class="list-header">Message List</div>
             <div class="list-body">
               <ul>
-                <li v-for="(item, key) in 100" :key="key">
+                <li v-for="(item, key) in messagesFromList" :key="key">
                   <el-image
                     style="width: 40px; height: 40px; border: 1px solid red; border-radius: 50%;"
-                    src=""
+                    :src="item.Icon"
                     fit="cover"
                   ></el-image>
-                  <span>name</span>
+                  <span>{{ item.FirstName + ' ' + item.MiddleName + ' ' + item.LastName }}</span>
                 </li>
               </ul>
             </div>
@@ -80,12 +80,33 @@ export default {
   components: {},
   data() {
     return {
-      message: ""
+      message: "",
+      messagesFromList: [],
     };
   },
-  methods: {},
+  methods: {
+    getMessageFrom() {
+      let params = {
+        request: 6,
+        data: {
+          ToUserID: 1,
+        }
+      };
+      this.http
+        .post(this.api.MessageService, params)
+        .then(response => {
+          this.messagesFromList = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+  },
   props: {},
-  created() {}
+  created() {},
+  mounted() {
+    this.getMessageFrom();
+  }
 };
 </script>
 
@@ -126,6 +147,9 @@ export default {
         display: flex;
         align-items: center;
         margin-bottom: 10px;
+        span {
+          font-size: 13px;
+        }
       }
 
       .list-body ul li span {
@@ -162,7 +186,7 @@ export default {
           overflow: hidden;
           width: 60%;
           padding: 10px 10px;
-          border-radius: 30px;
+          border-radius: 15px;
         }
         .messages-item-wrapper p {
           word-break: break-all;

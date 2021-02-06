@@ -72,7 +72,7 @@ export default {
         request: 2,
         data: {
           ToUserID: this.$route.params.teacherid,
-          FromUserID: this.userDetails.ID
+          FromUserID: this.userDetails.AccountID
         }
       };
       this.http
@@ -95,7 +95,7 @@ export default {
       this.contentLessHeight = navHeight + val;
     },
     messagePosition(item) {
-      if (item.FromUserID == this.userDetails.ID) {
+      if (item.FromUserID == this.userDetails.AccountID) {
         return "pos-right";
       } else {
         return "pos-left";

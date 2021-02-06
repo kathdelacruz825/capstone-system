@@ -31,6 +31,11 @@ if ($params) {
       $data = new MessageData($conn);
       echo json_encode($data->deleteMessageBy($params['data']));
       break;
+    case 6:
+      // delete data
+        $data = new MessageData($conn);
+        echo json_encode($data->getMessageFrom($params['data']));
+        break;
     default:
       echo "Invalid Request";
   }
