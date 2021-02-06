@@ -41,8 +41,13 @@
           </div>
         </van-form>
         <div class="other-options">
-          <div @click="goPage('ForgotPassword')">Forgot Password?</div>
-          <div @click="goPage('Register')">Register</div>
+          <!-- <div @click="goPage('ForgotPassword')">Forgot Password?</div> -->
+          <div
+            @click="goPage('Register')"
+            style="margin-top: 40px; text-align: center; padding: 0px 16px;"
+          >
+            Register
+          </div>
         </div>
       </div>
     </div>

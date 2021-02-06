@@ -13,13 +13,16 @@ export default {
   methods: {},
   watch: {
     "$route.name": function(name) {
-      if (name == "UserLogin") {
-        localStorage.setItem("userType", "User");
-      } else if (name == "AdminLogin") {
+      let adminRoute = ["AdminLogin", "AdminHome"];
+
+      if (adminRoute.includes(name)) {
         localStorage.setItem("userType", "Admin");
+      } else {
+        localStorage.setItem("userType", "User");
       }
     }
-  }
+  },
+  created() {}
 };
 </script>
 
