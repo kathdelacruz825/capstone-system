@@ -42,6 +42,9 @@ export default {
     Teacher: resolve => {
       require(["@/components/admin/content/settings/Teacher.vue"], resolve);
     },
+    Users: resolve => {
+      require(["@/components/admin/content/settings/Users.vue"], resolve);
+    },
     GradingPeriod: resolve => {
       require([
         "@/components/admin/content/settings/GradingPeriod.vue"

@@ -15,6 +15,7 @@ export const api = {
   ScheduleService: "/services/ScheduleService.php",
   AttendanceService: "/services/AttendanceService.php",
   LoginService: "/services/LoginService.php",
+  UserService: "/services/UserService.php",
 
   AdminService: "/services/AdminService.php"
 };
