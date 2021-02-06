@@ -7,14 +7,14 @@
     </el-breadcrumb>
     <el-tabs v-model="activeTabKey" @tab-click="handleClick(activeTabKey)">
       <el-tab-pane
-        v-for="(item, key) in tabItems"
+        v-for="(item, key) in tabItems[userDetails.Role]"
         :key="key"
         :label="item.name"
         :name="`${key}`"
       >
         <component
           v-if="activeTabKey == key"
-          :is="tabItems[activeTabKey].component"
+          :is="tabItems[userDetails.Role][activeTabKey].component"
         ></component>
       </el-tab-pane>
     </el-tabs>
@@ -53,25 +53,40 @@ export default {
       titlePage: "Settings",
       activeTabKey: 0,
       activeTabName: "Course",
-      tabItems: [
-        { name: "Course", component: "Course" },
-        { name: "Subject", component: "Subject" },
-        { name: "Year Level", component: "YearLevel" },
-        { name: "Grading Period", component: "GradingPeriod" },
-        { name: "School Year", component: "SchoolYear" },
-        { name: "Teacher", component: "Teacher" }
-        // { name: "System", component: "System" }
-      ]
+      userDetails: {},
+      tabItems: {
+        '1': [
+          { name: "Course", component: "Course" },
+          { name: "Subject", component: "Subject" },
+          { name: "Year Level", component: "YearLevel" },
+          { name: "Grading Period", component: "GradingPeriod" },
+          { name: "School Year", component: "SchoolYear" },
+          { name: "Teacher", component: "Teacher" },
+          { name: "Users", component: "Users" }
+          // { name: "System", component: "System" }
+        ],
+        '2': [
+          { name: "Course", component: "Course" },
+          { name: "Subject", component: "Subject" },
+          { name: "Year Level", component: "YearLevel" },
+          { name: "Grading Period", component: "GradingPeriod" },
+          { name: "School Year", component: "SchoolYear" },
+          { name: "Teacher", component: "Teacher" }
+          // { name: "System", component: "System" }
+        ]
+      }
     };
   },
   methods: {
     handleClick(tab) {
       this.activeTabKey = tab;
-      this.activeTabName = this.tabItems[tab].name;
+      this.activeTabName = this.tabItems[this.userDetails.Role][tab].name;
     }
   },
   props: {},
-  created() {},
+  created() {
+    this.userDetails = JSON.parse(localStorage.getItem("user"));
+  },
   mounted() {}
 };
 </script>

@@ -194,6 +194,10 @@ export default {
 
 <style lang="scss">
 .el-dialog__body {
+
+  .avatar {
+    object-fit: fill;
+  }
   padding: 0px 15px 15px;
 
   .el-form {

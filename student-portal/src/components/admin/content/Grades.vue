@@ -48,6 +48,7 @@
                 <img
                   v-if="studentData != null"
                   :src="studentData.Icon"
+                  class="user-f"
                   alt=""
                 />
               </div>
@@ -588,6 +589,10 @@ export default {
       justify-content: center;
       align-items: center;
     }
+  }
+
+  .user-f {
+    object-fit: fill;
   }
 }
 </style>

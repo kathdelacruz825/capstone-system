@@ -93,7 +93,7 @@
                 <el-divider content-position="center">User Info</el-divider>
                 <div class="user-details">
                   <span
-                    >Current User: {{ currUser }}
+                    >Current User: {{ userDetails.AccountName }}
                     <i class="el-icon-s-custom"></i
                   ></span>
                   <span
@@ -122,7 +122,8 @@ export default {
       time: "",
       currUser: "Administrator",
       timeLog: "",
-      notifData: []
+      notifData: [],
+      userDetails: {},
     };
   },
   methods: {
@@ -237,6 +238,7 @@ export default {
   props: {},
   async created() {
     this.timeLog = JSON.parse(localStorage.getItem("LoggedTime"));
+    this.userDetails = JSON.parse(localStorage.getItem("user"));
     setInterval(() => {
       this.time = this.getCurrentDateTime();
     }, 1000);

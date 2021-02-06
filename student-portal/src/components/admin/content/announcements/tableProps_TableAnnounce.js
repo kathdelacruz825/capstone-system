@@ -29,11 +29,11 @@ const tableProps = [
     propLabel: "Status",
     width: "120"
   },
-  {
-    propName: "CreatedTime",
-    propLabel: "Time Created",
-    width: "120"
-  }
+  // {
+  //   propName: "CreatedTime",
+  //   propLabel: "Time Created",
+  //   width: "120"
+  // }
 ];
 
 export { tableProps };

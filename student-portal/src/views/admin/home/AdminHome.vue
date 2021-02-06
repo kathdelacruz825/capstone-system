@@ -43,6 +43,7 @@ export default {
   },
   methods: {
     selectTabContent(val) {
+      console.log(val);
       this.currTabContent = val;
     }
   }
@@ -63,6 +64,14 @@ export default {
   }
   .el-main {
     padding: 0px;
+  }
+
+  .el-table td {
+    padding: 5px 0px;
+  }
+
+  .el-tabs--border-card>.el-tabs__content {
+    padding: 0px 10px 10px;
   }
 }
 </style>

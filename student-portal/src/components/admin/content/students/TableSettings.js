@@ -29,11 +29,11 @@ const tableProps = [
     propLabel: "Account ID",
     width: "120"
   },
-  {
-    propName: "AccountPassword",
-    propLabel: "Account Password",
-    width: "120"
-  },
+  // {
+  //   propName: "AccountPassword",
+  //   propLabel: "Account Password",
+  //   width: "120"
+  // },
   {
     propName: "LastName",
     propLabel: "Last Name",
@@ -64,11 +64,11 @@ const tableProps = [
     propLabel: "Email",
     width: "120"
   },
-  {
-    propName: "Icon",
-    propLabel: "Icon",
-    width: "120"
-  },
+  // {
+  //   propName: "Icon",
+  //   propLabel: "Icon",
+  //   width: "120"
+  // },
   {
     propName: "YearLevel",
     propLabel: "Year Level",
@@ -84,16 +84,16 @@ const tableProps = [
   //   propLabel: "Parent ID",
   //   width: "120"
   // },
-  {
-    propName: "CreateTime",
-    propLabel: "Create Time",
-    width: "120"
-  },
-  {
-    propName: "UpdateTime",
-    propLabel: "Update Time",
-    width: "120"
-  }
+  // {
+  //   propName: "CreateTime",
+  //   propLabel: "Create Time",
+  //   width: "120"
+  // },
+  // {
+  //   propName: "UpdateTime",
+  //   propLabel: "Update Time",
+  //   width: "120"
+  // }
 ];
 
 export { tableProps };
