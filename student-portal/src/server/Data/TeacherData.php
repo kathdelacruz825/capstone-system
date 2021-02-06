@@ -1,13 +1,7 @@
 <?php
 class TeacherData {
   private $response = array();
-  private $tempData = array(
-    "ID" => "",
-    "AccountID" => "",
-    "Name" => "",
-    "Position" => "",
-    "Status" => "",
-  );
+  private $tempData = array();
 
   private $link;
 
@@ -165,5 +159,38 @@ class TeacherData {
     return $this->response;
   }
 
+  function getAllAdminTeacher() {
+    $query = "Select
+              `tbl_accounts_admin`.`ID`,
+              `tbl_accounts_admin`.`AccountID`,
+              `tbl_accounts_admin`.`AccountName`,
+              `tbl_accounts_admin`.`LastName`,
+              `tbl_accounts_admin`.`FirstName`,
+              `tbl_accounts_admin`.`MiddleName`,
+              `tbl_accounts_admin`.`ExtName`,
+              `tbl_accounts_admin`.`Role`,
+              `tbl_accounts_admin`.`AccountStatus`
+              from `tbl_accounts_admin`
+              Where `tbl_accounts_admin`.`AccountStatus`=1";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["AccountID"] = $row[1];
+        $this->tempData["AccountName"] = $row[2];
+        $this->tempData["LastName"] = $row[3];
+        $this->tempData["FirstName"] = $row[4];
+        $this->tempData["MiddleName"] = $row[5];
+        $this->tempData["ExtName"] = $row[6];
+        $this->tempData["Role"] = $row[7];
+        $this->tempData["AccountStatus"] = $row[8];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+  
 }
 ?>

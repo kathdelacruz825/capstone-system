@@ -12,11 +12,11 @@
           v-for="(item, key) in teacherList"
           :key="key"
           icon="contact"
-          :title="item.Name"
+          :title="item.FirstName + ' ' + item.MiddleName + ' ' + item.LastName"
           is-link
           :to="{
             name: 'Message',
-            params: { teacherid: item.AccountID, name: item.Name }
+            params: { teacherid: item.AccountID, name: item.FirstName }
           }"
         />
       </van-list>
@@ -47,7 +47,7 @@ export default {
   methods: {
     getAllTeacher() {
       let params = {
-        request: 1,
+        request: 9,
         data: {}
       };
       this.http

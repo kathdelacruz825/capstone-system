@@ -22,6 +22,7 @@ class MessageData {
         $this->tempData["Message"] = $row[3];
         $this->tempData["TimeStamp"] = $row[4];
         $this->tempData["Status"] = $row[5];
+        $this->tempData["dt"] = $row[6];
         $this->response[] = $this->tempData;
       }
     }
@@ -36,7 +37,8 @@ class MessageData {
             where `tbl_message`.`ToUserID`='$ToUserID'
             AND `tbl_message`.`FromUserID`='$FromUserID'
             OR `tbl_message`.`ToUserID`='$FromUserID'
-            AND `tbl_message`.`FromUserID`='$ToUserID'";
+            AND `tbl_message`.`FromUserID`='$ToUserID'
+            ORDER BY `dt` ASC";
 
     $result = $this->link->query($query);
 
@@ -48,6 +50,7 @@ class MessageData {
         $this->tempData["Message"] = $row[3];
         $this->tempData["TimeStamp"] = $row[4];
         $this->tempData["Status"] = $row[5];
+        $this->tempData["dt"] = $row[6];
         $this->response[] = $this->tempData;
       }
     }

@@ -36,6 +36,11 @@ if ($params) {
       $data = new TeacherData($conn);
       echo json_encode($data->countTeacher($params['data']));
       break;
+    case 9:
+      // count teacher
+      $data = new TeacherData($conn);
+      echo json_encode($data->getAllAdminTeacher($params['data']));
+      break;  
     default:
       echo "Invalid Request";
   }
