@@ -7,10 +7,20 @@ $params = json_decode(file_get_contents("php://input"), true);
 if ($params) {
   switch($params['request']) {
     case 1:
-      // select admin
+      // select user
         $data = new UserData($conn);
         echo json_encode($data->getUsers($params['data']));
         break;
+    case 2:
+      // set user
+        $data = new UserData($conn);
+        echo json_encode($data->setUser($params['data']));
+        break;  
+    case 3:
+      // get role
+        $data = new UserData($conn);
+        echo json_encode($data->getRole($params['data']));
+        break;    
     default:
       echo "Invalid Request";
   }

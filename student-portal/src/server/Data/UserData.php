@@ -49,27 +49,19 @@ class UserData {
     return $this->response;
   }
 
-  function setStudentData($params) {
-    $AccountType = intval($params['AccountType']);
-    $AccountStatus = intval($params['AccountStatus']);
-    $AccountPending = intval($params['AccountPending']);
-    $AccountOnlineState = intval($params['AccountOnlineState']);
+  function setUser($params) {
     $AccountID = $params['AccountID'];
+    $AccountName = $params['AccountName'];
     $AccountPassword = $params['AccountPassword'];
     $LastName = $params['LastName'];
     $FirstName = $params['FirstName'];
     $MiddleName = $params['MiddleName'];
     $ExtName = $params['ExtName'];
-    $PhoneNumber = $params['PhoneNumber'];
-    $Email = $params['Email'];
+    $Role = $params['Role'];
+    $AccountStatus = $params['AccountStatus'];
     $Icon = $params['Icon'];
-    $YearLevel = intval($params['YearLevel']);
-    $Course = intval($params['Course']);
-    $ParentID = $params['ParentID'];
-    $CreateTime = $params['CreateTime'];
-    $UpdateTime = $params['UpdateTime'];
 
-    $query = "Select * From `tbl_accounts_student` Where `tbl_accounts_student`.`AccountID`='$AccountID'";
+    $query = "Select * From `tbl_accounts_admin` Where `tbl_accounts_admin`.`AccountID`='$AccountID'";
     $result = $this->link->query($query);
     $row = mysqli_fetch_row($result);
 
@@ -79,16 +71,32 @@ class UserData {
       $this->response[] = $this->successTemp;
       return $this->response[0];
     } else {
-      $query = "Insert into `tbl_accounts_student`
-              (AccountType, AccountStatus, AccountPending, AccountOnlineState,
-              AccountID, AccountPassword, LastName, FirstName, MiddleName,
-              ExtName, PhoneNumber, Email, Icon, YearLevel, Course, ParentID,
-              CreateTime, UpdateTime)
+      $query = "Insert into `tbl_accounts_admin`
+              (
+                AccountID,
+                AccountName,
+                AccountPassword,
+                LastName,
+                FirstName,
+                MiddleName,
+                ExtName,
+                Role,
+                AccountStatus,
+                Icon
+              )
               values
-              ($AccountType, $AccountStatus, $AccountPending, $AccountOnlineState,
-              '$AccountID', '$AccountPassword', '$LastName', '$FirstName', '$MiddleName',
-              '$ExtName', '$PhoneNumber', '$Email', '$Icon', $YearLevel, $Course, '$ParentID',
-              '$CreateTime', '$UpdateTime')";
+              (
+                '$AccountID',
+                '$AccountName',
+                '$AccountPassword',
+                '$LastName',
+                '$FirstName',
+                '$MiddleName',
+                '$ExtName',
+                '$Role',
+                '$AccountStatus',
+                '$Icon'
+              )";
 
       if ($this->link->query($query) === TRUE) {
         $this->successTemp["State"] = 1;
@@ -102,6 +110,21 @@ class UserData {
         return $this->response[0];
       }
     }
+  }
+
+  function getRole($params) {
+    $query = "Select * from `tbl_admin_role`";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["Role"] = $row[1];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
   }
 
 }

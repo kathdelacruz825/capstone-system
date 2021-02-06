@@ -1,7 +1,7 @@
 <template>
   <div class="settings-teacher">
     <div class="button-options">
-      <el-button icon="el-icon-plus" @click="showAddYearLevel = true">
+      <el-button icon="el-icon-plus" @click="showAddUser = true">
         Add User
       </el-button>
     </div>
@@ -27,7 +27,6 @@
         :prop="propItem.propName"
         :label="propItem.propLabel"
         :width="propItem.width"
-        :align="propKey == 2 ? 'left' : 'center'"
         class-name="text-style"
       >
       </el-table-column>
@@ -57,9 +56,10 @@
       </el-table-column>
     </el-table>
 
-    <AddTeacher
-      :showAddYearLevel="showAddYearLevel"
-      @closeAddCourse="closeAddCourse($event)"
+    <AddUser
+      v-if="showAddUser"
+      :showAddUser="showAddUser"
+      @CloseAddUser="CloseAddUser($event)"
       @updateData="updateData()"
     />
     <ViewInfoTeacher
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import AddTeacher from "@/components/admin/content/dialog/settings/teacher/AddTeacher.vue";
+import AddUser from '@/components/admin/content/dialog/settings/user/AddUser1.vue';
 import ViewInfoTeacher from "@/components/admin/content/dialog/settings/teacher/ViewInfoTeacher.vue";
 import UpdateTeacher from "@/components/admin/content/dialog/settings/teacher/UpdateTeacher.vue";
 
@@ -87,19 +87,17 @@ import { tableProps } from "@/components/admin/content/settings/tableProps_Users
 
 export default {
   components: {
-    AddTeacher,
+    AddUser,
     ViewInfoTeacher,
     UpdateTeacher
   },
   data() {
     return {
-      showAddYearLevel: false,
+      showAddUser: false,
       search: "",
       tableProps: tableProps,
       tableData: [],
       teacherData: {},
-      showSetActive: false,
-      showSetInActive: false,
       showViewInfoYearLevel: false,
       showUpdateTeacher: false,
       userDetails: {}
@@ -139,8 +137,8 @@ export default {
           console.log(error);
         });
     },
-    closeAddCourse(val) {
-      this.showAddYearLevel = val;
+    CloseAddUser(val) {
+      this.showAddUser = val;
     },
     closeViewInfoYearLevel(val) {
       this.showViewInfoYearLevel = val;

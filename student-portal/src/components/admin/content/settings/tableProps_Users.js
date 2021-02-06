@@ -5,6 +5,11 @@ const tableProps = [
     width: "50"
   },
   {
+    propName: "Role",
+    propLabel: "Role",
+    width: "150"
+  },
+  {
     propName: "AccountID",
     propLabel: "Account ID",
     width: "120"
@@ -12,13 +17,13 @@ const tableProps = [
   {
     propName: "AccountName",
     propLabel: "AccountName",
-    width: "250"
-  },
-  {
-    propName: "AccountPassword",
-    propLabel: "Account Password",
     width: "150"
   },
+  // {
+  //   propName: "AccountPassword",
+  //   propLabel: "Account Password",
+  //   width: "150"
+  // },
   {
     propName: "LastName",
     propLabel: "LastName",
@@ -40,20 +45,15 @@ const tableProps = [
     width: "120"
   },
   {
-    propName: "Role",
-    propLabel: "Role",
-    width: "120"
-  },
-  {
     propName: "AccountStatus",
     propLabel: "Status",
     width: "120"
   },
-  {
-    propName: "Icon",
-    propLabel: "Icon",
-    width: "120"
-  },
+  // {
+  //   propName: "Icon",
+  //   propLabel: "Icon",
+  //   width: "120"
+  // },
 ];
 
 export { tableProps };
