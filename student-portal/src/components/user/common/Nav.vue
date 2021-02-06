@@ -36,7 +36,7 @@ export default {
     showRefresh: {
       type: Boolean,
       default: false
-    },
+    }
   },
   methods: {
     onClickLeft() {

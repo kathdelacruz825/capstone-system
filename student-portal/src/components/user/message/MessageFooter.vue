@@ -15,7 +15,12 @@
         />
       </div>
       <div class="send-button">
-        <van-image width="30" height="30" :src="require('@/assets/icon_send.png')" @click="setMessageBy()" />
+        <van-image
+          width="30"
+          height="30"
+          :src="require('@/assets/icon_send.png')"
+          @click="setMessageBy()"
+        />
       </div>
     </div>
   </div>
