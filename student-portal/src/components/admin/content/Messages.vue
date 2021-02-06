@@ -7,13 +7,25 @@
             <div class="list-header">Message List</div>
             <div class="list-body">
               <ul>
-                <li v-for="(item, key) in messagesFromList" :key="key">
+                <li
+                  v-for="(item, key) in messagesFromList"
+                  :key="key"
+                  @click="
+                    getAllMessageFrom(
+                      item.FromUserID,
+                      item.FirstName,
+                      item.FromUserID
+                    )
+                  "
+                >
                   <el-image
                     style="width: 40px; height: 40px; border: 1px solid red; border-radius: 50%;"
                     :src="item.Icon"
                     fit="cover"
                   ></el-image>
-                  <span>{{ item.FirstName + ' ' + item.MiddleName + ' ' + item.LastName }}</span>
+                  <span>{{
+                    item.FirstName + " " + item.MiddleName + " " + item.LastName
+                  }}</span>
                 </li>
               </ul>
             </div>
@@ -24,25 +36,26 @@
         <div class="grid-content bg-purple">
           <div class="body-message">
             <div class="name">
-              <h4>{{ "Name here" }}</h4>
+              <h4>{{ messageFromName }}</h4>
             </div>
             <div class="body-message-wrapper">
               <div class="messages-list">
-                <ul>
+                <ul v-if="messages.length > 0">
                   <li
-                    v-for="(item, key) in 20"
+                    v-for="(item, key) in messages"
                     :key="key"
                     class="messages-item"
-                    :class="key % 2 == 0 ? 'pos-right' : 'pos-left'"
+                    :class="item.ToUserID == 1 ? 'pos-left' : 'pos-right'"
                   >
                     <div class="messages-item-wrapper">
-                      <p>
-                        message content
-                        asdsadsadsadsawwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwweqweqwewwwwwwwwwwwwwwwwwwwww
-                      </p>
+                      <p>{{ item.Message }}</p>
                       <div class="dt">
-                        <span>2021-02-06</span>
-                        <span>10:32:23 AM</span>
+                        <span>{{ item.TimeStamp.split(" ")[0] }}</span>
+                        <span>{{
+                          item.TimeStamp.split(" ")[1] +
+                            " " +
+                            item.TimeStamp.split(" ")[2]
+                        }}</span>
                       </div>
                     </div>
                   </li>
@@ -82,6 +95,10 @@ export default {
     return {
       message: "",
       messagesFromList: [],
+      messages: [],
+      userDetails: {},
+      messageFromName: "",
+      messageFromID: ""
     };
   },
   methods: {
@@ -89,7 +106,7 @@ export default {
       let params = {
         request: 6,
         data: {
-          ToUserID: 1,
+          ToUserID: 1 //temporary id
         }
       };
       this.http
@@ -101,9 +118,105 @@ export default {
           console.log(error);
         });
     },
+    getAllMessageFrom(messageFromID, messageFromName, fromUserID) {
+      this.messageFromID = messageFromID;
+      this.messageFromName = messageFromName;
+      this.messages = [];
+      let params = {
+        request: 2,
+        data: {
+          ToUserID: 1, //temporary id
+          FromUserID: fromUserID
+        }
+      };
+      this.http
+        .post(this.api.MessageService, params)
+        .then(response => {
+          this.messages = response.data;
+          // this.scrollToBottom();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getAllMessageFromRefresh(fromUserID) {
+      this.messages = [];
+      let params = {
+        request: 2,
+        data: {
+          ToUserID: 1, //temporary id
+          FromUserID: fromUserID
+        }
+      };
+      this.http
+        .post(this.api.MessageService, params)
+        .then(response => {
+          this.messages = response.data;
+          // this.scrollToBottom();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    setMessageBy() {
+      if (this.message) {
+        let params = {
+          request: 3,
+          data: {
+            ToUserID: this.messageFromID,
+            FromUserID: 1,
+            Message: this.message,
+            TimeStamp: this.createTime(),
+            Status: 1
+          }
+        };
+        this.http
+          .post(this.api.MessageService, params)
+          .then(response => {
+            if (response.data.State == 1) {
+              this.message = "";
+              this.getAllMessageFromRefresh(this.messageFromID);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
+    createTime() {
+      let today = new Date();
+      let currdate =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1 < 10
+          ? "0" + (today.getMonth() + 1)
+          : today.getMonth() + 1) +
+        "-" +
+        (today.getDate() < 10 ? "0" + today.getDate() : today.getDate());
+      let currHour =
+        today.getHours() < 10 ? "0" + today.getHours() : today.getHours();
+      let currMinutes =
+        today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes();
+      let currSeconds =
+        today.getSeconds() < 10 ? "0" + today.getSeconds() : today.getSeconds();
+      let timePeriod = today.getHours() < 13 ? "AM" : "PM";
+      let currtime =
+        currdate +
+        " " +
+        currHour +
+        ":" +
+        currMinutes +
+        ":" +
+        currSeconds +
+        " " +
+        timePeriod;
+      return currtime;
+    }
   },
   props: {},
-  created() {},
+  created() {
+    this.userDetails = JSON.parse(localStorage.getItem("user"));
+  },
   mounted() {
     this.getMessageFrom();
   }
