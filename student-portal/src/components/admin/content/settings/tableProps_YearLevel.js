@@ -7,12 +7,12 @@ const tableProps = [
   {
     propName: "YearLevel",
     propLabel: "Year Level",
-    width: "220"
+    width: "320"
   },
   {
     propName: "YearLevelStatus",
     propLabel: "Status",
-    width: "120"
+    width: "320"
   }
 ];
 

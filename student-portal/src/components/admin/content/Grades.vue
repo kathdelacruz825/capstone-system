@@ -38,7 +38,7 @@
               </div>
             </div>
           </div>
-          <div class="bottom-box"></div>
+          <!-- <div class="bottom-box"></div> -->
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple">
@@ -511,7 +511,7 @@ export default {
   }
 
   .el-divider--horizontal {
-    margin: 15px 0px;
+    margin: 10px 0px;
   }
 
   .grid-content.bg-purple {
@@ -561,7 +561,7 @@ export default {
         color: #333;
       }
       .item-header {
-        padding: 5px 10px;
+        padding: 3px 10px;
         background: #409eff;
         color: #fff;
         border-top-right-radius: 8px;
@@ -576,7 +576,7 @@ export default {
 
   .record-body {
     .action {
-      margin: 10px 0px;
+      margin: 5px 0px;
       display: flex;
       justify-content: flex-start;
     }
