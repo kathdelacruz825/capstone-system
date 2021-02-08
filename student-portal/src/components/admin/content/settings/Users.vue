@@ -62,15 +62,16 @@
       @CloseAddUser="CloseAddUser($event)"
       @updateData="updateData()"
     />
-    <ViewInfoTeacher
-      :teacherData="teacherData"
-      :showViewInfoYearLevel="showViewInfoYearLevel"
+    <ViewInfoUser
+      v-if="showViewInfoUsers"
+      :userData="userData"
+      :showViewInfoUsers="showViewInfoUsers"
       @closeViewInfoYearLevel="closeViewInfoYearLevel($event)"
     />
 
     <UpdateTeacher
       v-if="showUpdateTeacher"
-      :teacherData="teacherData"
+      :userData="userData"
       @updateData="updateData()"
       :showUpdateTeacher="showUpdateTeacher"
       @closeUpdateTeacher="closeUpdateTeacher($event)"
@@ -80,7 +81,7 @@
 
 <script>
 import AddUser from "@/components/admin/content/dialog/settings/user/AddUser1.vue";
-import ViewInfoTeacher from "@/components/admin/content/dialog/settings/teacher/ViewInfoTeacher.vue";
+import ViewInfoUser from "@/components/admin/content/dialog/settings/user/ViewInfoUser1.vue";
 import UpdateTeacher from "@/components/admin/content/dialog/settings/teacher/UpdateTeacher.vue";
 
 import { tableProps } from "@/components/admin/content/settings/tableProps_Users.js";
@@ -88,7 +89,7 @@ import { tableProps } from "@/components/admin/content/settings/tableProps_Users
 export default {
   components: {
     AddUser,
-    ViewInfoTeacher,
+    ViewInfoUser,
     UpdateTeacher
   },
   data() {
@@ -97,8 +98,8 @@ export default {
       search: "",
       tableProps: tableProps,
       tableData: [],
-      teacherData: {},
-      showViewInfoYearLevel: false,
+      userData: {},
+      showViewInfoUsers: false,
       showUpdateTeacher: false,
       userDetails: {}
     };
@@ -108,10 +109,10 @@ export default {
       console.log(val);
     },
     operationAction(name, itemData) {
-      this.teacherData = itemData;
+      this.userData = itemData;
       switch (name) {
         case "View Info":
-          this.showViewInfoYearLevel = true;
+          this.showViewInfoUsers = true;
           break;
         case "Update":
           this.showUpdateTeacher = true;
@@ -130,7 +131,6 @@ export default {
       this.http
         .post(this.api.UserService, params)
         .then(response => {
-          console.log(response.data);
           this.tableData = response.data;
         })
         .catch(error => {
@@ -141,7 +141,7 @@ export default {
       this.showAddUser = val;
     },
     closeViewInfoYearLevel(val) {
-      this.showViewInfoYearLevel = val;
+      this.showViewInfoUsers = val;
     },
     closeUpdateTeacher(val) {
       this.showUpdateTeacher = val;
