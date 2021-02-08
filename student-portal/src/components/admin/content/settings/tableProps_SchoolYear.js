@@ -17,12 +17,12 @@ const tableProps = [
   {
     propName: "SchooYear",
     propLabel: "SchooYear",
-    width: "200"
+    width: "350"
   },
   {
     propName: "Status",
     propLabel: "Status",
-    width: "120"
+    width: "320"
   }
 ];
 

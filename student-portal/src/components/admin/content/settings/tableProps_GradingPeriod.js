@@ -7,12 +7,12 @@ const tableProps = [
   {
     propName: "Title",
     propLabel: "Period",
-    width: "220"
+    width: "420"
   },
   {
     propName: "Status",
     propLabel: "Status",
-    width: "120"
+    width: "320"
   }
 ];
 

@@ -5,7 +5,7 @@
         Add Teacher
       </el-button>
     </div>
-    <div class="top-options">
+    <!-- <div class="top-options">
       <div>
         <div style="margin-top: 15px;">
           <el-input
@@ -19,8 +19,8 @@
           </el-input>
         </div>
       </div>
-    </div>
-    <el-table :data="tableData" style="width: 100%" max-height="370">
+    </div> -->
+    <el-table :data="searchTable" style="width: 100%" max-height="370">
       <el-table-column
         v-for="(propItem, propKey) in tableProps"
         :key="propKey"
@@ -32,6 +32,12 @@
       >
       </el-table-column>
       <el-table-column fixed="right" label="Operations" :width="'230'">
+        <template slot="header" slot-scope="scope">
+          <el-input
+            v-model="search"
+            size="mini"
+            placeholder="Type to search"/>
+        </template>
         <template slot-scope="scope">
           <el-button
             class="operationItem-button"
@@ -147,6 +153,17 @@ export default {
     },
     updateData() {
       this.getAllTeacher();
+    }
+  },
+  computed: {
+    searchTable: function() {
+      if (this.search == "") return this.tableData;
+      return this.tableData.filter(item => {
+        return item.AccountID.indexOf(this.search) > -1 
+        || item.Name.indexOf(this.search) > -1
+        || item.Position.indexOf(this.search) > -1
+        || item.Status.indexOf(this.search) > -1;
+      });
     }
   },
   props: {},
