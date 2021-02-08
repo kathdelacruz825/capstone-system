@@ -57,6 +57,7 @@ export default {
       messages: [],
       message: "",
       contentLessHeight: 96,
+      timeInterval: null,
       dataMessage: [
         {
           from: "Admin",
@@ -84,6 +85,18 @@ export default {
         .catch(error => {
           console.log(error);
         });
+
+        this.timeInterval = setInterval(() => {
+          this.http
+            .post(this.api.MessageService, params)
+            .then(response => {
+              this.messages = response.data;
+              this.scrollToBottom();
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }, 6000)
     },
     scrollToBottom() {
       var container = document.querySelector(".chat-wrapper");
@@ -106,12 +119,16 @@ export default {
     this.userDetails = JSON.parse(localStorage.getItem("user"));
   },
   mounted() {
+    clearInterval(this.timeInterval)
     this.getAllMessageBy();
     this.scrollToBottom();
     this.pageTitle = this.$route.params.name;
   },
   updated() {
     this.scrollToBottom();
+  },
+  destroyed() {
+    clearInterval(this.timeInterval)
   }
 };
 </script>

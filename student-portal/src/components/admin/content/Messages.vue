@@ -19,7 +19,7 @@
                   "
                 >
                   <el-image
-                    style="width: 40px; height: 40px; border: 1px solid red; border-radius: 50%;"
+                    style="width: 40px; height: 40px; border: 1px solid #ccc; border-radius: 50%;"
                     :src="item.Icon"
                     fit="cover"
                   ></el-image>
@@ -102,7 +102,8 @@ export default {
       messages: [],
       userDetails: {},
       messageFromName: "",
-      messageFromID: ""
+      messageFromID: "",
+      timeInterval: null,
     };
   },
   methods: {
@@ -144,6 +145,20 @@ export default {
         .catch(error => {
           console.log(error);
         });
+
+        this.timeInterval = setInterval(() => {
+          this.http
+            .post(this.api.MessageService, params)
+            .then(response => {
+              this.messages = response.data;
+              if (this.messages.length > 0) {
+                this.scrollToBottom();
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }, 6000)
     },
     getAllMessageFromRefresh(fromUserID) {
       this.messages = [];
@@ -234,10 +249,13 @@ export default {
   },
   created() {
     this.userDetails = JSON.parse(localStorage.getItem("user"));
-    console.log(this.userDetails);
   },
   mounted() {
     this.getMessageFrom();
+    clearInterval(this.timeInterval)
+  },
+  destroyed() {
+    clearInterval(this.timeInterval)
   }
 };
 </script>
@@ -252,7 +270,8 @@ export default {
     height: 450px;
   }
   .grid-content {
-    border: 1px solid red;
+    border: 1px solid #ccc;
+    // box-shadow: 0px 1px 3px 0px rgb(0 0 0 / 25%);
     height: 550px;
     border-radius: 3px;
 
@@ -261,7 +280,7 @@ export default {
       overflow: hidden;
       max-height: 450px;
       .list-header {
-        border-bottom: 1px solid #000;
+        border-bottom: 1px solid #ccc;
         height: 30px;
         line-height: 30px;
       }
@@ -295,7 +314,7 @@ export default {
       .name {
         height: 40px;
         line-height: 40px;
-        border-bottom: 1px solid #000;
+        border-bottom: 1px solid #ccc;
       }
       .messages-list {
         height: 100%;
@@ -314,7 +333,7 @@ export default {
       .messages-item {
         text-align: left;
         .messages-item-wrapper {
-          border: 1px solid #000;
+          border: 1px solid #ccc;
           overflow: hidden;
           width: 60%;
           padding: 10px 10px;
@@ -338,18 +357,29 @@ export default {
 
         .messages-item-wrapper {
           border-bottom-right-radius: 0px;
+          background: #409EFF;
+        }
+
+        p {
+          color: #fff;
         }
         span {
           text-align: right;
+          color: #fff;
         }
       }
 
       .messages-item.pos-left {
         .messages-item-wrapper {
           border-bottom-left-radius: 0px;
+          background: #DCDFE6;
+        }
+        p {
+          color: #000;
         }
         span {
           text-align: left;
+          color: #000;
         }
       }
     }
@@ -358,7 +388,7 @@ export default {
       overflow: hidden;
     }
     .footer-message {
-      border-top: 1px solid #000;
+      border-top: 1px solid #ccc;
       height: 80px;
       display: flex;
     }
