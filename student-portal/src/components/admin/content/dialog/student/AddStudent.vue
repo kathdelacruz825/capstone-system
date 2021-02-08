@@ -30,7 +30,6 @@
                 :show-file-list="false"
                 list-type="picture-card"
                 :on-change="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
               >
                 <img
                   v-if="ruleForm.Icon"

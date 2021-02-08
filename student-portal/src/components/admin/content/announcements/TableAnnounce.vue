@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="tableData" style="width: 100%" max-height="370">
+    <el-table :data="searchTable" style="width: 100%" max-height="370">
       <el-table-column
         v-for="(propItem, propKey) in tableProps"
         :key="propKey"
@@ -12,6 +12,12 @@
       >
       </el-table-column>
       <el-table-column fixed="right" label="Operations" :width="'230'">
+        <template slot="header" slot-scope="scope">
+          <el-input
+            v-model="search"
+            size="mini"
+            placeholder="Type to search"/>
+        </template>
         <template slot-scope="scope">
           <el-button
             class="operationItem-button"
@@ -77,7 +83,8 @@ export default {
       tableProps: tableProps,
       showAnnouncement: false,
       showAnnouncementUpdate: false,
-      announceData: {}
+      announceData: {},
+      search: "",
     };
   },
   methods: {
@@ -136,6 +143,17 @@ export default {
       default: () => {
         return [];
       }
+    }
+  },
+  computed: {
+    searchTable: function() {
+      if (this.search == "") return this.tableData;
+      return this.tableData.filter(item => {
+        return item.CreatedBy.indexOf(this.search) > -1 
+        || item.Description.indexOf(this.search) > -1
+        || item.Type.indexOf(this.search) > -1
+        || item.Title.indexOf(this.search) > -1;
+      });
     }
   },
   created() {}

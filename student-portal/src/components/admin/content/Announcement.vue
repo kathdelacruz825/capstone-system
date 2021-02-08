@@ -5,7 +5,7 @@
         Add Announcement
       </el-button>
     </div>
-    <div class="top-options">
+    <!-- <div class="top-options">
       <div>
         <div style="margin-top: 15px;">
           <el-input
@@ -19,7 +19,7 @@
           </el-input>
         </div>
       </div>
-    </div>
+    </div> -->
     <TableAnnounce @updateData="updateData" :tableData="tableData" />
     <AddAnnounce
       v-if="showAddAnnounce"
