@@ -17,6 +17,7 @@
         label-width="130px"
         status-icon
         ref="ruleForm"
+        :rules="rules"
       >
         <el-divider content-position="left">User Details</el-divider>
         <div class="form-item-account-details">
@@ -25,17 +26,16 @@
               <el-upload
                 class="avatar-uploader"
                 action="#"
-                disabled
                 :auto-upload="false"
                 :show-file-list="false"
                 list-type="picture-card"
                 :on-change="handleAvatarSuccess"
               >
                 <img
-                  v-if="userData.Icon"
+                  v-if="ruleForm.Icon"
                   width="148"
                   height="148"
-                  :src="userData.Icon"
+                  :src="ruleForm.Icon"
                   class="avatar"
                 />
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -45,12 +45,11 @@
               <el-form-item label="Role:">
                 <el-dropdown trigger="click" @command="selectAccType">
                   <el-button type="primary">
-                    {{ userData.Role }}
+                    {{ currType }}
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </el-button>
-                  <el-dropdown-menu slot="dropdown" >
+                  <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item
-                      :disabled="true"
                       v-for="(typeItem, typeKey) in typeList"
                       :key="typeKey"
                       :command="typeItem"
@@ -62,43 +61,43 @@
               </el-form-item>
 
               <el-form-item label="Account Status">
-                <el-radio-group v-model="userData.AccountStatus" size="mini">
-                  <el-radio :label="'Active'" border disabled >Active</el-radio>
-                  <el-radio :label="'Inactive'" border disabled>Inactive</el-radio>
+                <el-radio-group v-model="ruleForm.AccountStatus" size="mini">
+                  <el-radio :label="1" border>Active</el-radio>
+                  <el-radio :label="2" border>Inactive</el-radio>
                 </el-radio-group>
               </el-form-item>
             </div>
           </div>
           <div class="detail-row2">
             <el-form-item label="Account ID:" prop="AccountID">
-              <el-input v-model="userData.AccountID" type="text"></el-input>
+              <el-input v-model="ruleForm.AccountID" type="text"></el-input>
             </el-form-item>
 
             <el-form-item label="Account Name:" prop="AccountName">
-              <el-input v-model="userData.AccountName" type="text"></el-input>
+              <el-input v-model="ruleForm.AccountName" type="text"></el-input>
             </el-form-item>
 
             <el-form-item label="Password:" prop="AccountPassword">
               <el-input
-                v-model="userData.AccountPassword"
+                v-model="ruleForm.AccountPassword"
                 type="password"
               ></el-input>
             </el-form-item>
 
             <el-form-item label="Last Name:" prop="LastName">
-              <el-input v-model="userData.LastName" type="text"></el-input>
+              <el-input v-model="ruleForm.LastName" type="text"></el-input>
             </el-form-item>
 
             <el-form-item label="First Name:" prop="FirstName">
-              <el-input v-model="userData.FirstName" type="text"></el-input>
+              <el-input v-model="ruleForm.FirstName" type="text"></el-input>
             </el-form-item>
 
             <el-form-item label="Middle Name:" prop="MiddleName">
-              <el-input v-model="userData.MiddleName" type="text"></el-input>
+              <el-input v-model="ruleForm.MiddleName" type="text"></el-input>
             </el-form-item>
 
             <el-form-item label="Extension Name:" prop="ExtName">
-              <el-input v-model="userData.ExtName" type="text"></el-input>
+              <el-input v-model="ruleForm.ExtName" type="text"></el-input>
             </el-form-item>
           </div>
         </div>
@@ -106,6 +105,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">Close</el-button>
+      <el-button type="primary" @click="save()">Save</el-button>
     </span>
   </el-dialog>
 </template>
@@ -184,7 +184,7 @@ export default {
   },
   methods: {
     closeDialog() {
-      this.$emit("CloseViewUser", false);
+      this.$emit("CloseAddUser", false);
     },
     submitUpload() {
       this.$refs.upload.submit();

@@ -66,7 +66,7 @@
       v-if="showViewInfoUsers"
       :userData="userData"
       :showViewInfoUsers="showViewInfoUsers"
-      @closeViewInfoYearLevel="closeViewInfoYearLevel($event)"
+      @CloseViewUser="CloseViewUser($event)"
     />
 
     <UpdateTeacher
@@ -140,7 +140,7 @@ export default {
     CloseAddUser(val) {
       this.showAddUser = val;
     },
-    closeViewInfoYearLevel(val) {
+    CloseViewUser(val) {
       this.showViewInfoUsers = val;
     },
     closeUpdateTeacher(val) {
