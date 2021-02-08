@@ -69,12 +69,12 @@
       @CloseViewUser="CloseViewUser($event)"
     />
 
-    <UpdateTeacher
-      v-if="showUpdateTeacher"
+    <UpdateUser
+      v-if="showUpdateUser"
       :userData="userData"
       @updateData="updateData()"
-      :showUpdateTeacher="showUpdateTeacher"
-      @closeUpdateTeacher="closeUpdateTeacher($event)"
+      :showUpdateUser="showUpdateUser"
+      @CloseUpdateUser="CloseUpdateUser($event)"
     />
   </div>
 </template>
@@ -82,7 +82,7 @@
 <script>
 import AddUser from "@/components/admin/content/dialog/settings/user/AddUser1.vue";
 import ViewInfoUser from "@/components/admin/content/dialog/settings/user/ViewInfoUser1.vue";
-import UpdateTeacher from "@/components/admin/content/dialog/settings/teacher/UpdateTeacher.vue";
+import UpdateUser from "@/components/admin/content/dialog/settings/user/UpdateUser1.vue";
 
 import { tableProps } from "@/components/admin/content/settings/tableProps_Users.js";
 
@@ -90,7 +90,7 @@ export default {
   components: {
     AddUser,
     ViewInfoUser,
-    UpdateTeacher
+    UpdateUser
   },
   data() {
     return {
@@ -100,7 +100,7 @@ export default {
       tableData: [],
       userData: {},
       showViewInfoUsers: false,
-      showUpdateTeacher: false,
+      showUpdateUser: false,
       userDetails: {}
     };
   },
@@ -115,7 +115,7 @@ export default {
           this.showViewInfoUsers = true;
           break;
         case "Update":
-          this.showUpdateTeacher = true;
+          this.showUpdateUser = true;
           break;
         default:
           console.log("Invalid Option");
@@ -143,8 +143,8 @@ export default {
     CloseViewUser(val) {
       this.showViewInfoUsers = val;
     },
-    closeUpdateTeacher(val) {
-      this.showUpdateTeacher = val;
+    CloseUpdateUser(val) {
+      this.showUpdateUser = val;
     },
     updateData() {
       this.getUsers();

@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     title="View User"
-    :visible.sync="showViewInfoUsers"
+    :visible.sync="showUpdateUser"
     @close="closeDialog"
     :show-close="false"
     :close-on-press-escape="false"
@@ -62,8 +62,8 @@
 
               <el-form-item label="Account Status">
                 <el-radio-group v-model="ruleForm.AccountStatus" size="mini">
-                  <el-radio :label="1" border>Active</el-radio>
-                  <el-radio :label="2" border>Inactive</el-radio>
+                  <el-radio :label="'Active'" border>Active</el-radio>
+                  <el-radio :label="'Inactive'" border>Inactive</el-radio>
                 </el-radio-group>
               </el-form-item>
             </div>
@@ -105,7 +105,7 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">Close</el-button>
-      <el-button type="primary" @click="save()">Save</el-button>
+      <el-button type="primary" @click="save()">Update</el-button>
     </span>
   </el-dialog>
 </template>
@@ -184,65 +184,59 @@ export default {
   },
   methods: {
     closeDialog() {
-      this.$emit("CloseAddUser", false);
+      this.updateData();
+      this.$emit("CloseUpdateUser", false);
     },
     submitUpload() {
       this.$refs.upload.submit();
     },
     save() {
-      if (this.ruleForm.Role == "") {
-        this.$message({
-          type: "warning",
-          message: "Please select role!"
-        });
-      } else {
-        this.$refs.ruleForm.validate(valid => {
-          if (valid) {
-            let params = {
-              request: 2,
-              data: {
-                AccountID: this.ruleForm.AccountID,
-                AccountName: this.ruleForm.AccountName,
-                AccountPassword: this.ruleForm.AccountPassword,
-                LastName: this.ruleForm.LastName,
-                FirstName: this.ruleForm.FirstName,
-                MiddleName: this.ruleForm.MiddleName,
-                ExtName: this.ruleForm.ExtName,
-                Role: this.ruleForm.Role,
-                AccountStatus: this.ruleForm.AccountStatus,
-                Icon: this.ruleForm.Icon
-              }
-            };
-            this.http
-              .post(this.api.UserService, params)
-              .then(response => {
-                if (response.data.State == 1) {
-                  this.resetFields();
-                  this.updateData();
-                  this.$message({
-                    type: "success",
-                    message: response.data.Message
-                  });
-                } else {
-                  this.$message({
-                    type: "danger",
-                    message: response.data.Message
-                  });
-                }
-              })
-              .catch(error => {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          let params = {
+            request: 4,
+            data: {
+              ID: this.ruleForm.ID,
+              AccountID: this.ruleForm.AccountID,
+              AccountName: this.ruleForm.AccountName,
+              AccountPassword: this.ruleForm.AccountPassword,
+              LastName: this.ruleForm.LastName,
+              FirstName: this.ruleForm.FirstName,
+              MiddleName: this.ruleForm.MiddleName,
+              ExtName: this.ruleForm.ExtName,
+              Role: this.parseRole(this.currType)[0].ID,
+              AccountStatus: this.ruleForm.AccountStatus == "Active" ? 1 : 2,
+              Icon: this.ruleForm.Icon
+            }
+          };
+          this.http
+            .post(this.api.UserService, params)
+            .then(response => {
+              if (response.data.State == 1) {
+                this.updateData();
+                this.$message({
+                  type: "success",
+                  message: response.data.Message
+                });
+              } else {
                 this.$message({
                   type: "danger",
-                  message: "Connection Error!"
+                  message: response.data.Message
                 });
-                console.log(error);
+              }
+            })
+            .catch(error => {
+              this.$message({
+                type: "danger",
+                message: "Connection Error!"
               });
-          } else {
-            console.log("error submit!!");
-            return false;
-          }
-        });
-      }
+              console.log(error);
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
     getRole() {
       let params = {
@@ -259,8 +253,13 @@ export default {
         });
     },
     selectAccType(val) {
-      this.ruleForm.Role = val.ID;
+      // this.ruleForm.Role = val.ID;
       this.currType = val.Role;
+    },
+    parseRole(item) {
+      return this.typeList.filter(val => {
+        return val.Role == item;
+      });
     },
     handleAvatarSuccess(file) {
       this.getBase64(file.raw).then(res => {
@@ -303,7 +302,7 @@ export default {
     }
   },
   props: {
-    showViewInfoUsers: {
+    showUpdateUser: {
       type: Boolean,
       default: false
     },
@@ -318,7 +317,9 @@ export default {
     this.getRole();
   },
   mounted() {
-    console.log(this.userData)
+    console.log(this.userData);
+    this.ruleForm = this.userData;
+    this.currType = this.userData.Role;
   }
 };
 </script>

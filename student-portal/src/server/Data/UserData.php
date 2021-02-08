@@ -128,5 +128,44 @@ class UserData {
     return $this->response;
   }
 
+  function updateUser($params) {
+    $ID = $params['ID'];
+    $AccountID = $params['AccountID'];
+    $AccountName = $params['AccountName'];
+    $AccountPassword = $params['AccountPassword'];
+    $LastName = $params['LastName'];
+    $FirstName = $params['FirstName'];
+    $MiddleName = $params['MiddleName'];
+    $ExtName = $params['ExtName'];
+    $Role = $params['Role'];
+    $AccountStatus = $params['AccountStatus'];
+    $Icon = $params['Icon'];
+
+    $query = "Update `tbl_accounts_admin` SET
+      `AccountID`='$AccountID',
+      `AccountName`='$AccountName',
+      `AccountPassword`='$AccountPassword',
+      `LastName`='$LastName',
+      `FirstName`='$FirstName',
+      `MiddleName`='$MiddleName',
+      `ExtName`='$ExtName',
+      `Role`='$Role',
+      `AccountStatus`='$AccountStatus',
+      `Icon`='$Icon'
+      where ID=$ID";
+
+    if ($this->link->query($query) === TRUE) {
+      $this->successTemp["State"] = 1;
+      $this->successTemp["Message"] = "Record successfully updated!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    } else {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Error updating record!";
+      $this->response[] = $this->successTemp;
+      return $this->response[0];
+    }
+  }
+
 }
 ?>

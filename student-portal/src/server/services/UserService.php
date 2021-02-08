@@ -21,6 +21,11 @@ if ($params) {
         $data = new UserData($conn);
         echo json_encode($data->getRole($params['data']));
         break;    
+    case 4:
+      // update user
+        $data = new UserData($conn);
+        echo json_encode($data->updateUser($params['data']));
+        break;   
     default:
       echo "Invalid Request";
   }

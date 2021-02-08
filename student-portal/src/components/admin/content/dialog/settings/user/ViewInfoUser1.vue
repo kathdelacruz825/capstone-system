@@ -48,7 +48,7 @@
                     {{ userData.Role }}
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </el-button>
-                  <el-dropdown-menu slot="dropdown" >
+                  <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item
                       :disabled="true"
                       v-for="(typeItem, typeKey) in typeList"
@@ -63,8 +63,10 @@
 
               <el-form-item label="Account Status">
                 <el-radio-group v-model="userData.AccountStatus" size="mini">
-                  <el-radio :label="'Active'" border disabled >Active</el-radio>
-                  <el-radio :label="'Inactive'" border disabled>Inactive</el-radio>
+                  <el-radio :label="'Active'" border disabled>Active</el-radio>
+                  <el-radio :label="'Inactive'" border disabled
+                    >Inactive</el-radio
+                  >
                 </el-radio-group>
               </el-form-item>
             </div>
@@ -318,7 +320,7 @@ export default {
     this.getRole();
   },
   mounted() {
-    console.log(this.userData)
+    console.log(this.userData);
   }
 };
 </script>
