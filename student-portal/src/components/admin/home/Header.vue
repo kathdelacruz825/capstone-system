@@ -21,15 +21,49 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <UpdateAccount 
+      v-if="showUpdateUser"
+      :showUpdateUser="showUpdateUser"
+      :userData="userDetails"
+      @CloseUpdateUser="CloseUpdateUser($event)"/>
+
+    <UpdatePassword 
+      v-if="showUpdatePass"
+      :showUpdatePass="showUpdatePass"
+      :userData="userDetails"
+      @successUpdate="successUpdate($event)"
+      @closePassword="closePassword($event)"/>
+
+    <el-dialog
+      title="System Info"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center>
+      <span>Password successfully changed, please log in again</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="logout()">Confirm</el-button>
+      </span>
+    </el-dialog>
+
+
   </div>
 </template>
 <script>
+import UpdateAccount from '@/components/admin/content/header/UpdateAccount';
+import UpdatePassword from '@/components/admin/content/header/UpdatePassword';
+
 export default {
   name: "Header",
-  components: {},
+  components: {
+    UpdateAccount,
+    UpdatePassword
+  },
   data() {
     return {
-      userDetails: {}
+      userDetails: {},
+      showUpdateUser: false,
+      showUpdatePass: false,
+      centerDialogVisible: false,
     };
   },
   methods: {
@@ -37,8 +71,10 @@ export default {
       return true;
     },
     selectAction(val) {
-      if (val !== 2) {
-        console.log(val);
+      if (val == 0) {
+        this.showUpdateUser = true;
+      } else if (val == 1) {
+        this.showUpdatePass = true;
       } else {
         this.logout();
       }
@@ -47,6 +83,15 @@ export default {
       this.$store.dispatch("setLogin", false);
       localStorage.removeItem("user");
       this.$router.push({ name: "AdminLogin" });
+    },
+    CloseUpdateUser(val) {
+      this.showUpdateUser = val;
+    },
+    closePassword(val) {
+      this.showUpdatePass = val;
+    },
+    successUpdate(val) {
+      this.centerDialogVisible = val;
     }
   },
   created() {

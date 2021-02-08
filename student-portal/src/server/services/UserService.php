@@ -26,6 +26,16 @@ if ($params) {
         $data = new UserData($conn);
         echo json_encode($data->updateUser($params['data']));
         break;   
+    case 5:
+      // update user
+        $data = new UserData($conn);
+        echo json_encode($data->updateUserAccount($params['data']));
+        break; 
+    case 6:
+      // update user
+        $data = new UserData($conn);
+        echo json_encode($data->updateUserPassword($params['data']));
+        break; 
     default:
       echo "Invalid Request";
   }

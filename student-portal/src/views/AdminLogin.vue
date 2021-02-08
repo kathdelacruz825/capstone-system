@@ -66,7 +66,6 @@ export default {
             AccountPassword: this.ruleForm.pass
           }
         };
-        console.log(params);
         this.http
           .post(this.api.LoginService, params)
           .then(response => {
