@@ -28,6 +28,7 @@
                 action="#"
                 :auto-upload="false"
                 :show-file-list="false"
+                :on-change="handleAvatarSuccess"
                 list-type="picture-card"
               >
                 <img
@@ -188,7 +189,7 @@ export default {
           ExtName: this.newStudentData.ExtName,
           PhoneNumber: this.newStudentData.PhoneNumber,
           Email: this.newStudentData.Email,
-          Icon: "",
+          Icon: this.newStudentData.Icon,
           YearLevel: this.filterYearLevel(this.newStudentData.YearLevel)[0].ID,
           Course: this.filterCourse(this.newStudentData.Course)[0].ID,
           ParentID: this.newStudentData.ParentID,
@@ -200,7 +201,7 @@ export default {
         .post(this.api.AdminService, params)
         .then(response => {
           if (response.data[0].State == 1) {
-            this.closeDialog();
+            // this.closeDialog();
             this.$message({
               type: "success",
               message: response.data[0].Message
@@ -210,6 +211,27 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    handleAvatarSuccess(file) {
+      this.getBase64(file.raw).then(res => {
+        this.newStudentData.Icon = res;
+      });
+    },
+    getBase64(file) {
+      return new Promise(function(resolve, reject) {
+        let reader = new FileReader();
+        let imgResult = "";
+        reader.readAsDataURL(file);
+        reader.onload = function() {
+          imgResult = reader.result;
+        };
+        reader.onerror = function(error) {
+          reject(error);
+        };
+        reader.onloadend = function() {
+          resolve(imgResult);
+        };
+      });
     },
     selectCourse(item) {
       this.newStudentData.Course = item.CourseID;

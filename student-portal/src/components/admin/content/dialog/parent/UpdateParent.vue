@@ -29,6 +29,7 @@
                 :auto-upload="false"
                 :show-file-list="false"
                 list-type="picture-card"
+                :on-change="handleAvatarSuccess"
               >
                 <img
                   v-if="newStudentData.Icon"
@@ -163,7 +164,7 @@ export default {
                 ExtName: this.newStudentData.ExtName,
                 PhoneNumber: this.newStudentData.PhoneNumber,
                 Email: this.newStudentData.Email,
-                Icon: "",
+                Icon: this.newStudentData.Icon,
                 StudentID: this.newStudentData.StudentID,
                 CreateTime: this.newStudentData.CreateTime,
                 UpdateTime: this.createTime()
@@ -197,6 +198,27 @@ export default {
           });
           console.log(error);
         });
+    },
+    handleAvatarSuccess(file) {
+      this.getBase64(file.raw).then(res => {
+        this.newStudentData.Icon = res;
+      });
+    },
+    getBase64(file) {
+      return new Promise(function(resolve, reject) {
+        let reader = new FileReader();
+        let imgResult = "";
+        reader.readAsDataURL(file);
+        reader.onload = function() {
+          imgResult = reader.result;
+        };
+        reader.onerror = function(error) {
+          reject(error);
+        };
+        reader.onloadend = function() {
+          resolve(imgResult);
+        };
+      });
     },
     updateData() {
       this.$emit("updateData");
