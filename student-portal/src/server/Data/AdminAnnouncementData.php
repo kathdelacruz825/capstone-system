@@ -50,6 +50,7 @@ class AdminAnnouncementData {
               `tbl_announcement`.`Description`,
               `tbl_announcement`.`OnDate`,
               `tbl_accounts_admin`.`AccountName`,
+              `tbl_accounts_admin`.`Icon`,
               `tbl_announcement_status`.`Status`,
               `tbl_announcement`.`CreatedTime`
               from (((`tbl_announcement`
@@ -68,8 +69,9 @@ class AdminAnnouncementData {
         $this->tempData["Description"] = $row[3];
         $this->tempData["OnDate"] = $row[4];
         $this->tempData["CreatedBy"] = $row[5];
-        $this->tempData["Status"] = $row[6];
-        $this->tempData["CreatedTime"] = $row[7];
+        $this->tempData["Icon"] = $row[6];
+        $this->tempData["Status"] = $row[7];
+        $this->tempData["CreatedTime"] = $row[8];
         $this->response[] = $this->tempData;
       }
     }

@@ -11,11 +11,18 @@
             <van-grid-item
               v-for="(item, key) in userType"
               :key="key"
-              icon="photo-o"
               @click="selectUser(key)"
               :class="item == currentUserType ? 'active' : null"
               :text="item"
+            >
+            <van-image
+              width="100px"
+              height="100px"
+              fit="contain"
+              :src="require('@/assets/'+item+'.jpg')"
             />
+            <span>{{ item }}</span>
+            </van-grid-item>
           </van-grid>
         </div>
         <van-form @submit="login()">

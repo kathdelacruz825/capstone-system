@@ -8,7 +8,7 @@
               width="50px"
               height="50px"
               fit="contain"
-              src="https://img.yzcdn.cn/vant/cat.jpeg"
+              :src="notifData.Icon"
             />
           </div>
           <div style="padding: 3px 0px;" class="name">

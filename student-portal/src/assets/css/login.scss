@@ -9,8 +9,12 @@
 
     .user-select {
       margin-bottom: 2.5rem;
+
+      .van-grid-item .van-grid-item__content {
+        padding: 0px;
+      }
       .van-grid-item.active .van-grid-item__content{
-        border: 1px solid red;
+        border: 1px solid #1989fa;
       }
     }
 

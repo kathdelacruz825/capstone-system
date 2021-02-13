@@ -29,10 +29,11 @@
                 >
                   {{
                     item.LastName +
-                      " " +
-                      item.FirstName +
                       ", " +
-                      item.MiddleName.split("")[0]
+                      item.FirstName +
+                      " " +
+                      item.MiddleName.split("")[0] +
+                      "."
                   }}
                 </div>
               </div>
@@ -45,12 +46,18 @@
             <el-divider content-position="left">Student Info</el-divider>
             <div class="student-info-box">
               <div class="left">
-                <img
-                  v-if="studentData != null"
-                  :src="studentData.Icon"
-                  class="user-f"
-                  alt=""
-                />
+              <van-image
+                v-if="studentData != null"
+                :src="studentData.Icon"
+                width="150"
+                height="120"
+                class="user-f"
+                alt=""/>
+              <van-image
+                v-else
+                width="150"
+                height="120"
+                :src="require('@/assets/default.png')"/>
               </div>
               <div class="right">
                 <div class="top-info">
@@ -58,10 +65,11 @@
                   <h3 v-if="studentData != null">
                     {{
                       studentData.LastName +
-                        " " +
-                        studentData.FirstName +
                         ", " +
-                        studentData.MiddleName.split("")[0]
+                        studentData.FirstName +
+                        " " +
+                        studentData.MiddleName.split("")[0] + 
+                        "."
                     }}
                   </h3>
                 </div>
