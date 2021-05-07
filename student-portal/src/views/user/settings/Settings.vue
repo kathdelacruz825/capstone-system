@@ -74,12 +74,12 @@
             is-link
             :to="{ name: 'ChangePassword' }"
           />
-          <van-cell
+          <!-- <van-cell
             icon="info-o"
             title="About"
             is-link
             :to="{ name: 'About' }"
-          />
+          /> -->
         </van-cell-group>
         <van-cell-group v-if="userDetails.AccountType == 2">
           <van-cell
@@ -101,12 +101,12 @@
             is-link
             :to="{ name: 'ChangePassword' }"
           />
-          <van-cell
+          <!-- <van-cell
             icon="info-o"
             title="About"
             is-link
             :to="{ name: 'About' }"
-          />
+          /> -->
         </van-cell-group>
       </div>
       <div class="logout-btn">
