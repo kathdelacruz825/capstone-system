@@ -231,7 +231,9 @@ export default {
     getAllCourse() {
       let params = {
         request: 1,
-        data: {}
+        data: {
+          CourseStatus: ""
+        }
       };
       this.http
         .post(this.api.CourseService, params)

@@ -410,7 +410,9 @@ export default {
     async getAllCourse() {
       let params = {
         request: 1,
-        data: {}
+        data: {
+          CourseStatus: 1
+        }
       };
       await this.http
         .post(this.api.CourseService, params)

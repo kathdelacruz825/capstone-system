@@ -14,26 +14,51 @@ class CourseData {
     $this->link = $link;
   }
   
-  function getAllCourseData() {
-    $query = "Select 
-              `tbl_course`.`ID`,
-              `tbl_course`.`CourseID`,
-              `tbl_course`.`CourseDescription`,
-              `tbl_course_status`.`Status`
-              from `tbl_course`
-              Inner Join `tbl_course_status` ON `tbl_course`.`CourseStatus` = `tbl_course_status`.`ID`";
+  function getAllCourseData($params) {
+    $CourseStatus = $params['CourseStatus'];
+    if ($CourseStatus !="") {
+      $query = "Select 
+      `tbl_course`.`ID`,
+      `tbl_course`.`CourseID`,
+      `tbl_course`.`CourseDescription`,
+      `tbl_course_status`.`Status`
+      from (`tbl_course`
+      Inner Join `tbl_course_status` ON `tbl_course`.`CourseStatus` = `tbl_course_status`.`ID`)
+      where `tbl_course`.`CourseStatus`=$CourseStatus";
 
-    $result = $this->link->query($query);
+      $result = $this->link->query($query);
 
-    while ($row = mysqli_fetch_row($result)) {
-      if (count($row) > 0) {
+      while ($row = mysqli_fetch_row($result)) {
+        if (count($row) > 0) {
         $this->tempData["ID"] = $row[0];
         $this->tempData["CourseID"] = $row[1];
         $this->tempData["CourseDescription"] = $row[2];
         $this->tempData["CourseStatus"] = $row[3];
         $this->response[] = $this->tempData;
+        }
+      }
+    } else {
+      $query = "Select 
+      `tbl_course`.`ID`,
+      `tbl_course`.`CourseID`,
+      `tbl_course`.`CourseDescription`,
+      `tbl_course_status`.`Status`
+      from `tbl_course`
+      Inner Join `tbl_course_status` ON `tbl_course`.`CourseStatus` = `tbl_course_status`.`ID`";
+
+      $result = $this->link->query($query);
+
+      while ($row = mysqli_fetch_row($result)) {
+        if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["CourseID"] = $row[1];
+        $this->tempData["CourseDescription"] = $row[2];
+        $this->tempData["CourseStatus"] = $row[3];
+        $this->response[] = $this->tempData;
+        }
       }
     }
+
     return $this->response;
   }
   

@@ -9,7 +9,7 @@ if ($params) {
     case 1:
     // select all
       $data = new CourseData($conn);
-      echo json_encode($data->getAllCourseData());
+      echo json_encode($data->getAllCourseData($params['data']));
       break;
     case 2:
     // select by

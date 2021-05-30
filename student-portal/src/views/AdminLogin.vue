@@ -10,7 +10,7 @@
             label-width="100px"
             :model="formLabelAlign"
           >
-            <el-form-item label="Account:">
+            <el-form-item label="Account Name:">
               <el-input v-model="ruleForm.user" type="text" @keyup.enter.native="onPressKeyEnter"></el-input>
             </el-form-item>
             <el-form-item label="Password:">
