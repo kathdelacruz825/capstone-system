@@ -163,7 +163,7 @@ export default {
         ID: "",
         AccountType: 1,
         AccountStatus: 1,
-        AccountPending: 2,
+        AccountPending: 1,
         AccountOnlineState: 2,
         AccountID: "",
         AccountPassword: "",

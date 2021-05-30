@@ -188,7 +188,7 @@ export default {
         ID: "",
         AccountType: 1,
         AccountStatus: 1,
-        AccountPending: 2,
+        AccountPending: 1,
         AccountOnlineState: 2,
         AccountID: "",
         AccountPassword: "",
@@ -305,7 +305,9 @@ export default {
     getAllCourse() {
       let params = {
         request: 1,
-        data: {}
+        data: {
+          CourseStatus: 1
+        }
       };
       this.http
         .post(this.api.CourseService, params)
