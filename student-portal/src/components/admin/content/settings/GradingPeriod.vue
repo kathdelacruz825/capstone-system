@@ -2,7 +2,7 @@
   <div class="settings-grading-perion">
     <div class="button-options">
       <el-button icon="el-icon-plus" @click="showAddGradingPeriod = true">
-        Add Grading Period
+        Add Quarter
       </el-button>
     </div>
     <!-- <div class="top-options">

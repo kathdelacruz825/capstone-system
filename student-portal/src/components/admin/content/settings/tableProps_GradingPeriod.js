@@ -6,7 +6,7 @@ const tableProps = [
   },
   {
     propName: "Title",
-    propLabel: "Period",
+    propLabel: "Quarter",
     width: "420"
   },
   {

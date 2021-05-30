@@ -76,7 +76,7 @@
                     >School Year: {{ schoolYear }} <i class="el-icon-school"></i
                   ></span>
                   <span
-                    >Grading Period: {{ gradingPeriod }}
+                    >Quarter: {{ gradingPeriod }}
                     <i class="el-icon-collection"></i
                   ></span>
                 </div>

@@ -27,7 +27,7 @@
             <template #default>
               <div>Teacher: {{ gradeItem.TeacherID }}</div>
               <div>
-                First Grading:
+                First Quarter:
                 <span
                   class="color"
                   :class="{ red: gradeItem.FirstGrade <= '74' }"
@@ -36,7 +36,7 @@
                 </span>
               </div>
               <div>
-                Secord Grading:
+                Secord Quarter:
                 <span
                   class="color"
                   :class="{ red: gradeItem.ThirdGrade <= '74' }"
@@ -45,7 +45,7 @@
                 </span>
               </div>
               <div>
-                Third Grading:
+                Third Quarter:
                 <span
                   class="color"
                   :class="{ red: gradeItem.FourthGrade <= '74' }"
@@ -54,7 +54,7 @@
                 </span>
               </div>
               <div>
-                Fourth Grading:
+                Fourth Quarter:
                 <span
                   class="color"
                   :class="{ red: gradeItem.FourthGrade <= '74' }"

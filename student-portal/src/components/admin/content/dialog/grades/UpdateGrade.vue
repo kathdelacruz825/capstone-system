@@ -40,22 +40,22 @@
             </el-dropdown>
           </el-form-item>
 
-          <el-form-item label="First Grading:" prop="currGrade">
+          <el-form-item label="First Quarter:" prop="currGrade">
             <el-input v-model="studentData.FirstGrade" type="number"></el-input>
           </el-form-item>
 
-          <el-form-item label="Second Grading:" prop="currGrade">
+          <el-form-item label="Second Quarter:" prop="currGrade">
             <el-input
               v-model="studentData.SecondGrade"
               type="number"
             ></el-input>
           </el-form-item>
 
-          <el-form-item label="Third Grading:" prop="currGrade">
+          <el-form-item label="Third Quarter:" prop="currGrade">
             <el-input v-model="studentData.ThirdGrade" type="number"></el-input>
           </el-form-item>
 
-          <el-form-item label="Fourth Grading:" prop="currGrade">
+          <el-form-item label="Fourth Quarter:" prop="currGrade">
             <el-input
               v-model="studentData.FourthGrade"
               type="number"

@@ -16,7 +16,7 @@
         <van-tab
           v-for="(periodItem, periodKEy) in periodData"
           :key="periodKEy"
-          :title="periodItem.Title + ' Grading'"
+          :title="periodItem.Title + ' Quarter'"
         >
           <div class="exam-list">
             <div

@@ -8,7 +8,7 @@
     width="600px"
   >
     <template #title>
-      Update Grading Period
+      Update Quarter
     </template>
     <div class="add-course-content">
       <el-form
@@ -20,7 +20,7 @@
         ref="newGradingPeriodData"
         :rules="rules"
       >
-        <el-divider content-position="left">Grading Period Details</el-divider>
+        <el-divider content-position="left">Quarter Details</el-divider>
         <div class="form-item-account-details">
           <el-form-item label="Title:" prop="Title">
             <el-input

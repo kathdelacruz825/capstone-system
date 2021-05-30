@@ -8,7 +8,7 @@
     width="600px"
   >
     <template #title>
-      View Info Grading Period
+      View Info Quarter
     </template>
     <div class="add-course-content">
       <el-form
@@ -18,7 +18,7 @@
         label-width="130px"
         status-icon
       >
-        <el-divider content-position="left">Grading Period Details</el-divider>
+        <el-divider content-position="left">Quarter Details</el-divider>
         <div class="form-item-account-details">
           <el-form-item label="Title:" prop="CourseDescription">
             <el-input

@@ -11,10 +11,10 @@
             :model="formLabelAlign"
           >
             <el-form-item label="Account:">
-              <el-input v-model="ruleForm.user" type="text"></el-input>
+              <el-input v-model="ruleForm.user" type="text" @keyup.enter.native="onPressKeyEnter"></el-input>
             </el-form-item>
             <el-form-item label="Password:">
-              <el-input v-model="ruleForm.pass" type="password"></el-input>
+              <el-input v-model="ruleForm.pass" type="password" @keyup.enter.native="onPressKeyEnter"></el-input>
             </el-form-item>
             <el-button size="medium" type="success" @click="login()"
               >Login</el-button
@@ -47,6 +47,11 @@ export default {
     };
   },
   methods: {
+    onPressKeyEnter(e) {
+      if (e.keyCode === 13) {
+        this.login();
+      }
+    },
     login() {
       if (this.ruleForm.user == "") {
         this.$message({

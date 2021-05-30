@@ -62,7 +62,7 @@ export default {
           { name: "Course", component: "Course" },
           { name: "Subject", component: "Subject" },
           { name: "Year Level", component: "YearLevel" },
-          { name: "Grading Period", component: "GradingPeriod" },
+          { name: "Quarter", component: "GradingPeriod" },
           { name: "School Year", component: "SchoolYear" },
           { name: "Teacher", component: "Teacher" },
           { name: "Users", component: "Users" }
@@ -72,7 +72,7 @@ export default {
           { name: "Course", component: "Course" },
           { name: "Subject", component: "Subject" },
           { name: "Year Level", component: "YearLevel" },
-          { name: "Grading Period", component: "GradingPeriod" },
+          { name: "Quarter", component: "GradingPeriod" },
           { name: "School Year", component: "SchoolYear" },
           { name: "Teacher", component: "Teacher" }
           // { name: "System", component: "System" }

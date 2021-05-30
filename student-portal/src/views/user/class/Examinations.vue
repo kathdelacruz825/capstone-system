@@ -25,7 +25,7 @@
                 type="danger"
               ></van-tag>
               <span class="custom-title">{{
-                examItem.Title + " Grading Period"
+                examItem.Title + " Quarter"
               }}</span>
             </template>
           </van-cell>

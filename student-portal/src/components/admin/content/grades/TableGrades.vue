@@ -18,7 +18,7 @@
       </el-table-column> -->
       <el-table-column prop="SubjectID" label="Subject" width="120">
       </el-table-column>
-      <el-table-column label="Grading Period">
+      <el-table-column label="Quarter">
         <el-table-column prop="FirstGrade" label="1" width="80">
         </el-table-column>
         <el-table-column prop="SecondGrade" label="2" width="80">

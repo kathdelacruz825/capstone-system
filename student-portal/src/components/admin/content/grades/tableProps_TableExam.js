@@ -11,7 +11,7 @@ const tableProps = [
   },
   {
     propName: "GradingPeriodID",
-    propLabel: "Grading Period",
+    propLabel: "Quarter",
     width: "200"
   },
   {

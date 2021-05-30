@@ -40,7 +40,7 @@
             </el-dropdown>
           </el-form-item>
 
-          <el-form-item label="Grading Period:">
+          <el-form-item label="Quarter:">
             <el-dropdown trigger="click" @command="selectGradingPeriod">
               <el-button type="primary">
                 {{ currentGradingPeriod }}
@@ -169,7 +169,7 @@ export default {
       } else if (this.studentData.GradingPeriod == "") {
         this.$message({
           type: "warning",
-          message: "Select Grading Period!"
+          message: "Select Quarter!"
         });
       } else if (this.studentData.Title == "") {
         this.$message({

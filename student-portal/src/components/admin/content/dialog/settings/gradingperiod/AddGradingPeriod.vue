@@ -8,7 +8,7 @@
     width="600px"
   >
     <template #title>
-      Add Grading Period
+      Add Quarter
     </template>
     <div class="add-course-content">
       <el-form
@@ -20,7 +20,7 @@
         ref="ruleForm"
         :rules="rules"
       >
-        <el-divider content-position="left">Grading Period Details</el-divider>
+        <el-divider content-position="left">Quarter Details</el-divider>
         <div class="form-item-account-details">
           <el-form-item label="Title:" prop="Title">
             <el-input v-model="ruleForm.Title" type="text"></el-input>
