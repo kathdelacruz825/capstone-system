@@ -205,7 +205,7 @@ export default {
       this.http
         .post(this.api.AdminAnnouncementService, params)
         .then(response => {
-          this.notifData = response.data;
+          this.notifData = response.data.reverse();
         })
         .catch(error => {
           console.log(error);

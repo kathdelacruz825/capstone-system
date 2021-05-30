@@ -51,6 +51,7 @@
               type="datetime"
               placeholder="Select date and time"
               default-time="12:00:00"
+              :picker-options="pickerOptions"
             >
             </el-date-picker>
           </el-form-item>
@@ -86,7 +87,12 @@ export default {
         CreatedBy: 1,
         Status: 1,
         CreatedTime: ""
-      }
+      },
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7;
+        },
+      }  
     };
   },
   methods: {

@@ -124,6 +124,7 @@ export default {
         });
     },
     getAllMessageFrom(messageFromID, messageFromName, fromUserID) {
+      clearInterval(this.timeInterval)
       this.messageFromID = messageFromID;
       this.messageFromName = messageFromName;
       this.messages = [];

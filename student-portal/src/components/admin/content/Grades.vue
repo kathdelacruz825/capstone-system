@@ -114,31 +114,31 @@
                         type="success"
                         icon="el-icon-circle-plus"
                         v-if="activeItemClass === 0"
-                        @click="showAddGradeF()"
+                        @click="studentData == null ? errorNoStudentF() : showAddGradeF()"
                       ></el-button>
                       <el-button
                         type="success"
                         icon="el-icon-circle-plus"
                         v-if="activeItemClass === 1"
-                        @click="showAddQuizF()"
+                        @click="studentData == null ? errorNoStudentF() : showAddQuizF()"
                       ></el-button>
                       <el-button
                         type="success"
                         icon="el-icon-circle-plus"
                         v-if="activeItemClass === 2"
-                        @click="showAddExamF()"
-                      ></el-button>
-                      <el-button
-                        type="success"
-                        icon="el-icon-circle-plus"
-                        v-if="activeItemClass === 3"
-                        @click="showAddAttendanceF()"
+                        @click="studentData == null ? errorNoStudentF() : showAddExamF()"
                       ></el-button>
                       <el-button
                         type="success"
                         icon="el-icon-circle-plus"
                         v-if="activeItemClass === 4"
-                        @click="showAddScheduleF()"
+                        @click="studentData == null ? errorNoStudentF() : showAddAttendanceF()"
+                      ></el-button>
+                      <el-button
+                        type="success"
+                        icon="el-icon-circle-plus"
+                        v-if="activeItemClass === 3"
+                        @click="studentData == null ? errorNoStudentF() : showAddScheduleF()"
                       ></el-button>
                     </el-row>
                   </div>
@@ -238,6 +238,7 @@ export default {
       searchText: "",
       select: "Account ID",
       tableData: [],
+      tempSchedData: [],
       studentList: [],
       itemClass: [
         {
@@ -252,14 +253,14 @@ export default {
           name: "Examinations",
           link: "TableExam"
         },
+       {
+          name: "Schedule",
+          link: "TableSchedule"
+        },
         {
           name: "Attendance",
           link: "TableAttendance"
         },
-        {
-          name: "Schedule",
-          link: "TableSchedule"
-        }
       ],
       activeItemClass: 0,
       classActions: [
@@ -372,7 +373,10 @@ export default {
       this.http
         .post(this.api.ScheduleService, params)
         .then(response => {
-          this.tableData = response.data;
+          if (this.activeItemClass === 3) {
+            this.tableData = response.data;
+          }
+          this.tempSchedData = response.data
         })
         .catch(error => {
           console.log(error);
@@ -385,9 +389,10 @@ export default {
         this.getStudentQuizData(this.studentData.ID);
       } else if (this.activeItemClass === 2) {
         this.getStudentExamData(this.studentData.ID);
-      } else if (this.activeItemClass === 3) {
-        this.getAttendance(this.studentData.AccountID);
       } else if (this.activeItemClass === 4) {
+        this.getSchedule(this.studentData.AccountID);
+        this.getAttendance(this.studentData.AccountID);
+      } else if (this.activeItemClass === 3) {
         this.getSchedule(this.studentData.AccountID);
       }
     },
@@ -414,9 +419,9 @@ export default {
         this.getStudentQuizData(val.ID);
       } else if (this.activeItemClass === 2) {
         this.getStudentExamData(val.ID);
-      } else if (this.activeItemClass === 3) {
-        this.getAttendance(val.AccountID);
       } else if (this.activeItemClass === 4) {
+        this.getAttendance(val.AccountID);
+      } else if (this.activeItemClass === 3) {
         this.getSchedule(val.AccountID);
       }
     },
@@ -437,13 +442,26 @@ export default {
     },
     showAddAttendanceF() {
       if (this.studentData != null) {
-        this.showAddAttendance = true;
+        if (this.tempSchedData.length > 0) {
+          this.showAddAttendance = true;
+        } else {
+          this.$message({
+            type: "warning",
+            message: "Please add schedule first"
+          });
+        }
       }
     },
     showAddScheduleF() {
       if (this.studentData != null) {
         this.showAddSchedule = true;
       }
+    },
+    errorNoStudentF() {
+      this.$message({
+        type: "warning",
+        message: "Please select student"
+      });
     }
   },
   props: {},
