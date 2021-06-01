@@ -5,13 +5,14 @@
         Add Subject
       </el-button>
       <div class="ck-box">
-      <el-checkbox
-       :indeterminate="isIndeterminate" 
-       v-model="checkAll" 
-       @change="handleCheckAllChange">All</el-checkbox>
-      <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-        <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
-      </el-checkbox-group>
+        <el-select v-model="value" placeholder="Select Semester" @change="changeFilter">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
       </div>
 
     </div>
@@ -86,7 +87,6 @@ import ViewInfoSubject from "@/components/admin/content/dialog/settings/subject/
 import UpdateSubject from "@/components/admin/content/dialog/settings/subject/UpdateSubject.vue";
 
 import { tableProps } from "@/components/admin/content/settings/tableProps_Subject.js";
-var cityOptions = [];
 export default {
   components: {
     AddSubject,
@@ -95,10 +95,8 @@ export default {
   },
   data() {
     return {
-      checkAll: false,
-      checkedCities: [],
-      cities: cityOptions,
-      isIndeterminate: true,
+      options: [],
+      value: 'All',
       showAddSubject: false,
       search: "",
       tableProps: tableProps,
@@ -111,25 +109,15 @@ export default {
     };
   },
   methods: {
-    handleCheckAllChange(val) {
-        this.checkedCities = val ? cityOptions : [];
-        this.isIndeterminate = false;
-        if (val == false) {
-          this.checkAll = true;
-          this.checkedCities = [];
-        }
-    },
-    handleCheckedCitiesChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.cities.length;
-      this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
-      if (value.length == 0) {
-        this.checkAll = true;
+    changeFilter(e) {
+      if (e == '0') {
+        this.getAllSubject();
+      } else {
+        this.getAllSubjectBySemester(e);
       }
     },
     operationAction(name, itemData) {
       this.subjectData = itemData;
-      console.log(this.subjectData);
       switch (name) {
         case "View Info":
           this.showViewInfoSubject = true;
@@ -157,11 +145,15 @@ export default {
       this.http
         .post(this.api.SemesterService, params)
         .then(response => {
-          cityOptions = [];
-          this.checkedCities = [];
+            this.options.push({
+              value: '0',
+              label: 'All'
+            });
           response.data.map((item)=> {
-            cityOptions.push(item.Semester);
-            this.checkedCities.push(item.Semester);
+            this.options.push({
+              value: item.ID,
+              label: item.Semester
+            });
           })
         })
         .catch(error => {
@@ -172,6 +164,22 @@ export default {
       let params = {
         request: 1,
         data: {}
+      };
+      this.http
+        .post(this.api.SubjectService, params)
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getAllSubjectBySemester(SemesterID) {
+      let params = {
+        request: 6,
+        data: {
+          SemesterID: SemesterID,
+        }
       };
       this.http
         .post(this.api.SubjectService, params)

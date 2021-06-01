@@ -34,6 +34,43 @@
               type="text"
             ></el-input>
           </el-form-item>
+
+          <el-form-item label="Teacher:">
+            <el-dropdown trigger="click" @command="selectTeacher">
+              <el-button type="primary">
+                {{ currTeacher }}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(teacherItem, teacherKey) in teacherList"
+                  :key="teacherKey"
+                  :command="teacherItem"
+                >
+                  {{ teacherItem.Name }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
+
+          <el-form-item label="Semester:">
+            <el-dropdown trigger="click" @command="selectSemester">
+              <el-button type="primary">
+                {{ currSemester }}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(semesterItem, semesterKey) in semesterList"
+                  :key="semesterKey"
+                  :command="semesterItem"
+                >
+                  {{ semesterItem.Semester }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
+
           <el-form-item label="Status:">
             <el-radio-group v-model="newSubjectData.Status" size="mini">
               <el-radio :label="'Active'" border>Active</el-radio>
@@ -73,10 +110,20 @@ export default {
         Code: [{ validator: validateCode, trigger: "blur" }],
         Title: [{ validator: validateTitle, trigger: "blur" }]
       },
-      newSubjectData: {}
+      newSubjectData: {},
+      teacherList: [],
+      currTeacher: "---Select---",
+      semesterList: [],
+      currSemester: "---Select---",
     };
   },
   methods: {
+    selectTeacher(val) {
+      this.currTeacher = val.Name;
+    },
+    selectSemester(val) {
+      this.currSemester = val.Semester;
+    },
     closeDialog() {
       this.$emit("closeUpdateSubject", false);
       this.updateData();
@@ -91,6 +138,8 @@ export default {
               Code: this.newSubjectData.Code,
               Title: this.newSubjectData.Title,
               Description: this.newSubjectData.Description,
+              TeacherID: this.parseTeacher(this.currTeacher)[0].ID,
+              SemesterID: this.parseSemester(this.currSemester)[0].ID,
               Status: this.newSubjectData.Status == "Active" ? 1 : 2
             }
           };
@@ -119,7 +168,45 @@ export default {
     },
     updateData() {
       this.$emit("updateData");
-    }
+    },
+    parseTeacher(item) {
+      return this.teacherList.filter(val => {
+        return val.Name == item;
+      });
+    },
+    parseSemester(item) {
+      return this.semesterList.filter(val => {
+        return val.Semester == item;
+      });
+    },
+    getAllTeacher() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.TeacherService, params)
+        .then(response => {
+          this.teacherList = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    GetSemester() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.SemesterService, params)
+        .then(response => {
+          this.semesterList = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   },
   props: {
     showUpdateSubject: {
@@ -133,9 +220,15 @@ export default {
       }
     }
   },
-  created() {},
+  created() {
+    this.getAllTeacher();
+    this.GetSemester();
+  },
   mounted() {
+    console.log(this.subjectData);
     this.newSubjectData = this.subjectData;
+    this.currTeacher = this.subjectData.Teacher;
+    this.currSemester = this.subjectData.Semester;
   }
 };
 </script>
