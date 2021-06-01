@@ -66,22 +66,22 @@ export default {
         "1": [
           { name: "Course", component: "Course" },
           { name: "Subject", component: "Subject" },
+          { name: "Teacher", component: "Teacher" },
           { name: "Year Level", component: "YearLevel" },
           { name: "Quarter", component: "GradingPeriod" },
-          { name: "School Year", component: "SchoolYear" },
           { name: "Semester", component: "Semester" },
-          { name: "Teacher", component: "Teacher" },
+          { name: "School Year", component: "SchoolYear" },
           { name: "Users", component: "Users" },
           // { name: "System", component: "System" }
         ],
         "2": [
           { name: "Course", component: "Course" },
           { name: "Subject", component: "Subject" },
+          { name: "Teacher", component: "Teacher" },
           { name: "Year Level", component: "YearLevel" },
           { name: "Quarter", component: "GradingPeriod" },
-          { name: "School Year", component: "SchoolYear" },
           { name: "Semester", component: "Semester" },
-          { name: "Teacher", component: "Teacher" },
+          { name: "School Year", component: "SchoolYear" },
           // { name: "System", component: "System" }
         ]
       }

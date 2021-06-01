@@ -29,7 +29,11 @@ if ($params) {
     case 6:
       $data = new SemesterData($conn);
       echo json_encode($data->MultipleUpdateSemester($params['data']));
-      break; 
+      break;
+    case 7:
+      $data = new SemesterData($conn);
+      echo json_encode($data->GetCurrentSemester($params['data']));
+      break;
     default:
       echo "Invalid Request";
   }

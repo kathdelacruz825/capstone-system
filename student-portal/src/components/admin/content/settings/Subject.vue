@@ -4,22 +4,17 @@
       <el-button icon="el-icon-plus" @click="showAddSubject = true">
         Add Subject
       </el-button>
-    </div>
-    <!-- <div class="top-options">
-      <div>
-        <div style="margin-top: 15px;">
-          <el-input
-            placeholder="Please input to search"
-            v-model="search"
-            @input="changeVal"
-          >
-            <template slot="append">
-              <i class="el-icon-search"></i>
-            </template>
-          </el-input>
-        </div>
+      <div class="ck-box">
+      <el-checkbox
+       :indeterminate="isIndeterminate" 
+       v-model="checkAll" 
+       @change="handleCheckAllChange">All</el-checkbox>
+      <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+        <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+      </el-checkbox-group>
       </div>
-    </div> -->
+
+    </div>
     <el-table :data="searchTable" style="width: 100%" max-height="370">
       <el-table-column
         v-for="(propItem, propKey) in tableProps"
@@ -59,40 +54,6 @@
           >
             {{ "Update" }}
           </el-button>
-          <!-- <el-button
-            class="operationItem-button"
-            size="small"
-            type="danger"
-            v-if="tableData[scope.$index].CourseStatus == 'Active'"
-            @click.native.prevent="
-              operationAction('Set Inactive', tableData[scope.$index])
-            "
-          >
-            {{ "Set Inactive" }}
-          </el-button>
-          <el-button
-            class="operationItem-button"
-            size="small"
-            type="success"
-            v-if="tableData[scope.$index].CourseStatus == 'Inactive'"
-            @click.native.prevent="
-              operationAction('Set Active', tableData[scope.$index])
-            "
-          >
-            {{ "Set Active" }}
-          </el-button> -->
-          <!-- <el-button
-            class="operationItem-button"
-            v-for="(operationItem, operationKey) in operationButtons"
-            :key="operationKey"
-            :type="operationItem.btnType"
-            size="small"
-            @click.native.prevent="
-              operationAction(operationItem.name, tableData[scope.$index])
-            "
-          >
-            {{ operationItem.name }}
-          </el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -116,42 +77,6 @@
       @updateData="updateData()"
       @closeUpdateSubject="closeUpdateSubject($event)"
     />
-    <!-- 
-    <el-dialog
-      title="Course Status"
-      :visible.sync="showSetActive"
-      width="22%"
-      :show-close="false"
-      :close-on-press-escape="false"
-      :close-on-click-modal="false"
-      top="50px"
-    >
-      <span>Are you sure you want to set Active?</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="showSetActive = false">Cancel</el-button>
-        <el-button type="primary" @click="setActiveCourse(subjectData.ID)"
-          >Set Active</el-button
-        >
-      </span>
-    </el-dialog>
-
-    <el-dialog
-      title="Course Status"
-      :visible.sync="showSetInActive"
-      width="22%"
-      :show-close="false"
-      :close-on-press-escape="false"
-      :close-on-click-modal="false"
-      top="50px"
-    >
-      <span>Are you sure you want to set Inactive?</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="showSetInActive = false">Cancel</el-button>
-        <el-button type="danger" @click="setInActiveCourse(subjectData.ID)"
-          >Set Inactive</el-button
-        >
-      </span>
-    </el-dialog> -->
   </div>
 </template>
 
@@ -161,7 +86,7 @@ import ViewInfoSubject from "@/components/admin/content/dialog/settings/subject/
 import UpdateSubject from "@/components/admin/content/dialog/settings/subject/UpdateSubject.vue";
 
 import { tableProps } from "@/components/admin/content/settings/tableProps_Subject.js";
-
+var cityOptions = [];
 export default {
   components: {
     AddSubject,
@@ -170,6 +95,10 @@ export default {
   },
   data() {
     return {
+      checkAll: true,
+      checkedCities: [],
+      cities: cityOptions,
+      isIndeterminate: true,
       showAddSubject: false,
       search: "",
       tableProps: tableProps,
@@ -179,33 +108,24 @@ export default {
       showSetInActive: false,
       showViewInfoSubject: false,
       showUpdateSubject: false
-      // operationButtons: [
-      //   {
-      //     name: "View Info",
-      //     btnType: "info"
-      //   },
-      //   {
-      //     name: "Update",
-      //     btnType: "warning"
-      //   },
-      //   // {
-      //   //   name: "Delete",
-      //   //   btnType: "danger"
-      //   // },
-      //   {
-      //     name: "Set Active",
-      //     btnType: "success"
-      //   },
-      //   {
-      //     name: "Set Inactive",
-      //     btnType: "danger"
-      //   }
-      // ],
     };
   },
   methods: {
-    changeVal(val) {
+    handleCheckAllChange(val) {
       console.log(val);
+        this.checkedCities = val ? cityOptions : [];
+        this.isIndeterminate = false;
+        if (val == false) {
+        this.checkAll = true;
+        }
+    },
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.cities.length;
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+      if (value.length == 0) {
+        this.checkAll = true;
+      }
     },
     operationAction(name, itemData) {
       this.subjectData = itemData;
@@ -228,6 +148,25 @@ export default {
           console.log("Invalid Option");
       }
     },
+    GetSemester() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.SemesterService, params)
+        .then(response => {
+          cityOptions = [];
+          this.checkedCities = [];
+          response.data.map((item)=> {
+            cityOptions.push(item.Semester);
+            this.checkedCities.push(item.Semester);
+          })
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     getAllSubject() {
       let params = {
         request: 1,
@@ -242,48 +181,6 @@ export default {
           console.log(error);
         });
     },
-    // setActiveCourse(ID) {
-    //   let params = {
-    //     request: 6,
-    //     data: {
-    //       ID: ID
-    //     }
-    //   };
-    //   this.http
-    //     .post(this.api.CourseService, params)
-    //     .then(response => {
-    //       this.showSetActive = false;
-    //       this.updateData();
-    //       this.$message({
-    //         type: response.data.State == 1 ? "success" : "danger",
-    //         message: response.data.Message
-    //       });
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    // },
-    // setInActiveCourse(ID) {
-    //   let params = {
-    //     request: 7,
-    //     data: {
-    //       ID: ID
-    //     }
-    //   };
-    //   this.http
-    //     .post(this.api.CourseService, params)
-    //     .then(response => {
-    //       this.showSetInActive = false;
-    //       this.updateData();
-    //       this.$message({
-    //         type: response.data.State == 1 ? "success" : "danger",
-    //         message: response.data.Message
-    //       });
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    // },
     closeAddSubject(val) {
       this.showAddSubject = val;
     },
@@ -311,13 +208,23 @@ export default {
   props: {},
   created() {
     this.getAllSubject();
+    this.GetSemester();
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 
 <style lang="scss">
 .settings {
+  .ck-box {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .el-checkbox-group {
+    margin-left: 30px;
+  }
   .text-style div {
     word-break: keep-all;
   }
