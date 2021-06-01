@@ -27,6 +27,16 @@
           <el-button
             class="operationItem-button"
             size="small"
+            type="success"
+            @click.native.prevent="
+              operationAction('SetStatus', tableData[scope.$index])
+            "
+          >
+            {{ "Active/Inactive" }}
+          </el-button>
+          <el-button
+            class="operationItem-button"
+            size="small"
             type="info"
             @click.native.prevent="
               operationAction('View Info', tableData[scope.$index])
@@ -55,14 +65,14 @@
     />
 
     <ViewInfoSemester
-      :schoolYearData="schoolYearData"
-      :showViewInfoSchoolYear="showViewInfoSchoolYear"
-      @closeViewInfoSchoolYear="closeViewInfoSchoolYear($event)"
+      :semesterData="semesterData"
+      :showViewInfoSemester="showViewInfoSemester"
+      @closeViewInfoSemester="closeViewInfoSemester($event)"
     />
 
     <UpdateSemester
       v-if="showUpdateSchoolYear"
-      :schoolYearData="schoolYearData"
+      :semesterData="semesterData"
       :showUpdateSchoolYear="showUpdateSchoolYear"
       @updateData="updateData()"
       @closeUpdateSchoolYear="closeUpdateSchoolYear($event)"
@@ -89,10 +99,8 @@ export default {
       search: "",
       tableProps: tableProps,
       tableData: [],
-      schoolYearData: {},
-      showSetActive: false,
-      showSetInActive: false,
-      showViewInfoSubject: false,
+      semesterData: {},
+      showViewInfoSemester: false,
       showUpdateSchoolYear: false,
       showViewInfoSchoolYear: false
     };
@@ -112,17 +120,33 @@ export default {
           console.log(error);
         });
     },
+    operationAction(name, itemData) {
+      this.semesterData = itemData;
+      switch (name) {
+        case "View Info":
+          this.showViewInfoSemester = true;
+          break;
+        case "Update":
+          this.showUpdateSchoolYear = true;
+          break;
+        case "SetStatus":
+          //
+          break;
+        default:
+          console.log("Invalid Option");
+      }
+    },
     closeAddSemester(val) {
       this.showAddSemester = val;
     },
-    closeViewInfoSchoolYear(val) {
-      this.showViewInfoSchoolYear = val;
+    closeViewInfoSemester(val) {
+      this.showViewInfoSemester = val;
     },
     closeUpdateSchoolYear(val) {
       this.showUpdateSchoolYear = val;
     },
     updateData() {
-      this.getAllGradingPeriod();
+      this.GetSemester();
     }
   },
   props: {},

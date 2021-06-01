@@ -23,14 +23,14 @@
         <el-divider content-position="left">Semester Details</el-divider>
         <div class="form-item-account-details">
           <div class="date-block">
-            <el-form-item label="Semester:" prop="Title">
-              <el-input v-model="ruleForm.Title" type="text"></el-input>
+            <el-form-item label="Semester:" prop="Semester">
+              <el-input v-model="ruleForm.Semester" type="text"></el-input>
             </el-form-item>
           </div>
           <el-form-item label="Status:">
             <el-radio-group v-model="ruleForm.Status" size="mini">
-              <el-radio :label="1" border readonly>Active</el-radio>
-              <el-radio :label="2" border readonly>Inactive</el-radio>
+              <el-radio :label="1" border disabled>Active</el-radio>
+              <el-radio :label="2" border disabled>Inactive</el-radio>
             </el-radio-group>
           </el-form-item>
         </div>
@@ -47,28 +47,19 @@
 export default {
   components: {},
   data() {
-    var validateYearFrom = (rule, value, callback) => {
+    var validateSemester = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the Year From"));
-      } else {
-        callback();
-      }
-    };
-    var validateYearTo = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("Please input the Year To"));
+        callback(new Error("Please input the Semester"));
       } else {
         callback();
       }
     };
     return {
       rules: {
-        YearFrom: [{ validator: validateYearFrom, trigger: "blur" }],
-        YearTo: [{ validator: validateYearTo, trigger: "blur" }]
+        Semester: [{ validator: validateSemester, trigger: "blur" }],
       },
       ruleForm: {
-        YearFrom: "",
-        YearTo: "",
+        Semester: "",
         Status: 2 //number 1 - 2
       }
     };
@@ -82,18 +73,16 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           let params = {
-            request: 3,
+            request: 2,
             data: {
-              YearFrom: this.formatDate(this.ruleForm.YearFrom),
-              YearTo: this.formatDate(this.ruleForm.YearTo),
+              Semester: this.ruleForm.Semester,
               Status: this.ruleForm.Status
             }
           };
           this.http
-            .post(this.api.SchoolYearService, params)
+            .post(this.api.SemesterService, params)
             .then(response => {
               if (response.data.State == 1) {
-                this.ruleForm.Status = 2;
                 this.$refs.ruleForm.resetFields();
                 this.updateData();
               }
@@ -117,19 +106,6 @@ export default {
     updateData() {
       this.$emit("updateData");
     },
-    formatDate(date) {
-      var d = new Date(date),
-        month = "" + (d.getMonth() + 1),
-        day = "" + d.getDate(),
-        year = d.getFullYear();
-      if (month.length < 2) {
-        month = "0" + month;
-      }
-      if (day.length < 2) {
-        day = "0" + day;
-      }
-      return `${year}`;
-    }
   },
   props: {
     showAddSemester: {
