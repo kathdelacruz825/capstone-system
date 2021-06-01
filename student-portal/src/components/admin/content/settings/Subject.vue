@@ -95,7 +95,7 @@ export default {
   },
   data() {
     return {
-      checkAll: true,
+      checkAll: false,
       checkedCities: [],
       cities: cityOptions,
       isIndeterminate: true,
@@ -112,11 +112,11 @@ export default {
   },
   methods: {
     handleCheckAllChange(val) {
-      console.log(val);
         this.checkedCities = val ? cityOptions : [];
         this.isIndeterminate = false;
         if (val == false) {
-        this.checkAll = true;
+          this.checkAll = true;
+          this.checkedCities = [];
         }
     },
     handleCheckedCitiesChange(value) {
@@ -129,6 +129,7 @@ export default {
     },
     operationAction(name, itemData) {
       this.subjectData = itemData;
+      console.log(this.subjectData);
       switch (name) {
         case "View Info":
           this.showViewInfoSubject = true;

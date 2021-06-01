@@ -20,9 +20,14 @@ class SubjectData {
               `tbl_subject`.`Code`,
               `tbl_subject`.`Title`,
               `tbl_subject`.`Description`,
+              `tbl_teacher`.`Name`,
+              `tbl_semester`.`Semester`,
               `tbl_subject_status`.`Status`
-              from `tbl_subject`
-              Inner Join `tbl_subject_status` ON `tbl_subject`.`Status`=`tbl_subject_status`.`ID`";
+              from (((`tbl_subject`
+              Inner Join `tbl_teacher` ON `tbl_subject`.`TeacherID`=`tbl_teacher`.`ID`)
+              Inner Join `tbl_semester` ON `tbl_subject`.`SemesterID`=`tbl_semester`.`ID`)
+              Inner Join `tbl_subject_status` ON `tbl_subject`.`Status`=`tbl_subject_status`.`ID`)";
+
 
     $result = $this->link->query($query);
 
@@ -32,28 +37,9 @@ class SubjectData {
         $this->tempData["Code"] = $row[1];
         $this->tempData["Title"] = $row[2];
         $this->tempData["Description"] = $row[3];
-        $this->tempData["Status"] = $row[4];
-        $this->response[] = $this->tempData;
-      }
-    }
-    return $this->response;
-  }
-  
-  function getSampleBy($params) {
-    $id = $params['id'];
-    $name = $params['name'];
-    $age = $params['age'];
-
-
-    $query = "Select * from `tbl_sample` where `id`=$id";
-
-    $result = $this->link->query($query);
-
-    while ($row = mysqli_fetch_row($result)) {
-      if (count($row) > 0) {
-        $this->tempData["id"] = $row[0];
-        $this->tempData["name"] = $row[1];
-        $this->tempData["age"] = $row[2];
+        $this->tempData["Teacher"] = $row[4];
+        $this->tempData["Semester"] = $row[5];
+        $this->tempData["Status"] = $row[6];
         $this->response[] = $this->tempData;
       }
     }
@@ -65,12 +51,14 @@ class SubjectData {
     $Code = $params['Code'];
     $Title = $params['Title'];
     $Desc = $params['Description'];
+    $TeacherID = $params['TeacherID'];
+    $SemesterID = $params['SemesterID'];
     $Status = intval($params['Status']);
     
     $query = "Insert into `tbl_subject` 
-              (Code, Title, Description, Status) 
+              (Code, Title, Description, TeacherID, SemesterID, Status) 
               values 
-              ('$Code', '$Title', '$Desc', $Status)";
+              ('$Code', '$Title', '$Desc', '$TeacherID', '$SemesterID', $Status)";
     
     if ($this->link->query($query) === TRUE) {
       $this->successTemp["State"] = 1;
@@ -90,12 +78,16 @@ class SubjectData {
     $Code = $params['Code'];
     $Title = $params['Title'];
     $Desc = $params['Description'];
+    $TeacherID = $params['TeacherID'];
+    $SemesterID = $params['SemesterID'];
     $Status = intval($params['Status']);
 
     $query = "Update `tbl_subject` SET
               Code='$Code',
               Title='$Title',
               Description='$Desc',
+              TeacherID='$TeacherID',
+              SemesterID='$SemesterID',
               Status=$Status
               where ID=$ID";
 

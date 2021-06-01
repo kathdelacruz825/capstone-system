@@ -317,7 +317,6 @@ export default {
     this.getRole();
   },
   mounted() {
-    console.log(this.userData);
     this.ruleForm = this.userData;
     this.currType = this.userData.Role;
   }

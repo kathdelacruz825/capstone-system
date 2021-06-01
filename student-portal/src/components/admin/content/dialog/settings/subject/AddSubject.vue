@@ -31,6 +31,43 @@
           <el-form-item label="Description:" prop="Description">
             <el-input v-model="ruleForm.Description" type="text"></el-input>
           </el-form-item>
+
+          <el-form-item label="Teacher:">
+            <el-dropdown trigger="click" @command="selectTeacher">
+              <el-button type="primary">
+                {{ currTeacher }}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(teacherItem, teacherKey) in teacherList"
+                  :key="teacherKey"
+                  :command="teacherItem"
+                >
+                  {{ teacherItem.Name }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
+
+          <el-form-item label="Semester:">
+            <el-dropdown trigger="click" @command="selectSemester">
+              <el-button type="primary">
+                {{ currSemester }}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(semesterItem, semesterKey) in semesterList"
+                  :key="semesterKey"
+                  :command="semesterItem"
+                >
+                  {{ semesterItem.Semester }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
+
           <el-form-item label="Status:">
             <el-radio-group v-model="ruleForm.Status" size="mini">
               <el-radio :label="1" border>Active</el-radio>
@@ -74,11 +111,25 @@ export default {
         Code: "",
         Title: "",
         Description: "",
-        Status: 1 //number 1 - 2
-      }
+        TeacherID: "",
+        SemesterID: "",
+        Status: 1 //number 1 - 2,
+      },
+      teacherList: [],
+      currTeacher: "---Select---",
+      semesterList: [],
+      currSemester: "---Select---",
     };
   },
   methods: {
+    selectTeacher(val) {
+      this.ruleForm.TeacherID = val.ID;
+      this.currTeacher = val.Name;
+    },
+    selectSemester(val) {
+      this.ruleForm.SemesterID = val.ID;
+      this.currSemester = val.Semester;
+    },
     closeDialog() {
       this.$emit("closeAddSubject", false);
       this.$refs.ruleForm.resetFields();
@@ -86,31 +137,47 @@ export default {
     save() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          let params = {
-            request: 3,
-            data: {
-              Code: this.ruleForm.Code,
-              Title: this.ruleForm.Title,
-              Description: this.ruleForm.Description,
-              Status: this.ruleForm.Status
-            }
-          };
-          this.http
-            .post(this.api.SubjectService, params)
-            .then(response => {
-              if (response.data.State == 1) {
-                this.ruleForm.Status = 1;
-                this.$refs.ruleForm.resetFields();
-                this.updateData();
+
+          if (this.currTeacher == '---Select---') {
+          this.$message({
+            type: "danger",
+            message: "Select Teacher!!"
+          });
+          } else if ((this.currSemester == '---Select---')) {
+          this.$message({
+            type: "danger",
+            message: "Select Semester!!"
+          });
+          } else {
+            let params = {
+              request: 3,
+              data: {
+                Code: this.ruleForm.Code,
+                Title: this.ruleForm.Title,
+                Description: this.ruleForm.Description,
+                TeacherID: this.ruleForm.TeacherID,
+                SemesterID: this.ruleForm.SemesterID,
+                Status: this.ruleForm.Status
               }
-              this.$message({
-                type: response.data.State == 1 ? "success" : "danger",
-                message: response.data.Message
+            };
+
+            this.http
+              .post(this.api.SubjectService, params)
+              .then(response => {
+                if (response.data.State == 1) {
+                  this.ruleForm.Status = 1;
+                  this.$refs.ruleForm.resetFields();
+                  this.updateData();
+                }
+                this.$message({
+                  type: response.data.State == 1 ? "success" : "danger",
+                  message: response.data.Message
+                });
+              })
+              .catch(error => {
+                console.log(error);
               });
-            })
-            .catch(error => {
-              console.log(error);
-            });
+          }
         } else {
           this.$message({
             type: "danger",
@@ -122,7 +189,35 @@ export default {
     },
     updateData() {
       this.$emit("updateData");
-    }
+    },
+    getAllTeacher() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.TeacherService, params)
+        .then(response => {
+          this.teacherList = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    GetSemester() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.SemesterService, params)
+        .then(response => {
+          this.semesterList = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   },
   props: {
     showAddSubject: {
@@ -130,7 +225,10 @@ export default {
       default: false
     }
   },
-  created() {}
+  created() {
+    this.getAllTeacher();
+    this.GetSemester();
+  }
 };
 </script>
 
