@@ -21,7 +21,15 @@ if ($params) {
     case 4:
         $data = new SemesterData($conn);
         echo json_encode($data->DeleteSemester($params['data']));
-        break; 
+        break;
+    case 5:
+      $data = new SemesterData($conn);
+      echo json_encode($data->UpdateSemesterStatus($params['data']));
+      break;
+    case 6:
+      $data = new SemesterData($conn);
+      echo json_encode($data->MultipleUpdateSemester($params['data']));
+      break; 
     default:
       echo "Invalid Request";
   }

@@ -121,6 +121,36 @@ export default {
           console.log(error);
         });
     },
+    UpdateSemesterStatus(id) {
+      let params = {
+        request: 5,
+        data: {
+          ID: id
+        }
+      };
+      this.http
+        .post(this.api.SemesterService, params)
+        .then(response => {
+          this.GetSemester();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    MultipleUpdateSemester(id) {
+      let params = {
+        request: 6,
+        data: {}
+      };
+      this.http
+        .post(this.api.SemesterService, params)
+        .then(response => {
+          this.UpdateSemesterStatus(id)
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     operationAction(name, itemData) {
       this.semesterData = itemData;
       switch (name) {
@@ -131,7 +161,7 @@ export default {
           this.showUpdateSemester = true;
           break;
         case "SetStatus":
-          //
+          this.MultipleUpdateSemester(this.semesterData.ID);
           break;
         default:
           console.log("Invalid Option");
