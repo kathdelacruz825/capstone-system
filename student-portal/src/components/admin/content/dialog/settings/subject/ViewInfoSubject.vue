@@ -29,6 +29,43 @@
           <el-form-item label="Description:" prop="Description">
             <el-input v-model="subjectData.Description" type="text"></el-input>
           </el-form-item>
+
+          <el-form-item label="Teacher:">
+            <el-dropdown trigger="click">
+              <el-button type="primary" disabled>
+                {{ this.subjectData.Teacher }}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(teacherItem, teacherKey) in teacherList"
+                  :key="teacherKey"
+                  :command="teacherItem"
+                >
+                  {{ teacherItem.Name }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
+
+          <el-form-item label="Semester:">
+            <el-dropdown trigger="click">
+              <el-button type="primary" disabled>
+                {{ this.subjectData.Semester }}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(semesterItem, semesterKey) in semesterList"
+                  :key="semesterKey"
+                  :command="semesterItem"
+                >
+                  {{ semesterItem.Semester }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
+
           <el-form-item label="Status:">
             <el-radio-group v-model="subjectData.Status" size="mini">
               <el-radio :label="'Active'" border disabled>Active</el-radio>
