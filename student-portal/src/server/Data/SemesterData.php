@@ -10,7 +10,15 @@ class SemesterData {
   }
 
   function GetSemester($params) {
-    $query = "Select * from `tbl_semester`";
+    $query = "Select 
+              `tbl_semester`.`ID`,
+              `tbl_semester`.`Semester`,
+              `tbl_semester_status`.`Status`
+               from 
+              (
+              `tbl_semester`
+              Inner Join `tbl_semester_status` ON `tbl_semester`.`Status` = `tbl_semester_status`.`ID`
+              )";
 
     $result = $this->link->query($query);
 
