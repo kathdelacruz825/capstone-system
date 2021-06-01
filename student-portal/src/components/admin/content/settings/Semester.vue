@@ -72,11 +72,11 @@
     />
 
     <UpdateSemester
-      v-if="showUpdateSchoolYear"
+      v-if="showUpdateSemester"
       :semesterData="semesterData"
-      :showUpdateSchoolYear="showUpdateSchoolYear"
+      :showUpdateSemester="showUpdateSemester"
       @updateData="updateData()"
-      @closeUpdateSchoolYear="closeUpdateSchoolYear($event)"
+      @closeUpdateSemester="closeUpdateSemester($event)"
     />
   </div>
 </template>
@@ -102,7 +102,7 @@ export default {
       tableData: [],
       semesterData: {},
       showViewInfoSemester: false,
-      showUpdateSchoolYear: false,
+      showUpdateSemester: false,
       showViewInfoSchoolYear: false
     };
   },
@@ -128,7 +128,7 @@ export default {
           this.showViewInfoSemester = true;
           break;
         case "Update":
-          this.showUpdateSchoolYear = true;
+          this.showUpdateSemester = true;
           break;
         case "SetStatus":
           //
@@ -143,8 +143,8 @@ export default {
     closeViewInfoSemester(val) {
       this.showViewInfoSemester = val;
     },
-    closeUpdateSchoolYear(val) {
-      this.showUpdateSchoolYear = val;
+    closeUpdateSemester(val) {
+      this.showUpdateSemester = val;
     },
     updateData() {
       this.GetSemester();

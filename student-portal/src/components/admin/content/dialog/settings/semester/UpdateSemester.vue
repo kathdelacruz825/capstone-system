@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :visible.sync="showUpdateSchoolYear"
+    :visible.sync="showUpdateSemester"
     :show-close="false"
     :close-on-press-escape="false"
     :close-on-click-modal="false"
@@ -8,46 +8,29 @@
     width="600px"
   >
     <template #title>
-      Add School Year
+      Update Semester
     </template>
     <div class="add-course-content add-school-year-content">
       <el-form
         :label-position="'left'"
-        :model="newSchoolYearData"
+        :model="newSemesterData"
         class="add-dialog-form"
         label-width="130px"
         status-icon
-        ref="newSchoolYearData"
+        ref="newSemesterData"
         :rules="rules"
       >
-        <el-divider content-position="left">School Year Details</el-divider>
+        <el-divider content-position="left">Semester Details</el-divider>
         <div class="form-item-account-details">
           <div class="date-block">
-            <el-form-item label="School Year From:" prop="YearFrom">
-              <div class="block">
-                <el-date-picker
-                  v-model="newSchoolYearData.YearFrom"
-                  type="year"
-                  placeholder="Pick a Year From"
-                >
-                </el-date-picker>
-              </div>
-            </el-form-item>
-            <el-form-item label="School Year To:" prop="YearTo">
-              <div class="block">
-                <el-date-picker
-                  v-model="newSchoolYearData.YearTo"
-                  type="year"
-                  placeholder="Pick a Year To"
-                >
-                </el-date-picker>
-              </div>
+            <el-form-item label="Semester:" prop="Semester">
+              <el-input v-model="newSemesterData.Semester" type="text"></el-input>
             </el-form-item>
           </div>
           <el-form-item label="Status:">
-            <el-radio-group v-model="newSchoolYearData.Status" size="mini">
-              <el-radio :label="'Active'" border>Active</el-radio>
-              <el-radio :label="'Inactive'" border>Inactive</el-radio>
+            <el-radio-group v-model="newSemesterData.Status" size="mini">
+              <el-radio :label="'Active'" border disabled>Active</el-radio>
+              <el-radio :label="'Inactive'" border disabled>Inactive</el-radio>
             </el-radio-group>
           </el-form-item>
         </div>
@@ -64,49 +47,41 @@
 export default {
   components: {},
   data() {
-    var validateYearFrom = (rule, value, callback) => {
+    var validateSemester = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("Please input the Year From"));
-      } else {
-        callback();
-      }
-    };
-    var validateYearTo = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("Please input the Year To"));
+        callback(new Error("Please input the Semester"));
       } else {
         callback();
       }
     };
     return {
       rules: {
-        YearFrom: [{ validator: validateYearFrom, trigger: "blur" }],
-        YearTo: [{ validator: validateYearTo, trigger: "blur" }]
+        Semester: [{ validator: validateSemester, trigger: "blur" }],
       },
-      newSchoolYearData: {}
+      newSemesterData: {}
     };
   },
   methods: {
     closeDialog() {
-      this.$emit("closeUpdateSchoolYear", false);
+      this.$emit("closeUpdateSemester", false);
+      this.updateData();
     },
     save() {
-      this.$refs.newSchoolYearData.validate(valid => {
+      this.$refs.newSemesterData.validate(valid => {
         if (valid) {
           let params = {
-            request: 4,
+            request: 3,
             data: {
-              ID: this.newSchoolYearData.ID,
-              YearFrom: this.formatDate(this.newSchoolYearData.YearFrom),
-              YearTo: this.formatDate(this.newSchoolYearData.YearTo),
-              Status: this.newSchoolYearData.Status == "Active" ? 1 : 2
+              ID: this.newSemesterData.ID,
+              Semester: this.newSemesterData.Semester,
             }
           };
+
           this.http
-            .post(this.api.SchoolYearService, params)
+            .post(this.api.SemesterService, params)
             .then(response => {
               if (response.data.State == 1) {
-                this.updateData();
+                this.closeDialog();
               }
               this.$message({
                 type: response.data.State == 1 ? "success" : "danger",
@@ -128,26 +103,13 @@ export default {
     updateData() {
       this.$emit("updateData");
     },
-    formatDate(date) {
-      var d = new Date(date),
-        month = "" + (d.getMonth() + 1),
-        day = "" + d.getDate(),
-        year = d.getFullYear();
-      if (month.length < 2) {
-        month = "0" + month;
-      }
-      if (day.length < 2) {
-        day = "0" + day;
-      }
-      return `${year}`;
-    }
   },
   props: {
-    showUpdateSchoolYear: {
+    showUpdateSemester: {
       type: Boolean,
       default: false
     },
-    schoolYearData: {
+    semesterData: {
       type: Object,
       default: () => {
         return {};
@@ -156,7 +118,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.newSchoolYearData = this.schoolYearData;
+    this.newSemesterData = this.semesterData;
   }
 };
 </script>

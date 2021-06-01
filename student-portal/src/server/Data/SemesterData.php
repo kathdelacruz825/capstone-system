@@ -58,11 +58,9 @@ class SemesterData {
   function UpdateSemester($params) {
     $ID = $params['ID'];
     $Semester = $params['Semester'];
-    $Status = $params['Status'];
 
     $query = "Update `tbl_semester` SET
-      `Semester`='$Semester',
-      `Status`='$Status'
+      `Semester`='$Semester'
       where ID=$ID";
 
     if ($this->link->query($query) === TRUE) {
