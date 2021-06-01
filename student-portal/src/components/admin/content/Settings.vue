@@ -49,6 +49,11 @@ export default {
       require([
         "@/components/admin/content/settings/GradingPeriod.vue"
       ], resolve);
+    },
+    Semester: resolve => {
+      require([
+        "@/components/admin/content/settings/Semester.vue"
+      ], resolve);
     }
   },
   data() {
@@ -64,8 +69,9 @@ export default {
           { name: "Year Level", component: "YearLevel" },
           { name: "Quarter", component: "GradingPeriod" },
           { name: "School Year", component: "SchoolYear" },
+          { name: "Semester", component: "Semester" },
           { name: "Teacher", component: "Teacher" },
-          { name: "Users", component: "Users" }
+          { name: "Users", component: "Users" },
           // { name: "System", component: "System" }
         ],
         "2": [
@@ -74,7 +80,8 @@ export default {
           { name: "Year Level", component: "YearLevel" },
           { name: "Quarter", component: "GradingPeriod" },
           { name: "School Year", component: "SchoolYear" },
-          { name: "Teacher", component: "Teacher" }
+          { name: "Semester", component: "Semester" },
+          { name: "Teacher", component: "Teacher" },
           // { name: "System", component: "System" }
         ]
       }

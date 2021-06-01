@@ -1,0 +1,143 @@
+<template>
+  <div class="semester">
+    <div class="button-options">
+      <el-button icon="el-icon-plus" @click="showAddSemester = true">
+        Add Semester
+      </el-button>
+    </div>
+    <el-table :data="searchTable" style="width: 100%" max-height="370">
+      <el-table-column
+        v-for="(propItem, propKey) in tableProps"
+        :key="propKey"
+        :prop="propItem.propName"
+        :label="propItem.propLabel"
+        :width="propItem.width"
+        :align="'center'"
+        class-name="text-style"
+      >
+      </el-table-column>
+      <el-table-column fixed="right" label="Operations" :width="'230'">
+        <template slot="header" slot-scope="scope">
+          <el-input
+            v-model="search"
+            size="mini"
+            placeholder="Type to search"/>
+        </template>
+        <template slot-scope="scope">
+          <el-button
+            class="operationItem-button"
+            size="small"
+            type="info"
+            @click.native.prevent="
+              operationAction('View Info', tableData[scope.$index])
+            "
+          >
+            {{ "View Info" }}
+          </el-button>
+          <el-button
+            class="operationItem-button"
+            size="small"
+            type="warning"
+            @click.native.prevent="
+              operationAction('Update', tableData[scope.$index])
+            "
+          >
+            {{ "Update" }}
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <AddSemester
+      :showAddSemester="showAddSemester"
+      @closeAddSemester="closeAddSemester($event)"
+      @updateData="updateData()"
+    />
+
+    <ViewInfoSemester
+      :schoolYearData="schoolYearData"
+      :showViewInfoSchoolYear="showViewInfoSchoolYear"
+      @closeViewInfoSchoolYear="closeViewInfoSchoolYear($event)"
+    />
+
+    <UpdateSemester
+      v-if="showUpdateSchoolYear"
+      :schoolYearData="schoolYearData"
+      :showUpdateSchoolYear="showUpdateSchoolYear"
+      @updateData="updateData()"
+      @closeUpdateSchoolYear="closeUpdateSchoolYear($event)"
+    />
+  </div>
+</template>
+
+<script>
+import AddSemester from "@/components/admin/content/dialog/settings/semester/AddSemester.vue";
+import UpdateSemester from "@/components/admin/content/dialog/settings/semester/UpdateSemester.vue";
+import ViewInfoSemester from "@/components/admin/content/dialog/settings/semester/ViewInfoSemester.vue";
+
+import { tableProps } from "@/components/admin/content/settings/tableProps_Semester.js";
+
+export default {
+  components: {
+    AddSemester,
+    UpdateSemester,
+    ViewInfoSemester
+  },
+  data() {
+    return {
+      showAddSemester: false,
+      search: "",
+      tableProps: tableProps,
+      tableData: [],
+      schoolYearData: {},
+      showSetActive: false,
+      showSetInActive: false,
+      showViewInfoSubject: false,
+      showUpdateSchoolYear: false,
+      showViewInfoSchoolYear: false
+    };
+  },
+  methods: {
+    GetSemester() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.SemesterService, params)
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    closeAddSemester(val) {
+      this.showAddSemester = val;
+    },
+    closeViewInfoSchoolYear(val) {
+      this.showViewInfoSchoolYear = val;
+    },
+    closeUpdateSchoolYear(val) {
+      this.showUpdateSchoolYear = val;
+    },
+    updateData() {
+      this.getAllGradingPeriod();
+    }
+  },
+  props: {},
+  computed: {
+    searchTable: function() {
+      if (this.search == "") return this.tableData;
+      return this.tableData.filter(item => {
+        return item.Semester.indexOf(this.search) > -1 
+        || item.Status.indexOf(this.search) > -1;
+      });
+    }
+  },
+  created() {},
+  mounted() {
+    this.GetSemester();
+  }
+};
+</script>
