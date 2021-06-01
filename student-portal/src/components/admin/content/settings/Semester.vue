@@ -26,13 +26,14 @@
         <template slot-scope="scope">
           <el-button
             class="operationItem-button"
+            :disabled="tableData[scope.$index].Status == 'Inactive' ? false : true"
             size="small"
-            type="success"
+            :type="tableData[scope.$index].Status == 'Inactive' ? 'success' : 'danger'"
             @click.native.prevent="
               operationAction('SetStatus', tableData[scope.$index])
             "
           >
-            {{ "Active/Inactive" }}
+            {{ tableData[scope.$index].Status == 'Inactive' ? 'Set Active' : tableData[scope.$index].Status}}
           </el-button>
           <el-button
             class="operationItem-button"
