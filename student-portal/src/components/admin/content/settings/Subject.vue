@@ -6,7 +6,7 @@
       </el-button>
       <div class="ck-box">
         <div>
-        <small>Select Semester</small>
+        <small style="margin-right: 5px">Select Semester</small>
         <el-select v-model="value" placeholder="Select Semester" @change="changeFilter">
           <el-option
             v-for="item in options"
@@ -17,8 +17,8 @@
         </el-select>
         </div>
         <div>
-          <small>Select Year Level</small>
-          <el-select class="left-margin" v-model="yearLevelValue" placeholder="Select Year Level" @change="changeFilterYearLevel">
+          <small class="left-margin" style="margin-right: 5px">Select Year Level</small>
+          <el-select v-model="yearLevelValue" placeholder="Select Year Level" @change="changeFilterYearLevel">
             <el-option
               v-for="item in yearLeveloptions"
               :key="item.value"
@@ -30,7 +30,7 @@
       </div>
 
     </div>
-    <el-table :data="searchTable" style="width: 100%" max-height="450">
+    <el-table :data="searchTable" style="width: 100%" max-height="420">
       <el-table-column
         v-for="(propItem, propKey) in tableProps"
         :key="propKey"
@@ -128,26 +128,34 @@ export default {
   },
   methods: {
     changeFilter(e) {
-      if (e == '0') {
+      if (e == '0' && !this.currYearLevelID || e == '0' && this.currYearLevelID == '0') {
         this.getAllSubject();
       } else {
         this.currSemesterID = e;
-        if (!this.currYearLevelID) {
+        if (!this.currYearLevelID || this.currYearLevelID == '0') {
           this.getAllSubjectBySemesterOnly(e)
         } else {
-          this.getAllSubjectBySemester(e, this.currYearLevelID);
+          if (e == '0') {
+            this.getAllSubjectByYearLevelOnly(this.currYearLevelID);
+          } else {
+            this.getAllSubjectBySemester(e, this.currYearLevelID);
+          }
         }
       }
     },
     changeFilterYearLevel(e) {
-      if (e == '0') {
+      if (e == '0' && !this.currSemesterID || e == '0' && this.currSemesterID == '0') {
         this.getAllSubject();
       } else {
         this.currYearLevelID = e;
-        if (!this.currSemesterID) {
+        if (!this.currSemesterID || this.currSemesterID == '0') {
           this.getAllSubjectByYearLevelOnly(e);
         } else {
-          this.getAllSubjectBySemester(this.currSemesterID, e);
+          if (e == '0') {
+            this.getAllSubjectBySemesterOnly(this.currSemesterID)
+          } else {
+            this.getAllSubjectBySemester(this.currSemesterID, e);
+          }
         }
       }
     },
