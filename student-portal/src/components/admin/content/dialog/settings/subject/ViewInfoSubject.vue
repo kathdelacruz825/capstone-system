@@ -48,6 +48,24 @@
             </el-dropdown>
           </el-form-item>
 
+          <el-form-item label="Year Level:">
+            <el-dropdown trigger="click">
+              <el-button type="primary" disabled>
+                {{ this.subjectData.YearLevel }}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(yearLevelItem, yearLevelKey) in []"
+                  :key="yearLevelKey"
+                  :command="yearLevelItem"
+                >
+                  {{ yearLevelItem.YearLevel }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
+
           <el-form-item label="Semester:">
             <el-dropdown trigger="click">
               <el-button type="primary" disabled>

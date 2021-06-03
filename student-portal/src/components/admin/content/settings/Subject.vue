@@ -30,7 +30,7 @@
       </div>
 
     </div>
-    <el-table :data="searchTable" style="width: 100%" max-height="370">
+    <el-table :data="searchTable" style="width: 100%" max-height="450">
       <el-table-column
         v-for="(propItem, propKey) in tableProps"
         :key="propKey"
