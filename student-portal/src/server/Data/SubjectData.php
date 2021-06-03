@@ -174,13 +174,14 @@ class SubjectData {
     $Title = $params['Title'];
     $Desc = $params['Description'];
     $TeacherID = $params['TeacherID'];
+    $YearLevelID = $params['YearLevelID'];
     $SemesterID = $params['SemesterID'];
     $Status = intval($params['Status']);
     
     $query = "Insert into `tbl_subject` 
-              (Code, Title, Description, TeacherID, SemesterID, Status) 
+              (Code, Title, Description, TeacherID, YearLevelID, SemesterID, Status) 
               values 
-              ('$Code', '$Title', '$Desc', '$TeacherID', '$SemesterID', $Status)";
+              ('$Code', '$Title', '$Desc', '$TeacherID','$YearLevelID', '$SemesterID', $Status)";
     
     if ($this->link->query($query) === TRUE) {
       $this->successTemp["State"] = 1;
@@ -201,6 +202,7 @@ class SubjectData {
     $Title = $params['Title'];
     $Desc = $params['Description'];
     $TeacherID = $params['TeacherID'];
+    $YearLevelID = $params['YearLevelID'];
     $SemesterID = $params['SemesterID'];
     $Status = intval($params['Status']);
 
@@ -209,6 +211,7 @@ class SubjectData {
               Title='$Title',
               Description='$Desc',
               TeacherID='$TeacherID',
+              YearLevelID='$YearLevelID',
               SemesterID='$SemesterID',
               Status=$Status
               where ID=$ID";

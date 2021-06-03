@@ -53,6 +53,24 @@
             </el-dropdown>
           </el-form-item>
 
+          <el-form-item label="Year Level:">
+            <el-dropdown trigger="click" @command="selectYearLevel">
+              <el-button type="primary">
+                {{ currYearLevel }}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(yearLevelItem, yearLevelKey) in yearLevelList"
+                  :key="yearLevelKey"
+                  :command="yearLevelItem"
+                >
+                  {{ yearLevelItem.YearLevel }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
+
           <el-form-item label="Semester:">
             <el-dropdown trigger="click" @command="selectSemester">
               <el-button type="primary">
@@ -115,6 +133,8 @@ export default {
       currTeacher: "---Select---",
       semesterList: [],
       currSemester: "---Select---",
+      yearLevelList: [],
+      currYearLevel: "---Select---",
     };
   },
   methods: {
@@ -123,6 +143,9 @@ export default {
     },
     selectSemester(val) {
       this.currSemester = val.Semester;
+    },
+    selectYearLevel(val) {
+      this.currYearLevel = val.YearLevel;
     },
     closeDialog() {
       this.$emit("closeUpdateSubject", false);
@@ -139,6 +162,7 @@ export default {
               Title: this.newSubjectData.Title,
               Description: this.newSubjectData.Description,
               TeacherID: this.parseTeacher(this.currTeacher)[0].ID,
+              YearLevelID: this.parseYearLevel(this.currYearLevel)[0].ID,
               SemesterID: this.parseSemester(this.currSemester)[0].ID,
               Status: this.newSubjectData.Status == "Active" ? 1 : 2
             }
@@ -179,6 +203,11 @@ export default {
         return val.Semester == item;
       });
     },
+    parseYearLevel(item) {
+      return this.yearLevelList.filter(val => {
+        return val.YearLevel == item;
+      });
+    },
     getAllTeacher() {
       let params = {
         request: 1,
@@ -207,6 +236,20 @@ export default {
           console.log(error);
         });
     },
+    getAllYearLevel() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.YearLevelService, params)
+        .then(response => {
+          this.yearLevelList = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   },
   props: {
     showUpdateSubject: {
@@ -223,12 +266,14 @@ export default {
   created() {
     this.getAllTeacher();
     this.GetSemester();
+    this.getAllYearLevel();
   },
   mounted() {
     console.log(this.subjectData);
     this.newSubjectData = this.subjectData;
     this.currTeacher = this.subjectData.Teacher;
     this.currSemester = this.subjectData.Semester;
+    this.currYearLevel = this.subjectData.YearLevel;
   }
 };
 </script>

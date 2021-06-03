@@ -50,6 +50,24 @@
             </el-dropdown>
           </el-form-item>
 
+          <el-form-item label="Year Level:">
+            <el-dropdown trigger="click" @command="selectYearLevel">
+              <el-button type="primary">
+                {{ currYearLevel }}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(yearLevelItem, yearLevelKey) in yearLevelList"
+                  :key="yearLevelKey"
+                  :command="yearLevelItem"
+                >
+                  {{ yearLevelItem.YearLevel }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-form-item>
+
           <el-form-item label="Semester:">
             <el-dropdown trigger="click" @command="selectSemester">
               <el-button type="primary">
@@ -112,6 +130,7 @@ export default {
         Title: "",
         Description: "",
         TeacherID: "",
+        YearLevelID: "",
         SemesterID: "",
         Status: 1 //number 1 - 2,
       },
@@ -119,6 +138,8 @@ export default {
       currTeacher: "---Select---",
       semesterList: [],
       currSemester: "---Select---",
+      yearLevelList: [],
+      currYearLevel: "---Select---",
     };
   },
   methods: {
@@ -130,6 +151,10 @@ export default {
       this.ruleForm.SemesterID = val.ID;
       this.currSemester = val.Semester;
     },
+    selectYearLevel(val) {
+      this.ruleForm.YearLevelID = val.ID;
+      this.currYearLevel = val.YearLevel;
+    },
     closeDialog() {
       this.$emit("closeAddSubject", false);
       this.$refs.ruleForm.resetFields();
@@ -139,15 +164,20 @@ export default {
         if (valid) {
 
           if (this.currTeacher == '---Select---') {
-          this.$message({
-            type: "danger",
-            message: "Select Teacher!!"
-          });
-          } else if ((this.currSemester == '---Select---')) {
-          this.$message({
-            type: "danger",
-            message: "Select Semester!!"
-          });
+            this.$message({
+              type: "danger",
+              message: "Select Teacher!!"
+            });
+          } else if (this.currSemester == '---Select---') {
+            this.$message({
+              type: "danger",
+              message: "Select Semester!!"
+            });
+          } else if (this.currYearLevel == '---Select---') {
+            this.$message({
+              type: "danger",
+              message: "Select Year Level!!"
+            });
           } else {
             let params = {
               request: 3,
@@ -156,6 +186,7 @@ export default {
                 Title: this.ruleForm.Title,
                 Description: this.ruleForm.Description,
                 TeacherID: this.ruleForm.TeacherID,
+                YearLevelID: this.ruleForm.YearLevelID,
                 SemesterID: this.ruleForm.SemesterID,
                 Status: this.ruleForm.Status
               }
@@ -189,6 +220,9 @@ export default {
     },
     updateData() {
       this.$emit("updateData");
+      this.currTeacher = "---Select---";
+      this.currSemester = "---Select---";
+      this.currYearLevel = "---Select---";
     },
     getAllTeacher() {
       let params = {
@@ -218,6 +252,20 @@ export default {
           console.log(error);
         });
     },
+    getAllYearLevel() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.YearLevelService, params)
+        .then(response => {
+          this.yearLevelList = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   },
   props: {
     showAddSubject: {
@@ -228,6 +276,7 @@ export default {
   created() {
     this.getAllTeacher();
     this.GetSemester();
+    this.getAllYearLevel();
   }
 };
 </script>

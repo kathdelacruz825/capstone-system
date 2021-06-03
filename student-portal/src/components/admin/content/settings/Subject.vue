@@ -291,7 +291,15 @@ export default {
       this.showUpdateSubject = val;
     },
     updateData() {
-      this.getAllSubject();
+      if (this.currSemesterID && this.currYearLevelID) {
+        this.getAllSubjectBySemester(this.currSemesterID, this.currYearLevelID);
+      } else if (this.currSemesterID && !this.currYearLevelID) {
+        this.getAllSubjectBySemesterOnly(this.currSemesterID);
+      } else if (!this.currSemesterID && this.currYearLevelID) {
+        this.getAllSubjectByYearLevelOnly(this.currYearLevelID);
+      } else {
+        this.getAllSubject();
+      }
     }
   },
   computed: {
