@@ -38,7 +38,7 @@
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item
-                  v-for="(teacherItem, teacherKey) in teacherList"
+                  v-for="(teacherItem, teacherKey) in []"
                   :key="teacherKey"
                   :command="teacherItem"
                 >
@@ -56,7 +56,7 @@
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item
-                  v-for="(semesterItem, semesterKey) in semesterList"
+                  v-for="(semesterItem, semesterKey) in []"
                   :key="semesterKey"
                   :command="semesterItem"
                 >

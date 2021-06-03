@@ -5,6 +5,8 @@
         Add Subject
       </el-button>
       <div class="ck-box">
+        <div>
+        <small>Select Semester</small>
         <el-select v-model="value" placeholder="Select Semester" @change="changeFilter">
           <el-option
             v-for="item in options"
@@ -13,6 +15,18 @@
             :value="item.value">
           </el-option>
         </el-select>
+        </div>
+        <div>
+          <small>Select Year Level</small>
+          <el-select class="left-margin" v-model="yearLevelValue" placeholder="Select Year Level" @change="changeFilterYearLevel">
+            <el-option
+              v-for="item in yearLeveloptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
       </div>
 
     </div>
@@ -97,6 +111,10 @@ export default {
     return {
       options: [],
       value: 'All',
+      yearLeveloptions: [],
+      yearLevelValue: "All",
+      currSemesterID: "",
+      currYearLevelID: "",
       showAddSubject: false,
       search: "",
       tableProps: tableProps,
@@ -113,7 +131,24 @@ export default {
       if (e == '0') {
         this.getAllSubject();
       } else {
-        this.getAllSubjectBySemester(e);
+        this.currSemesterID = e;
+        if (!this.currYearLevelID) {
+          this.getAllSubjectBySemesterOnly(e)
+        } else {
+          this.getAllSubjectBySemester(e, this.currYearLevelID);
+        }
+      }
+    },
+    changeFilterYearLevel(e) {
+      if (e == '0') {
+        this.getAllSubject();
+      } else {
+        this.currYearLevelID = e;
+        if (!this.currSemesterID) {
+          this.getAllSubjectByYearLevelOnly(e);
+        } else {
+          this.getAllSubjectBySemester(this.currSemesterID, e);
+        }
       }
     },
     operationAction(name, itemData) {
@@ -136,6 +171,29 @@ export default {
         default:
           console.log("Invalid Option");
       }
+    },
+    getAllYearLevel() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.YearLevelService, params)
+        .then(response => {
+          this.yearLeveloptions.push({
+            value: '0',
+            label: 'All'
+          });
+          response.data.map((item)=> {
+            this.yearLeveloptions.push({
+              value: item.ID,
+              label: item.YearLevel
+            });
+          })
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     GetSemester() {
       let params = {
@@ -174,11 +232,44 @@ export default {
           console.log(error);
         });
     },
-    getAllSubjectBySemester(SemesterID) {
+    getAllSubjectBySemester(SemesterID, YearLevelID) {
       let params = {
         request: 6,
         data: {
           SemesterID: SemesterID,
+          YearLevelID: YearLevelID,
+        }
+      };
+      this.http
+        .post(this.api.SubjectService, params)
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getAllSubjectBySemesterOnly(SemesterID) {
+      let params = {
+        request: 7,
+        data: {
+          SemesterID: SemesterID
+        }
+      };
+      this.http
+        .post(this.api.SubjectService, params)
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getAllSubjectByYearLevelOnly(YearLevelID) {
+      let params = {
+        request: 8,
+        data: {
+          YearLevelID: YearLevelID
         }
       };
       this.http
@@ -216,8 +307,9 @@ export default {
   },
   props: {},
   created() {
-    this.getAllSubject();
     this.GetSemester();
+    this.getAllYearLevel();
+    this.getAllSubject();
   },
   mounted() {},
 };
@@ -239,6 +331,9 @@ export default {
   }
   .el-button.operationItem-button {
     padding: 5px;
+  }
+  .left-margin {
+    margin-left: 20px;
   }
 }
 </style>

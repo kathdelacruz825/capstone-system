@@ -36,6 +36,16 @@ if ($params) {
       $data = new SubjectData($conn);
       echo json_encode($data->getAllSubjectBySemester($params['data']));
       break;
+    case 7:
+      // delete data
+      $data = new SubjectData($conn);
+      echo json_encode($data->getAllSubjectBySemesterOnly($params['data']));
+      break;
+    case 8:
+      // delete data
+      $data = new SubjectData($conn);
+      echo json_encode($data->getAllSubjectByYearLevelOnly($params['data']));
+      break;
     default:
       echo "Invalid Request";
   }

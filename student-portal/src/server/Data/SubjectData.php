@@ -21,10 +21,12 @@ class SubjectData {
               `tbl_subject`.`Title`,
               `tbl_subject`.`Description`,
               `tbl_teacher`.`Name`,
+              `tbl_yearlevel`.`YearLevel`,
               `tbl_semester`.`Semester`,
               `tbl_subject_status`.`Status`
-              from (((`tbl_subject`
+              from ((((`tbl_subject`
               Inner Join `tbl_teacher` ON `tbl_subject`.`TeacherID`=`tbl_teacher`.`ID`)
+              Inner Join `tbl_yearlevel` ON `tbl_subject`.`YearLevelID`=`tbl_yearlevel`.`ID`)
               Inner Join `tbl_semester` ON `tbl_subject`.`SemesterID`=`tbl_semester`.`ID`)
               Inner Join `tbl_subject_status` ON `tbl_subject`.`Status`=`tbl_subject_status`.`ID`)
               Order by `tbl_subject`.`ID` ASC";
@@ -39,8 +41,9 @@ class SubjectData {
         $this->tempData["Title"] = $row[2];
         $this->tempData["Description"] = $row[3];
         $this->tempData["Teacher"] = $row[4];
-        $this->tempData["Semester"] = $row[5];
-        $this->tempData["Status"] = $row[6];
+        $this->tempData["YearLevel"] = $row[5];
+        $this->tempData["Semester"] = $row[6];
+        $this->tempData["Status"] = $row[7];
         $this->response[] = $this->tempData;
       }
     }
@@ -49,19 +52,25 @@ class SubjectData {
   
   function getAllSubjectBySemester($params) {
     $SemesterID = $params['SemesterID'];
+    $YearLevelID = $params['YearLevelID'];
+
     $query = "Select
               `tbl_subject`.`ID`,
               `tbl_subject`.`Code`,
               `tbl_subject`.`Title`,
               `tbl_subject`.`Description`,
               `tbl_teacher`.`Name`,
+              `tbl_yearlevel`.`YearLevel`,
               `tbl_semester`.`Semester`,
               `tbl_subject_status`.`Status`
-              from (((`tbl_subject`
+              from ((((`tbl_subject`
               Inner Join `tbl_teacher` ON `tbl_subject`.`TeacherID`=`tbl_teacher`.`ID`)
+              Inner Join `tbl_yearlevel` ON `tbl_subject`.`YearLevelID`=`tbl_yearlevel`.`ID`)
               Inner Join `tbl_semester` ON `tbl_subject`.`SemesterID`=`tbl_semester`.`ID`)
               Inner Join `tbl_subject_status` ON `tbl_subject`.`Status`=`tbl_subject_status`.`ID`)
               Where `tbl_subject`.`SemesterID`='$SemesterID'
+              And
+              `tbl_subject`.`YearLevelID`='$YearLevelID'
               Order by `tbl_subject`.`ID` ASC";
 
 
@@ -74,8 +83,85 @@ class SubjectData {
         $this->tempData["Title"] = $row[2];
         $this->tempData["Description"] = $row[3];
         $this->tempData["Teacher"] = $row[4];
-        $this->tempData["Semester"] = $row[5];
-        $this->tempData["Status"] = $row[6];
+        $this->tempData["YearLevel"] = $row[5];
+        $this->tempData["Semester"] = $row[6];
+        $this->tempData["Status"] = $row[7];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+
+  function getAllSubjectBySemesterOnly($params) {
+    $SemesterID = $params['SemesterID'];
+
+    $query = "Select
+              `tbl_subject`.`ID`,
+              `tbl_subject`.`Code`,
+              `tbl_subject`.`Title`,
+              `tbl_subject`.`Description`,
+              `tbl_teacher`.`Name`,
+              `tbl_yearlevel`.`YearLevel`,
+              `tbl_semester`.`Semester`,
+              `tbl_subject_status`.`Status`
+              from ((((`tbl_subject`
+              Inner Join `tbl_teacher` ON `tbl_subject`.`TeacherID`=`tbl_teacher`.`ID`)
+              Inner Join `tbl_yearlevel` ON `tbl_subject`.`YearLevelID`=`tbl_yearlevel`.`ID`)
+              Inner Join `tbl_semester` ON `tbl_subject`.`SemesterID`=`tbl_semester`.`ID`)
+              Inner Join `tbl_subject_status` ON `tbl_subject`.`Status`=`tbl_subject_status`.`ID`)
+              Where `tbl_subject`.`SemesterID`='$SemesterID'
+              Order by `tbl_subject`.`ID` ASC";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["Code"] = $row[1];
+        $this->tempData["Title"] = $row[2];
+        $this->tempData["Description"] = $row[3];
+        $this->tempData["Teacher"] = $row[4];
+        $this->tempData["YearLevel"] = $row[5];
+        $this->tempData["Semester"] = $row[6];
+        $this->tempData["Status"] = $row[7];
+        $this->response[] = $this->tempData;
+      }
+    }
+    return $this->response;
+  }
+
+  function getAllSubjectByYearLevelOnly($params) {
+    $YearLevelID = $params['YearLevelID'];
+
+    $query = "Select
+              `tbl_subject`.`ID`,
+              `tbl_subject`.`Code`,
+              `tbl_subject`.`Title`,
+              `tbl_subject`.`Description`,
+              `tbl_teacher`.`Name`,
+              `tbl_yearlevel`.`YearLevel`,
+              `tbl_semester`.`Semester`,
+              `tbl_subject_status`.`Status`
+              from ((((`tbl_subject`
+              Inner Join `tbl_teacher` ON `tbl_subject`.`TeacherID`=`tbl_teacher`.`ID`)
+              Inner Join `tbl_yearlevel` ON `tbl_subject`.`YearLevelID`=`tbl_yearlevel`.`ID`)
+              Inner Join `tbl_semester` ON `tbl_subject`.`SemesterID`=`tbl_semester`.`ID`)
+              Inner Join `tbl_subject_status` ON `tbl_subject`.`Status`=`tbl_subject_status`.`ID`)
+              Where `tbl_subject`.`YearLevelID`='$YearLevelID'
+              Order by `tbl_subject`.`ID` ASC";
+
+    $result = $this->link->query($query);
+
+    while ($row = mysqli_fetch_row($result)) {
+      if (count($row) > 0) {
+        $this->tempData["ID"] = $row[0];
+        $this->tempData["Code"] = $row[1];
+        $this->tempData["Title"] = $row[2];
+        $this->tempData["Description"] = $row[3];
+        $this->tempData["Teacher"] = $row[4];
+        $this->tempData["YearLevel"] = $row[5];
+        $this->tempData["Semester"] = $row[6];
+        $this->tempData["Status"] = $row[7];
         $this->response[] = $this->tempData;
       }
     }
