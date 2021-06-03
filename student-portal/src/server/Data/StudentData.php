@@ -131,7 +131,7 @@ class StudentData {
   }
 
   function getStudentByStudentID($params) {
-    $ID = strval($params['ID']);
+    $AccountID = $params['AccountID'];
 
     $query = "Select
               `tbl_accounts_student`.`ID`,
@@ -156,7 +156,7 @@ class StudentData {
               From ((`tbl_accounts_student`
               Inner Join `tbl_yearlevel` on `tbl_accounts_student`.`YearLevel` = `tbl_yearlevel`.`ID`)
               Inner Join `tbl_course` on `tbl_accounts_student`.`Course` = `tbl_course`.`ID`)
-              Where `tbl_accounts_student`.`AccountID`='$ID'
+              Where `tbl_accounts_student`.`AccountID`='$AccountID'
               And `tbl_accounts_student`.`AccountPending`=1
               And `tbl_accounts_student`.`AccountStatus`=1";
 

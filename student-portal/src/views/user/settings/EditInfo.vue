@@ -145,7 +145,7 @@ export default {
       let params = {
         request: this.userDetails.AccountType == "1" ? 10 : 13,
         data: {
-          ID: this.userDetails.ID
+          AccountID: this.userDetails.AccountID
         }
       };
       await this.http
@@ -238,12 +238,14 @@ export default {
   computed: {},
   created() {
     this.userDetails = JSON.parse(localStorage.getItem("user"));
+    this.getStudent();
   },
   mounted() {
     if (this.userDetails.AccountType == "1") {
       this.getAllCourse();
       this.getAllYearLevel();
     }
+
   }
 };
 </script>

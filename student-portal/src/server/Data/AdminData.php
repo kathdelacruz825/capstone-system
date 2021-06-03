@@ -398,7 +398,7 @@ class AdminData {
   }
 
   function UpdateStudentData($params) {
-    $id = $params['ID'];
+    $ID = $params['ID'];
     $AccountType = intval($params['AccountType']);
     $AccountStatus = intval($params['AccountStatus']);
     $AccountPending = intval($params['AccountPending']);
@@ -432,7 +432,7 @@ class AdminData {
               `YearLevel`=$YearLevel,
               `Course`=$Course,
               `UpdateTime`='$UpdateTime'
-              where id=$id";
+              where ID='$ID'";
 
     if ($this->link->query($query) === TRUE) {
       $this->successTemp["State"] = 1;

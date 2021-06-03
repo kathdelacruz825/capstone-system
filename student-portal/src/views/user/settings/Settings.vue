@@ -230,6 +230,7 @@ export default {
   computed: {},
   created() {
     this.userDetails = JSON.parse(localStorage.getItem("user"));
+    console.log(this.userDetails);
   }
 };
 </script>
