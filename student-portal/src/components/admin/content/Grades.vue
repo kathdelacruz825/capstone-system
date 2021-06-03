@@ -221,6 +221,8 @@
       @updateData="updateData"
       @closeAddSubject="closeAddSubject($event)"
       :showAddSubject="showAddSubject"
+      :YearLevelID="studentData.YearLevel"
+      :SemesterID="currSemesterID"
     />
 
   </div>
@@ -312,6 +314,7 @@ export default {
       yearLevelValue: '',
       yearLeveloptions: [],
       currSemester: '',
+      currSemesterID: '',
       currentYearLevelID: '',
     };
   },
@@ -567,6 +570,7 @@ export default {
         .post(this.api.SemesterService, params)
         .then(response => {
           this.currSemester = response.data[0].Semester;
+          this.currSemesterID = response.data[0].ID;
         })
         .catch(error => {
           console.log(error);

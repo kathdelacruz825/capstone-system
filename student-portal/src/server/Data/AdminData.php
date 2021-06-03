@@ -295,7 +295,8 @@ class AdminData {
               `tbl_course`.`CourseID`,
               `tbl_accounts_student`.`ParentID`,
               `tbl_accounts_student`.`CreateTime`,
-              `tbl_accounts_student`.`UpdateTime`
+              `tbl_accounts_student`.`UpdateTime`,
+              `tbl_accounts_student`.`YearLevel`
               from (((((`tbl_accounts_student`
               Inner Join `tbl_account_type` on `tbl_accounts_student`.`AccountType`=`tbl_account_type`.`id`)
               Inner Join `tbl_account_status` on `tbl_accounts_student`.`AccountStatus`=`tbl_account_status`.`ID`)
@@ -336,6 +337,7 @@ class AdminData {
         $this->tempDataStudent["ParentID"] = $row[16];
         $this->tempDataStudent["CreateTime"] = $row[17];
         $this->tempDataStudent["UpdateTime"] = $row[18];
+        $this->tempDataStudent["YearLevel"] = $row[19];
         $this->response[] = $this->tempDataStudent;
       }
     }

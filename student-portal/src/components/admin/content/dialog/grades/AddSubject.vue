@@ -40,57 +40,14 @@
             </el-dropdown>
           </el-form-item>
 
-          <el-form-item label="Quarter:">
-            <el-dropdown trigger="click" @command="selectGradingPeriod">
-              <el-button type="primary">
-                {{ currentGradingPeriod }}
-                <i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  v-for="(gradingItem, gradingKey) in gradingPeriodList"
-                  :key="gradingKey"
-                  :command="gradingItem"
-                >
-                  {{ gradingItem.Title }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </el-form-item>
-
           <el-form-item label="Title:" prop="currGrade">
-            <el-input v-model="ruleForm.Title" type="text"></el-input>
+            <el-input v-model="ruleForm.Title" type="text" readonly></el-input>
           </el-form-item>
 
-          <el-form-item label="Description:" prop="currGrade">
-            <el-input v-model="ruleForm.Description" type="text"></el-input>
+          <el-form-item label="Teacher:" prop="currGrade">
+            <el-input v-model="ruleForm.Teacher" type="text" readonly=""></el-input>
           </el-form-item>
 
-          <el-form-item label="Score:" prop="currGrade">
-            <el-input v-model="ruleForm.Score" type="number"></el-input>
-          </el-form-item>
-
-          <el-form-item label="Over All Items:" prop="currGrade">
-            <el-input v-model="ruleForm.OverAllItems" type="number"></el-input>
-          </el-form-item>
-
-          <el-form-item label="Teacher:">
-            <el-dropdown trigger="click" @command="selectTeacher">
-              <el-button type="primary">
-                {{ currentTeacher }}
-                <i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  v-for="(teacherItem, teacherKey) in teacherList"
-                  :key="teacherKey"
-                  :command="teacherItem"
-                >
-                  {{ teacherItem.Name }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </el-form-item>
         </div>
       </el-form>
     </div>
@@ -119,74 +76,32 @@ export default {
       ruleForm: {
         StudentID: "",
         SubjectID: "",
-        GradingPeriod: "",
         Title: "",
-        Description: "",
-        Score: "",
-        OverAllItems: "",
-        Remarks: "",
-        TeacherID: ""
+        Teacher: "",
       },
-      currentTeacher: "---Select---",
       currentSubject: "---Select---",
-      currentGradingPeriod: "---Select---",
-      currentGrade: "",
-      teacherList: [],
       subjectList: [],
-      gradingPeriodList: []
     };
   },
   methods: {
     closeDialog() {
-      this.currentGradingPeriod = "---Select---";
-      this.currentTeacher = "---Select---";
       this.currentSubject = "---Select---";
       this.$emit("closeAddSubject", false);
       this.$emit("updateData");
       this.$refs.ruleForm.resetFields();
     },
-    selectTeacher(val) {
-      this.currentTeacher = val.Name;
-      this.ruleForm.TeacherID = val.AccountID;
-    },
     selectSubject(val) {
+      console.log(val);
       this.currentSubject = val.Title;
       this.ruleForm.SubjectID = val.ID;
-    },
-    selectGradingPeriod(val) {
-      this.currentGradingPeriod = val.Title;
-      this.ruleForm.GradingPeriod = val.ID;
+      this.ruleForm.Title = val.Title;
+      this.ruleForm.Teacher = val.Teacher;
     },
     save() {
-      if (this.ruleForm.SubjectID == "") {
+      if (this.currentSubject == "---Select---") {
         this.$message({
           type: "warning",
           message: "Select Subject!"
-        });
-      } else if (this.ruleForm.GradingPeriod == "") {
-        this.$message({
-          type: "warning",
-          message: "Select Quarter!"
-        });
-      } else if (this.ruleForm.Title == "") {
-        this.$message({
-          type: "warning",
-          message: "Enter Title!"
-        });
-      } else if (this.ruleForm.Score == "") {
-        this.$message({
-          type: "warning",
-          message: "Enter Score!"
-        });
-      } else if (this.ruleForm.OverAllItems == "") {
-        this.$message({
-          type: "warning",
-          message: "Enter Over All Items!"
-        });
-      } else if (this.ruleForm.TeacherID == "") {
-        this.$message({
-          type: "warning",
-          message: "Select Teacher!"
         });
       } else {
         let params = {
@@ -194,17 +109,11 @@ export default {
           data: {
             StudentID: this.ruleForm.StudentID,
             SubjectID: this.ruleForm.SubjectID,
-            GradingPeriod: this.ruleForm.GradingPeriod,
-            Title: this.ruleForm.Title,
-            Description: this.ruleForm.Description,
-            Score: this.ruleForm.Score,
-            OverAllItems: this.ruleForm.OverAllItems,
-            Remarks: this.computeRemarks(this.ruleForm),
-            TeacherID: this.ruleForm.TeacherID
           }
         };
+
         this.http
-          .post(this.api.AdminQuizService, params)
+          .post(this.api.StudentSubjectService, params)
           .then(response => {
             if (response.data.State == 1) {
               this.resetFields();
@@ -225,30 +134,13 @@ export default {
           });
       }
     },
-    computeRemarks(obj) {
-      var Score = Number(obj.Score);
-      var OverAllItems = Number(obj.OverAllItems) / 2;
-      return Score >= OverAllItems ? "Passed" : "Failed";
-    },
-
-    getAllTeacher() {
-      let params = {
-        request: 1,
-        data: {}
-      };
-      this.http
-        .post(this.api.TeacherService, params)
-        .then(response => {
-          this.teacherList = response.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
     getAllSubject() {
       let params = {
-        request: 1,
-        data: {}
+        request: 6,
+        data: {
+          YearLevelID: this.YearLevelID,
+          SemesterID: this.SemesterID
+        }
       };
       this.http
         .post(this.api.SubjectService, params)
@@ -259,32 +151,11 @@ export default {
           console.log(error);
         });
     },
-    getAllGradingPeriod() {
-      let params = {
-        request: 1,
-        data: {}
-      };
-      this.http
-        .post(this.api.GradingPeriodService, params)
-        .then(response => {
-          this.gradingPeriodList = response.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
     resetFields() {
-      this.currentGradingPeriod = "---Select---";
-      this.currentTeacher = "---Select---";
       this.currentSubject = "---Select---";
       this.ruleForm.SubjectID = "";
-      this.ruleForm.GradingPeriod = "";
       this.ruleForm.Title = "";
-      this.ruleForm.Description = "";
-      this.ruleForm.Score = "";
-      this.ruleForm.OverAllItems = "";
-      this.ruleForm.Remarks = "";
-      this.ruleForm.TeacherID = "";
+      this.ruleForm.Teacher = "";
     }
   },
   props: {
@@ -295,12 +166,18 @@ export default {
     studentID: {
       type: String,
       default: ""
-    }
+    },
+    YearLevelID: {
+      type: String,
+      default: ""
+    },
+    SemesterID: {
+      type: String,
+      default: ""
+    },
   },
   async created() {
-    await this.getAllTeacher();
     await this.getAllSubject();
-    await this.getAllGradingPeriod();
   },
   mounted() {
     this.ruleForm.StudentID = this.studentID;
