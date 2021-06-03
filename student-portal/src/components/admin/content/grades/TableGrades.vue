@@ -1,6 +1,6 @@
 <template>
   <div class="table-grades">
-    <el-table :data="tableData" style="width: 100%" max-height="370">
+    <el-table :data="tableData" style="width: 100%" max-height="350">
       <!-- <el-table-column
         v-for="(propItem, propKey) in tableProps"
         :key="propKey"

@@ -163,11 +163,23 @@
                       ></el-button>
                     </el-row>
                   </div>
+
                   <component
+                    v-if="studentData != null && activeItemClass == 0"
+                    :is="itemClass[activeItemClass].link"
+                    @updateData="updateData"
+                    :tableData="tableData"
+                    :YearLevelID="studentData.YearLevelID"
+                    :SemesterID="currSemesterID"
+                  ></component>
+
+                  <component
+                    v-if="studentData != null && activeItemClass > 0"
                     :is="itemClass[activeItemClass].link"
                     @updateData="updateData"
                     :tableData="tableData"
                   ></component>
+
                 </div>
               </div>
             </div>
@@ -221,7 +233,7 @@
       @updateData="updateData"
       @closeAddSubject="closeAddSubject($event)"
       :showAddSubject="showAddSubject"
-      :YearLevelID="studentData.YearLevel"
+      :YearLevelID="studentData.YearLevelID"
       :SemesterID="currSemesterID"
     />
 

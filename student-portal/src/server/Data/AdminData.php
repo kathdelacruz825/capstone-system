@@ -337,7 +337,7 @@ class AdminData {
         $this->tempDataStudent["ParentID"] = $row[16];
         $this->tempDataStudent["CreateTime"] = $row[17];
         $this->tempDataStudent["UpdateTime"] = $row[18];
-        $this->tempDataStudent["YearLevel"] = $row[19];
+        $this->tempDataStudent["YearLevelID"] = $row[19];
         $this->response[] = $this->tempDataStudent;
       }
     }

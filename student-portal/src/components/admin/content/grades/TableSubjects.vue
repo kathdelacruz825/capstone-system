@@ -1,6 +1,6 @@
 <template>
   <div class="table-grades">
-    <el-table :data="tableData" style="width: 100%" max-height="370">
+    <el-table :data="tableData" style="width: 100%" max-height="300">
       <el-table-column
         v-for="(propItem, propKey) in tableProps"
         :key="propKey"
@@ -13,13 +13,13 @@
       </el-table-column>
       <el-table-column fixed="right" label="Operations" :width="'230'">
         <template slot-scope="scope">
-          <el-button
+          <!-- <el-button
             type="warning"
             icon="el-icon-edit"
             @click.native.prevent="
               operationAction('Edit', tableData[scope.$index])
             "
-          ></el-button>
+          ></el-button> -->
           <el-button
             type="danger"
             icon="el-icon-delete"
@@ -47,30 +47,32 @@
       </span>
     </el-dialog>
 
-    <UpdateQuiz
-      v-if="showUpdateQuiz"
+    <UpdateSubject
+      v-if="showUpdateSubject"
       :studentData="studentData"
       @updateData="updateData"
       @closeUpdateGrade="closeUpdateGrade($event)"
-      :showUpdateQuiz="showUpdateQuiz"
+      :showUpdateSubject="showUpdateSubject"
+      :YearLevelID="YearLevelID"
+      :SemesterID="SemesterID"
     />
   </div>
 </template>
 
 <script>
 import { tableProps } from "@/components/admin/content/grades/tableProps_TableSubject.js";
-import UpdateQuiz from "@/components/admin/content/dialog/grades/UpdateQuiz.vue";
+import UpdateSubject from "@/components/admin/content/dialog/grades/UpdateSubject.vue";
 
 export default {
   components: {
-    UpdateQuiz
+    UpdateSubject
   },
   data() {
     return {
       tableProps: tableProps,
       studentData: {},
       showDeleteSubject: false,
-      showUpdateQuiz: false
+      showUpdateSubject: false
     };
   },
   methods: {
@@ -79,7 +81,7 @@ export default {
       this.studentData = itemData;
       switch (name) {
         case "Edit":
-          this.showUpdateQuiz = true;
+          this.showUpdateSubject = true;
           break;
         case "Delete":
           this.showDeleteSubject = true;
@@ -120,7 +122,7 @@ export default {
       this.$emit("updateData");
     },
     closeUpdateGrade(val) {
-      this.showUpdateQuiz = val;
+      this.showUpdateSubject = val;
     }
   },
   props: {
@@ -129,7 +131,15 @@ export default {
       default: () => {
         return [];
       }
-    }
+    },
+    YearLevelID: {
+      type: String,
+      default: ""
+    },
+    SemesterID: {
+      type: String,
+      default: ""
+    },
   },
   created() {},
   mounted() {}
