@@ -18,9 +18,9 @@ class StudentSubjectData {
               `tbl_subject`.`Code`,
               `tbl_subject`.`Title`,
               `tbl_teacher`.`Name`
-              from ((`tbl_student_subjects`
-              Inner Join `tbl_subject` On `tbl_student_subjects`.`StudentID`=`tbl_subject`.`ID`)
-              Inner Join `tbl_teacher` On `tbl_subject`.`TeacherID`=`tbl_teacher`.`ID`)
+              from `tbl_student_subjects`
+              Inner Join `tbl_subject` On `tbl_student_subjects`.`SubjectID`=`tbl_subject`.`ID`
+              Inner Join `tbl_teacher` On `tbl_subject`.`TeacherID`=`tbl_teacher`.`ID`
               Where
               `tbl_student_subjects`.`StudentID`='$StudentID'
               Order by `tbl_student_subjects`.`ID` ASC";
@@ -44,22 +44,35 @@ class StudentSubjectData {
     $StudentID = $params['StudentID'];
     $SubjectID = $params['SubjectID'];
 
-    $query = "Insert into `tbl_student_subjects` 
-              (StudentID, SubjectID) 
-              values 
-              ('$StudentID', '$SubjectID')";
+    $query = "Select * From `tbl_student_subjects` Where `tbl_student_subjects`.`SubjectID`='$SubjectID'";
+    $result = $this->link->query($query);
+    $row = mysqli_fetch_row($result);
     
-    if ($this->link->query($query) === TRUE) {
-      $this->successTemp["State"] = 1;
-      $this->successTemp["Message"] = "New record successfully created!";
+    if ($row != null) {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Subject already exist!";
       $this->response[] = $this->successTemp;
       return $this->response[0];
     } else {
-      $this->successTemp["State"] = 0;
-      $this->successTemp["Message"] = "Error creating record!";
-      $this->response[] = $this->successTemp;
-      return $this->response[0];
+      $query = "Insert into `tbl_student_subjects` 
+      (StudentID, SubjectID) 
+      values 
+      ('$StudentID', '$SubjectID')";
+
+      if ($this->link->query($query) === TRUE) {
+        $this->successTemp["State"] = 1;
+        $this->successTemp["Message"] = "New record successfully created!";
+        $this->response[] = $this->successTemp;
+        return $this->response[0];
+      } else {
+        $this->successTemp["State"] = 0;
+        $this->successTemp["Message"] = "Error creating record!";
+        $this->response[] = $this->successTemp;
+        return $this->response[0];
+      }
+
     }
+
   }
 
   function UpdateSubject($params) {
