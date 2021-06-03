@@ -35,7 +35,7 @@ class AdminGradingData {
               `tbl_teacher`.`Name`
               from ((`tbl_record_grade`
               Inner Join `tbl_subject` ON `tbl_record_grade`.`SubjectID` = `tbl_subject`.`ID`)
-              Inner Join `tbl_teacher` ON `tbl_record_grade`.`TeacherID` = `tbl_teacher`.`AccountID`)
+              Inner Join `tbl_teacher` ON `tbl_record_grade`.`TeacherID` = `tbl_teacher`.`ID`)
               Where `tbl_record_grade`.`StudentID`='$StudentID'";
 
     $result = $this->link->query($query);
@@ -121,42 +121,54 @@ class AdminGradingData {
     $Remarks = $params['Remarks'];
     $TeacherID = $params['TeacherID'];
 
-    $query = "Insert into `tbl_record_grade`
-              (
-                `StudentID`,
-                `SubjectID`,
-                `FirstGrade`,
-                `SecondGrade`,
-                `ThirdGrade`,
-                `FourthGrade`,
-                `OverAllGrade`,
-                `Remarks`,
-                `TeacherID`
-              ) 
-              values 
-              (
-                '$StudentID',
-                '$SubjectID',
-                '$FirstGrade',
-                '$SecondGrade',
-                '$ThirdGrade',
-                '$FourthGrade',
-                '$OverAllGrade',
-                '$Remarks',
-                '$TeacherID'
-              )";
+    $query = "Select * From `tbl_record_grade` Where `tbl_record_grade`.`SubjectID`='$SubjectID'";
+    $result = $this->link->query($query);
+    $row = mysqli_fetch_row($result);
     
-    if ($this->link->query($query) === TRUE) {
-      $this->successTemp["State"] = 1;
-      $this->successTemp["Message"] = "New record successfully created!";
+    if ($row != null) {
+      $this->successTemp["State"] = 0;
+      $this->successTemp["Message"] = "Subject Grade already exist!";
       $this->response[] = $this->successTemp;
       return $this->response[0];
     } else {
-      $this->successTemp["State"] = 0;
-      $this->successTemp["Message"] = "Error creating record!";
-      $this->response[] = $this->successTemp;
-      return $this->response[0];
+      $query = "Insert into `tbl_record_grade`
+      (
+        `StudentID`,
+        `SubjectID`,
+        `FirstGrade`,
+        `SecondGrade`,
+        `ThirdGrade`,
+        `FourthGrade`,
+        `OverAllGrade`,
+        `Remarks`,
+        `TeacherID`
+      ) 
+      values 
+      (
+        '$StudentID',
+        '$SubjectID',
+        '$FirstGrade',
+        '$SecondGrade',
+        '$ThirdGrade',
+        '$FourthGrade',
+        '$OverAllGrade',
+        '$Remarks',
+        '$TeacherID'
+      )";
+
+if ($this->link->query($query) === TRUE) {
+$this->successTemp["State"] = 1;
+$this->successTemp["Message"] = "New record successfully created!";
+$this->response[] = $this->successTemp;
+return $this->response[0];
+} else {
+$this->successTemp["State"] = 0;
+$this->successTemp["Message"] = "Error creating record!";
+$this->response[] = $this->successTemp;
+return $this->response[0];
+}
     }
+
   }
  
   function setActiveCourseData($params) {
@@ -195,8 +207,7 @@ class AdminGradingData {
               `ThirdGrade`='$ThirdGrade',
               `FourthGrade`='$FourthGrade',
               `OverAllGrade`='$OverAllGrade',
-              `Remarks`='$Remarks',
-              `TeacherID`='$TeacherID'
+              `Remarks`='$Remarks'
               where ID=$ID";
 
     if ($this->link->query($query) === TRUE) {

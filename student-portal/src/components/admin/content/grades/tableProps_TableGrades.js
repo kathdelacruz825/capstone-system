@@ -44,11 +44,11 @@ const tableProps = [
     propLabel: "Remarks",
     width: "120"
   },
-  {
-    propName: "TeacherID",
-    propLabel: "Teacher",
-    width: "220"
-  }
+  // {
+  //   propName: "TeacherID",
+  //   propLabel: "Teacher",
+  //   width: "220"
+  // }
 ];
 
 export { tableProps };

@@ -24,7 +24,7 @@
         <div class="form-item-account-details">
           <el-form-item label="Subject:">
             <el-dropdown trigger="click" @command="selectSubject">
-              <el-button type="primary">
+              <el-button type="primary" disabled>
                 {{ currentSubject }}
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
@@ -78,7 +78,7 @@
             ></el-input>
           </el-form-item> -->
 
-          <el-form-item label="Teacher:">
+          <!-- <el-form-item label="Teacher:">
             <el-dropdown trigger="click" @command="selectTeacher">
               <el-button type="primary">
                 {{ currentTeacher }}
@@ -94,7 +94,7 @@
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-          </el-form-item>
+          </el-form-item> -->
         </div>
       </el-form>
     </div>
@@ -184,9 +184,10 @@ export default {
           ),
           OverAllGrade: this.computeOverALL(this.studentData),
           Remarks: this.computeRemarks(this.studentData),
-          TeacherID: this.parseTeacher(this.currentTeacher) //this.studentData.TeacherID
+          TeacherID: this.studentData.TeacherID
         }
       };
+      console.log(params);
       this.http
         .post(this.api.AdminGradingService, params)
         .then(response => {
@@ -259,25 +260,22 @@ export default {
           console.log(error);
         });
     },
-    getAllSubject() {
-      let params = {
+    GetSubject(StudentID) {
+      var params = {
         request: 1,
-        data: {}
+        data: {
+          StudentID: StudentID
+        }
       };
       this.http
-        .post(this.api.SubjectService, params)
+        .post(this.api.StudentSubjectService, params)
         .then(response => {
           this.subjectList = response.data;
-          // this.studentData.SubjectID = this.subjectList.filter(val => {
-          //   if (val.Title == this.studentData.SubjectID) {
-          //     return val;
-          //   }
-          // })[0].ID;
         })
         .catch(error => {
           console.log(error);
         });
-    }
+    },
   },
   props: {
     showUpdateGrade: {
@@ -293,7 +291,7 @@ export default {
   },
   async created() {
     await this.getAllTeacher();
-    await this.getAllSubject();
+    await this.GetSubject(this.studentData.StudentID);
   },
   mounted() {
     console.log(this.studentData);

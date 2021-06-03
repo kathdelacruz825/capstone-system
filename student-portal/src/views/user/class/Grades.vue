@@ -39,18 +39,18 @@
                 Secord Quarter:
                 <span
                   class="color"
-                  :class="{ red: gradeItem.ThirdGrade <= '74' }"
+                  :class="{ red: gradeItem.SecondGrade <= '74' }"
                 >
-                  {{ gradeItem.ThirdGrade }}
+                  {{ gradeItem.SecondGrade }}
                 </span>
               </div>
               <div>
                 Third Quarter:
                 <span
                   class="color"
-                  :class="{ red: gradeItem.FourthGrade <= '74' }"
+                  :class="{ red: gradeItem.ThirdGrade <= '74' }"
                 >
-                  {{ gradeItem.FourthGrade }}
+                  {{ gradeItem.ThirdGrade }}
                 </span>
               </div>
               <div>

@@ -62,7 +62,7 @@
             <el-input v-model="ruleForm.Grade" type="number"></el-input>
           </el-form-item>
 
-          <el-form-item label="Teacher:">
+          <!-- <el-form-item label="Teacher:">
             <el-dropdown trigger="click" @command="selectTeacher">
               <el-button type="primary">
                 {{ currentTeacher }}
@@ -78,7 +78,7 @@
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-          </el-form-item>
+          </el-form-item> -->
         </div>
       </el-form>
     </div>
@@ -123,7 +123,8 @@ export default {
       currentGrade: "",
       teacherList: [],
       subjectList: [],
-      gradingPeriodList: []
+      gradingPeriodList: [],
+      curTeacherID: null,
     };
   },
   methods: {
@@ -141,7 +142,8 @@ export default {
     },
     selectSubject(val) {
       this.currentSubject = val.Title;
-      this.ruleForm.SubjectID = val.ID;
+      this.ruleForm.SubjectID = val.SubjectID;
+      this.curTeacherID = val.TeacherID;
     },
     selectGradingPeriod(val) {
       this.currentGradingPeriod = val.Title;
@@ -162,11 +164,6 @@ export default {
         this.$message({
           type: "warning",
           message: "Enter Grade!"
-        });
-      } else if (this.ruleForm.TeacherID == "") {
-        this.$message({
-          type: "warning",
-          message: "Select Teacher!"
         });
       } else {
         if (this.ruleForm.Quarter == "First") {
@@ -209,7 +206,7 @@ export default {
             ),
             OverAllGrade: this.computeOverALL(this.ruleForm),
             Remarks: this.computeRemarks(this.ruleForm),
-            TeacherID: this.ruleForm.TeacherID
+            TeacherID: this.curTeacherID
           }
         };
         this.http
@@ -267,8 +264,11 @@ export default {
     },
     getAllSubject() {
       let params = {
-        request: 1,
-        data: {}
+        request: 6,
+        data: {
+          YearLevelID: this.YearLevelID,
+          SemesterID: this.SemesterID
+        }
       };
       this.http
         .post(this.api.SubjectService, params)
@@ -308,7 +308,23 @@ export default {
       this.ruleForm.OverAllGrade = "";
       this.ruleForm.Remarks = "";
       this.ruleForm.TeacherID = "";
-    }
+    },
+    GetSubject(StudentID) {
+      var params = {
+        request: 1,
+        data: {
+          StudentID: StudentID
+        }
+      };
+      this.http
+        .post(this.api.StudentSubjectService, params)
+        .then(response => {
+          this.subjectList = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   },
   props: {
     showAddGrade: {
@@ -318,12 +334,21 @@ export default {
     studentID: {
       type: String,
       default: ""
-    }
+    },
+    YearLevelID: {
+      type: String,
+      default: ""
+    },
+    SemesterID: {
+      type: String,
+      default: ""
+    },
   },
   async created() {
     await this.getAllTeacher();
-    await this.getAllSubject();
+    // await this.getAllSubject();
     await this.getAllGradingPeriod();
+    await this.GetSubject(this.studentID);
   },
   mounted() {
     this.ruleForm.StudentID = this.studentID;

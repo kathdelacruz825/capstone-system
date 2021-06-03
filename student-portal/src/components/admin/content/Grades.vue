@@ -193,6 +193,8 @@
       @updateData="updateData"
       @closeAddGrade="closeAddGrade($event)"
       :showAddGrade="showAddGrade"
+      :YearLevelID="studentData.YearLevelID"
+      :SemesterID="currSemesterID"
     />
 
     <AddQuiz

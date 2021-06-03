@@ -17,7 +17,9 @@ class StudentSubjectData {
               `tbl_student_subjects`.`StudentID`,
               `tbl_subject`.`Code`,
               `tbl_subject`.`Title`,
-              `tbl_teacher`.`Name`
+              `tbl_teacher`.`Name`,
+              `tbl_student_subjects`.`SubjectID`,
+              `tbl_subject`.`TeacherID`
               from `tbl_student_subjects`
               Inner Join `tbl_subject` On `tbl_student_subjects`.`SubjectID`=`tbl_subject`.`ID`
               Inner Join `tbl_teacher` On `tbl_subject`.`TeacherID`=`tbl_teacher`.`ID`
@@ -34,6 +36,8 @@ class StudentSubjectData {
         $this->tempData["Code"] = $row[2];
         $this->tempData["Title"] = $row[3];
         $this->tempData["Teacher"] = $row[4];
+        $this->tempData["SubjectID"] = $row[5];
+        $this->tempData["TeacherID"] = $row[6];
         $this->response[] = $this->tempData;
       }
     }
