@@ -18,6 +18,7 @@ export const api = {
   UserService: "/services/UserService.php",
 
   AdminService: "/services/AdminService.php",
-  SemesterService: "/services/SemesterService.php"
+  SemesterService: "/services/SemesterService.php",
+  StudentSubjectService: "/services/StudentSubjectService.php"
 
 };

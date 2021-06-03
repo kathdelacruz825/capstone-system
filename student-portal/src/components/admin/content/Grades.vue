@@ -3,6 +3,16 @@
     <div class="top-panel">
       <el-row :gutter="20">
         <el-col :span="5">
+          <!-- <div style="margin-bottom: 3px;">
+            <el-select v-model="yearLevelValue" placeholder="Select Year Level" @change="changeFilterYearLevel">
+              <el-option
+                v-for="item in yearLeveloptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </div> -->
           <div class="search-box">
             <!-- <div class="title-box">
                 <span>Search</span>
@@ -39,7 +49,12 @@
               </div>
             </div>
           </div>
-          <!-- <div class="bottom-box"></div> -->
+          <div class="bottom-box" style="padding: 10px 0px;">
+            <small style="margin: 0;text-align:left;">Current Semester</small>
+            <h4>
+              {{ currSemester }}
+            </h4>
+          </div>
         </el-col>
         <el-col :span="19">
           <div class="grid-content bg-purple">
@@ -114,30 +129,36 @@
                         type="success"
                         icon="el-icon-circle-plus"
                         v-if="activeItemClass === 0"
-                        @click="studentData == null ? errorNoStudentF() : showAddGradeF()"
+                        @click="studentData == null ? errorNoStudentF() : showAddSubjectF()"
                       ></el-button>
                       <el-button
                         type="success"
                         icon="el-icon-circle-plus"
                         v-if="activeItemClass === 1"
-                        @click="studentData == null ? errorNoStudentF() : showAddQuizF()"
+                        @click="studentData == null ? errorNoStudentF() : showAddGradeF()"
                       ></el-button>
                       <el-button
                         type="success"
                         icon="el-icon-circle-plus"
                         v-if="activeItemClass === 2"
-                        @click="studentData == null ? errorNoStudentF() : showAddExamF()"
-                      ></el-button>
-                      <el-button
-                        type="success"
-                        icon="el-icon-circle-plus"
-                        v-if="activeItemClass === 4"
-                        @click="studentData == null ? errorNoStudentF() : showAddAttendanceF()"
+                        @click="studentData == null ? errorNoStudentF() : showAddQuizF()"
                       ></el-button>
                       <el-button
                         type="success"
                         icon="el-icon-circle-plus"
                         v-if="activeItemClass === 3"
+                        @click="studentData == null ? errorNoStudentF() : showAddExamF()"
+                      ></el-button>
+                      <el-button
+                        type="success"
+                        icon="el-icon-circle-plus"
+                        v-if="activeItemClass === 5"
+                        @click="studentData == null ? errorNoStudentF() : showAddAttendanceF()"
+                      ></el-button>
+                      <el-button
+                        type="success"
+                        icon="el-icon-circle-plus"
+                        v-if="activeItemClass === 4"
                         @click="studentData == null ? errorNoStudentF() : showAddScheduleF()"
                       ></el-button>
                     </el-row>
@@ -193,12 +214,22 @@
       @closeAddSchedule="closeAddSchedule($event)"
       :showAddSchedule="showAddSchedule"
     />
+
+    <AddSubject
+      v-if="showAddSubject"
+      :studentID="studentData.ID"
+      @updateData="updateData"
+      @closeAddSubject="closeAddSubject($event)"
+      :showAddSubject="showAddSubject"
+    />
+
   </div>
 </template>
 
 <script>
 import AddGrade from "@/components/admin/content/dialog/grades/AddGrade.vue";
 import AddQuiz from "@/components/admin/content/dialog/grades/AddQuiz.vue";
+import AddSubject from "@/components/admin/content/dialog/grades/AddSubject.vue";
 import AddExam from "@/components/admin/content/dialog/grades/AddExam.vue";
 import AddSchedule from "@/components/admin/content/dialog/grades/AddSchedule.vue";
 import AddAttendance from "@/components/admin/content/dialog/grades/AddAttendance.vue";
@@ -210,6 +241,10 @@ export default {
     AddExam,
     AddSchedule,
     AddAttendance,
+    AddSubject,
+    TableSubjects: resolve => {
+      require(["@/components/admin/content/grades/TableSubjects.vue"], resolve);
+    },
     TableGrades: resolve => {
       require(["@/components/admin/content/grades/TableGrades.vue"], resolve);
     },
@@ -230,6 +265,7 @@ export default {
   },
   data() {
     return {
+      showAddSubject: false,
       showAddGrade: false,
       showAddQuiz: false,
       showAddExam: false,
@@ -241,6 +277,10 @@ export default {
       tempSchedData: [],
       studentList: [],
       itemClass: [
+        {
+          name: "Subjects",
+          link: "TableSubjects"
+        },
         {
           name: "Grades",
           link: "TableGrades"
@@ -268,10 +308,17 @@ export default {
         { title: "Edit", icon: "" },
         { title: "Delete", icon: "" }
       ],
-      studentData: null
+      studentData: null,
+      yearLevelValue: '',
+      yearLeveloptions: [],
+      currSemester: '',
+      currentYearLevelID: '',
     };
   },
   methods: {
+    changeFilterYearLevel(e) {
+      this.currentYearLevelID = e;
+    },
     selectItemClass(index) {
       this.activeItemClass = index;
       if (this.studentData != null) {
@@ -283,7 +330,8 @@ export default {
         var params = {
           request: 13,
           data: {
-            searchText: this.searchText
+            searchText: this.searchText,
+            YearLevel: this.currentYearLevelID
           }
         };
         await this.http
@@ -382,17 +430,35 @@ export default {
           console.log(error);
         });
     },
+    GetSubject(StudentID) {
+      var params = {
+        request: 1,
+        data: {
+          StudentID: StudentID
+        }
+      };
+      this.http
+        .post(this.api.StudentSubjectService, params)
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     updateData() {
       if (this.activeItemClass === 0) {
-        this.getStudentGradeData(this.studentData.ID);
+        this.GetSubject(this.studentData.ID);
       } else if (this.activeItemClass === 1) {
-        this.getStudentQuizData(this.studentData.ID);
+        this.getStudentGradeData(this.studentData.ID);
       } else if (this.activeItemClass === 2) {
+        this.getStudentQuizData(this.studentData.ID);
+      } else if (this.activeItemClass === 3) {
         this.getStudentExamData(this.studentData.ID);
-      } else if (this.activeItemClass === 4) {
+      } else if (this.activeItemClass === 5) {
         this.getSchedule(this.studentData.AccountID);
         this.getAttendance(this.studentData.AccountID);
-      } else if (this.activeItemClass === 3) {
+      } else if (this.activeItemClass === 4) {
         this.getSchedule(this.studentData.AccountID);
       }
     },
@@ -411,17 +477,22 @@ export default {
     closeAddAttendance(val) {
       this.showAddAttendance = val;
     },
+    closeAddSubject(val) {
+      this.showAddSubject = val;
+    },
     selectStudent(val) {
       this.studentData = val;
       if (this.activeItemClass === 0) {
-        this.getStudentGradeData(val.ID);
+        this.GetSubject(val.ID);
       } else if (this.activeItemClass === 1) {
-        this.getStudentQuizData(val.ID);
+        this.getStudentGradeData(val.ID);
       } else if (this.activeItemClass === 2) {
-        this.getStudentExamData(val.ID);
-      } else if (this.activeItemClass === 4) {
-        this.getAttendance(val.AccountID);
+        this.getStudentQuizData(val.ID);
       } else if (this.activeItemClass === 3) {
+        this.getStudentExamData(val.ID);
+      } else if (this.activeItemClass === 5) {
+        this.getAttendance(val.AccountID);
+      } else if (this.activeItemClass === 4) {
         this.getSchedule(val.AccountID);
       }
     },
@@ -457,15 +528,56 @@ export default {
         this.showAddSchedule = true;
       }
     },
+    showAddSubjectF() {
+      if (this.studentData != null) {
+        this.showAddSubject = true;
+      }
+    },
     errorNoStudentF() {
       this.$message({
         type: "warning",
         message: "Please select student"
       });
-    }
+    },
+    getAllYearLevel() {
+      let params = {
+        request: 1,
+        data: {}
+      };
+      this.http
+        .post(this.api.YearLevelService, params)
+        .then(response => {
+          response.data.map((item)=> {
+            this.yearLeveloptions.push({
+              value: item.ID,
+              label: item.YearLevel
+            });
+          })
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    GetCurrentSemester() {
+      let params = {
+        request: 7,
+        data: {}
+      };
+      this.http
+        .post(this.api.SemesterService, params)
+        .then(response => {
+          this.currSemester = response.data[0].Semester;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   },
   props: {},
-  created() {}
+  created() {
+    this.getAllYearLevel();
+    this.GetCurrentSemester();
+  }
 };
 </script>
 
@@ -491,7 +603,8 @@ export default {
   }
 
   .top-panel .search-box {
-    max-height: 350px;
+    max-height: 450px;
+    height: 450px;
     overflow: hidden;
     margin-bottom: 20px;
 
@@ -509,7 +622,7 @@ export default {
       border-radius: 0;
     }
     .list {
-      height: calc(350px - 30px);
+      height: calc(450px - 30px);
       .list-wrapper {
         height: 100%;
         overflow-y: scroll;
@@ -533,7 +646,7 @@ export default {
   .top-panel .bottom-box {
     border: 1px solid #ccc;
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.25);
-    height: 150px;
+    height: auto;
   }
 
   .el-divider--horizontal {

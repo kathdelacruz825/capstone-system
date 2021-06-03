@@ -45,7 +45,7 @@ class SemesterData {
               `tbl_semester`
               Inner Join `tbl_semester_status` ON `tbl_semester`.`Status` = `tbl_semester_status`.`ID`
               )
-              Where `tbl_semester`.`Status`='Status'
+              Where `tbl_semester`.`Status`='$Status'
               Order by `tbl_semester`.`ID` ASC";
 
     $result = $this->link->query($query);
